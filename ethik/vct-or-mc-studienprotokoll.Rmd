@@ -1,0 +1,202 @@
+---
+title: Prospektive, multizentrische Beobachtungsstudie zur Bestimmung der Effizienz von Aktivkohlefiltern sowie dem Recycling von Sevofluran im OP
+subtitle: Studienprotokoll
+date: "`r format(Sys.Date(), '%d.%m.%Y')`"
+author: "Dr. med. Sebastian Gibb"
+cfg-acronym: VCT-OR-MC
+cfg-version: 0.1
+cfg-githash2: "`r git2r::branch_target(git2r::repository_head())`"
+cfg-githash: "`r system('git rev-parse --short HEAD', intern = TRUE)`"
+bibliography: bibliography.bib
+output:
+    bookdown::odt_document2:
+        reference_odt: pandoc/reference/reference.odt
+---
+
+```{r helper_functions, include = FALSE}
+.eval_meta <- function(x)eval(parse(text = gsub("(^`r\\s+)|(`$)", "", x)))
+```
+
+# Prüfplan-Synopsis
+
+------------------------    --------------------------------------------------
+Bezeichnung der Studie      Prospektive, multizentrische Beobachtungsstudie
+                            zur Bestimmung der Effizienz von Aktivkohlefiltern
+                            sowie dem Recycling von Sevofluran im OP.
+
+Studiendesign               Prospektive, multizentrische Beobachtungsstudie
+                            im Sinne eines Qualitätsmanagement
+
+Ziel der Studie             Bestimmung der Effizienz von Aktivkohlefiltern
+                            sowie dem Recycling von Sevofluran im OP.
+
+Studienzeitraum             ab 01.06.2024 ca. 10 - 20 Wochen
+
+Version                     `r paste(rmarkdown::metadata[["cfg-version"]], .eval_meta(rmarkdown::metadata[["cfg-githash"]]), sep = "_")`
+
+Datum                       `r .eval_meta(rmarkdown::metadata$date)`
+------------------------------------------------------------------------------
+
+# Verantwortlichkeiten und Kooperationen
+
+## Studienleitung
+
+Dr. med. Sebastian Gibb
+
+E-Mail: sebastian.gibb\@med.uni-greifswald.de
+Telefon: 03834 865801\
+Fax: 03834 865802\
+
+Klinik für Anästhesie, Intensiv-, Notfall- und Schmerzmedizin\
+Universitätsmedizin Greifswald\
+Ferdinand-Sauerbruch-Straße\
+\
+17475 Greifswald
+
+### Universitätsmedizin Greifswald
+
+- Dr. med. Stephan Knigge, Klinik für Anästhesiologie, Universitätsmedizin Greifswald
+- Nadin Möller, Klinik für Anästhesiologie, Universitätsmedizin Greifswald
+
+### Weitere Zentren
+
+- Dr. med. Stephanie Snyder-Ramos, Krankenhaus Salem der Evang. Stadtmission Heidelberg gGmbH
+- Einschluss weiterer Zentren geplant
+
+# Wissenschaftlicher Hintergrund
+
+Die anthropogene Klimakatastrophe ist eine große Bedrohung für die globale Gesundheit [@Daalen2022].
+Das Gesundheitssystem verursacht selbst ca. 5-10 \% der Treibhausgasemissionen [@Hu2021; @Hunfeld2022].
+Ein Großteil dieser Emission hat die Anästhesie und Intensivmedizin zu verantworten [@Hu2021].
+
+Bedeutsam sind dabei vor allem die inhalativen Anästhetika, die alle Fluor(chlor)kohlenwasserstoffe (F(C)KW) sind.
+
+Mit CONTRAfluran bietet die Firma ZeoSys Medical GmbH einen Aktivkohlefilter an, der die Anästhesiegase, die bisher über das Anästhesiegasfortleitungsystem (AGFS) in die Umwelt abgegeben werden, auffängt.
+
+Hinterberg et al. haben die Effektivität von CONTRAfluran im OP während der Nutzung von Desfluran untersucht und konnten nur 25 % wiedergewinnen [@Hinterberg2022].
+Aufgrund des höheren Blut-/Gas-Verteilungskoeffizienten und der höheren Metabolisierungsrate ist für Sevofluran bei längeren Narkosen eine niedrigere Effizienz zu erwarten.
+Hingegen konnten Ghandi und Baxter mit einem anderen Aktivkohlefiltersystem (SID-Can, SageTech, UK), das im Gegensatz zum CONTRAfluran ein AGFS erfordert, knapp 50 % des Sevoflurans wiedergewinnen [@Gandhi2023].
+
+Die Recyclingeffizienz ist in Simulationen vom Frischgasfluss und von der Narkosedauer abhängig [@Dexter2023].
+In der noch laufenden Studie "VCT-OR: Prospektive Beobachtungsstudie zur Bestimmung der Effizienz von Aktivkohlefiltern sowie dem Recycling von Sevofluran im OP" (BB 102/23, 08.08.2023) haben wir an zwei Narkosegeräten vorläufige Recyclingraten von 40 und 75% ermittelt [@vctordata].
+Die unterschiedlichen Narkose, die an beiden Geräten durchgeführt werden, unterstützen die Hypothese der Simulationen.
+
+Der Wirkungsgrad von CONTRAfluran für Sevofluran, dem klimafreundlichsten (trotz 140 CO~2~-Äquivalenten [@Nielsen2024]) inhalativen Anästhetikum, sowie dessen Abhängigkeit vom Frischgasfluss und der Narkosedauer ist von entscheidender Bedeutung für die Beurteilung dieser Methode.
+
+# Fragestellung / Arbeitshypothese
+
+Welcher Anteil an Sevofluran zur inhalativen Anästhesie kann mittels des Aktivkohlefilters CONTRAfluran im OP wiedergewonnen werden?
+
+# Studientyp / Studiendesign
+
+Multizentrische, prospektive Beobachtungsstudie im Sinne eines Qualitätsmanagement.
+
+# Zielkriterien
+
+## Primäres Zielkriterium
+
+- Anteil an durch den Aktivkohlefilter gefilterten und recycelten Sevofluran.
+
+## Sekundäres Zielkriterium
+
+- Abhängigkeit der Recyclingeffizienz vom Frischgasfluss.
+- Abhängigkeit der Recyclingeffizienz von der Narkosedauer.
+
+# Methoden der Datenerhebung
+
+Folgende zur Auswertung benötigten Daten werden erfasst:
+
+- Gesamtanzahl verwendeter Sevofluranflaschen je OP und Zentrum.
+- Gesamtanzahl und Laufzeit verwendeter CONTRAfluran-Filter je OP und Zentrum.
+- Mittlerer Frischgasfluss je OP und Zentrum.
+- Mittlere Narkosedauer je OP und Zentrum.
+- Rückgewonnene Menge an Sevofluran durch die Firma ZeoSys Medical GmbH.
+
+Es findet keine Erhebung personenbezogener Daten statt.
+
+# Patienten/Probandencharakteristika
+
+Die Entscheidung zur inhalativen Anästhesie obliegt dem betreuenden Anästhesisten/der betreuenden Anästhesistin.
+Es werden keinerlei Patientendaten erhoben.
+
+## Patienten/Probandenpopulation
+
+Nicht zutreffend.
+
+## Einschlusskriterien
+
+keine
+
+## Ausschlusskriterien
+
+keine
+
+# Kompensation der Aufwendungen
+
+keine
+
+# Versuchsablauf
+
+
+# Patienten/Probandensicherheit
+
+## Nebenwirkungen
+
+Da es sich um eine reine Beobachtungsstudie ohne Intervention am Patienten
+handelt, sind keine studienbedingten Nebenwirkungen zu erwarten.
+
+## Risiken der Versuchsdurchführung
+
+keine
+
+## Abbruchkriterien
+
+keine
+
+# Gesetze / Verordnungen, die bei dem Vorhaben zu beachten sind
+
+- Deklaration von Helsinki (in der aktuellen Fassung)
+- Berufsordnung der Ärztinnen und Ärzte in Mecklenburg-Vorpommern (unter besonderer Berücksichtigung des §15 bzw. vergleichbare Abschnitte in dem jeweiligen Bundesland des teilnehmenden Zentrums).
+
+# Überlegungen zum Abschluss einer Probandenversicherung/Wegeunfallversicherung
+
+Da es sich um eine reine Beobachtungsstudie ohne Intervention am Patienten
+handelt, entfällt die Notwendigkeit einer zusätzlichen Probandenversicherung.
+
+# Statistische Planung
+
+Es ist eine rein deskriptive Datenanalyse geplant.
+Laut ZeoSys Medical GmbH sind 20 Aktivkohlefilter notwendig,
+um einen Desorptionsprozess zu starten und
+zuverlässige Aussagen über die Menge an recyceltem Sevofluran treffen zu können.
+
+# Datenmanagement / Biologische Marker
+
+Die Daten werden tabellarisch in einem Tabellenkalkulationsprogramm (vgl. MS Excel) erfasst und
+auf dem Forschungslaufwerk der Klinik für Anästhesiologie passwortgeschützt gespeichert.
+Eine Weitergabe an Dritte ist nicht vorgesehen.
+Die Ergebnisse zur Effizienz der Filter sollen veröffentlicht werden.
+Patientendaten werden nicht erhoben und nicht veröffentlicht.
+
+# Patienten/Probanden-Information und Einwilligungserklärung mit Datenschutzerklärung
+
+Die Studie soll die Effektivität der Aktivkohlefilter und des Anästhesiegasrecyclings untersuchen.
+Es erfolgt keine Erhebung personenbezogener Daten.
+Eine Einwilligung der Patienten ist nicht notwendig.
+
+# Unterschrift und Erklärung
+
+Der Projektleiter bestätigt mit der Unterschrift,
+
+- dass auch bei einer positiven Beurteilung des Vorhabens durch die Ethikkommission
+an der Universitätsmedizin Greifswald die ärztliche und juristische Verantwortung
+uneingeschränkt bei dem/der Projektleiter/in und seinen Mitarbeiter/innen
+verbleibt.
+- die Richtigkeit und Vollständigkeit dieses Antrages.
+
+
+Greifswald, `r .eval_meta(rmarkdown::metadata$date)`
+
+`r rmarkdown::metadata$author`
+
+# Referenzen
