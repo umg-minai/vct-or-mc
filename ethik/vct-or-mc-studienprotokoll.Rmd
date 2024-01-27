@@ -5,7 +5,6 @@ date: "`r format(Sys.Date(), '%d.%m.%Y')`"
 author: "Dr. med. Sebastian Gibb"
 cfg-acronym: VCT-OR-MC
 cfg-version: 0.1
-cfg-githash2: "`r git2r::branch_target(git2r::repository_head())`"
 cfg-githash: "`r system('git rev-parse --short HEAD', intern = TRUE)`"
 bibliography: bibliography.bib
 output:
@@ -99,8 +98,8 @@ Multizentrische, prospektive Beobachtungsstudie im Sinne eines Qualitätsmanagem
 
 ## Sekundäres Zielkriterium
 
-- Abhängigkeit der Recyclingeffizienz vom Frischgasfluss.
 - Abhängigkeit der Recyclingeffizienz von der Narkosedauer.
+- Falkutativ: Abhängigkeit der Recyclingeffizienz vom Frischgasfluss.
 
 # Methoden der Datenerhebung
 
@@ -137,6 +136,175 @@ keine
 
 # Versuchsablauf
 
+## Ablauf in den teilnehmenden Studienzentren
+
+Jedes teilnehmende Zentrum stellt für jeden teilnehmenden OP 10 Flaschen
+Sevofluran zu Verfügung.
+Diese Flaschen werden mit den IDs für das Zentrum, den OP und der jeweiligen
+Flaschennummer markiert.
+{>>**TODO**: Aufkleber bereitstellen<<}
+
+Zum Studienstart wird vor der ersten Narkose des Tages für jeden teilnehmenden
+OP ein neuer CONTRAfluran-Filter installiert und ebenfalls
+mit der ID für das Zentrum, den OP und einer laufenden Filter ID markiert.
+{>>**TODO**: Aufkleber bereitstellen<<}
+
+Zusätzlich wird der Sevofluranvapor aus einer Sevofluranflasche, die nicht zu
+dem Set der Studienflaschen gehört, maximal befüllt.
+
+Das Set der markierten Sevofluranflaschen verbleibt in dem OP-Saal.
+
+In jeder Narkose wird folgender Dokumentationsbogen ausgefüllt bzw. fortgeführt.
+
++-------------------------------+------------+-------------------+-------------------------------------------------------+
+| Studienzentrum: VCT-OR-MC-HGW | OP: Saal 1 | Start: 01.06.2024 | Ende: 31.08.2024                                      |
++-------------------------------+------------+-------------------+-------------------------------------------------------+
+
++----------------+--------------+------------+------------+---------------------+----------------------+-----------------+
+| CONTRAfluranID | SevofluranID | Datum      | Tagespunkt | Inhalative Narkose? | Mittlere FGF (l/min) | Kommentar       |
++================+==============+============+============+=====================+======================+=================+
+| 1              |  1           | 01.06.2024 | 1          | ja                  | 0.5                  |                 |
++----------------+--------------+------------+------------+---------------------+----------------------+-----------------+
+| 1              |  1           | 01.06.2024 | 2          | nein                | 0.5                  |                 |
++----------------+--------------+------------+------------+---------------------+----------------------+-----------------+
+| ...            |  ...         | ...        | ...        | ...                 | ...                  |                 |
++----------------+--------------+------------+------------+---------------------+----------------------+-----------------+
+| 1              |  2           | 10.06.2024 | 1          | ja                  | 0.5                  | Flaschenwechsel |
++----------------+--------------+------------+------------+---------------------+----------------------+-----------------+
+{{>>**TODO**: Alternativ nur Strichliste "inhalative Narkose" pro Tag?<<}}
+
+Der Vapor wird bis zum Verbrauch der letzten Studienflasche auschließlich mit
+diesen Flaschen befüllt.
+Die Studie endet für den jeweiligen OP mit dem Auffüllen des Vapors mit der
+letzten markierten Sevofluranflasche.
+Zu diesem Zeitpunkt wird auch der installierte CONTRAfluran-Filter
+**unabhängig** von seinem Füllstand dekonnektiert.
+
+Zum Studienende werden die Dokumentationsbögen postalisch oder als Scan per
+E-Mail an die Studienleitung geschickt.
+Die Sevofluranflaschen werden entsprechend der Richtlinien des teilnehmenden
+Zentrums entsorgt.
+Die CONTRAfluran-Filter werden an ZeoSys geschickt, dort bis zum Abschluss der
+Studien in allen Zentren gesammelt und dann gemeinsam recycelt.
+{>>**TODO**: mit Hr. Ewers absprechen<<}
+
+## Ablauf Studienleitung
+
+Zum Studieneinschluss erhält jedes Zentrum die Vorlage für den
+Dokumentationsbogen, Aufkleber zur eindeutigen Markierung der Sevofluranflaschen
+und der CONTRAfluran-Filter.
+
+Nach Abschluss der Datenerhebung und Erhalt der Dokumentationsbögen der
+jeweligen Zentren wird für jeden CONTRAfluran-Filter der mittlere
+Frischgasfluss als einfacher Mittelwert über alle für diesen Filter
+dokumentierten Frischgasflüsse bei inhalativen Narkose gebildet.
+Für die mittlere Narkosedauer wird die Laufzeit des Filters in Werktagen mal
+sechs Stunden multipliziert und durch die Anzahl der inhalativen Narkosen in der
+Laufzeit geteilt.
+Die Menge des verbrauchten Sevoflurans wird anhand der Laufzeit des jeweiligen
+CONTRAfluran-Filters im Verhältnis zur Gesamtstudiendauer ermittelt
+(10 * 250 ml * (Laufzeit Filter/StudienLaufzeit)).
+
+Anhand dessen werden die CONTRAfluran-Filter in folgende vier Untergruppen aufgeteilt:
+
+- MINFLOW-SHORT: mittlerer Frischgasfluss <= 0.5 l/min und durchschnittliche Narkosedauer <= 2 Stunden
+- MINFLOW-LONG: mittlerer Frischgasfluss <= 0.5 l/min und durchschnittliche Narkosedauer > 2 Stunden
+- LOWFLOW-SHORT: mittlerer Frischgasfluss > 0.5 l/min und durchschnittliche Narkosedauer <= 2 Stunden
+- LOWFLOW-LONG: mittlerer Frischgasfluss > 0.5 l/min und durchschnittliche Narkosedauer > 2 Stunden
+
+Für einen Recyclingprozess werden mindestens 20 CONTRAfluran-Filter benötigt.
+Sollte diese Mindestanzahl für eine Gruppe nicht zu Stande kommen, werden die
+folgenden zwei Untergruppen gebildet:
+
+- SHORT: durchschnittliche Narkosedauer <= 2 Stunden
+- LONG: durchschnittliche Narkosedauer > 2 Stunden
+
+Die Zuordnung der CONTRAfluran-Filter zu den jeweiligen Gruppen wird an ZeoSys
+geschickt.
+Dort wird für jede Gruppe ein separater Recyclingprozess durchgeführt und die
+jeweilig zurückgewonnene Menge an Sevofluran an die Studienleitung übermittelt.
+
+Die Untergruppen der CONTRAfluran-Filter werden durch deskriptive Statistik
+analysiert.
+Die recycelte Menge Sevofluran wird mit der eingesetzten Menge
+je Gruppe verglichen.
+
+Eine induktive Statistik/ein Hypothesentest kann bei vier Gruppen mit je nur
+einer Beobachtung (Menge an recyceltem Sevofluran) nicht durchgeführt werden.
+
+## Limitationen
+
+Um möglichst geringe Anforderungen an die Zentren zu stellen, um vielen Zentren
+einzuschließen, und den Ablauf im OP nicht zu beeinflussen, wählen wir einen
+pragmatischen Ansatz, der jedoch einige Schwächen und damit Ungenauigkeiten
+aufweist.
+
+### Limitationen bei Bestimmung des Sevofluranverbrauch
+
+Die Restfüllung des Sevofluranvapors im Studien-OP kann vor Studienbeginn nicht eindeutig zu ermittelt werden,
+somit ist maximale Füllung des Vapors unabdingbar um gleiche Ausgangsvoraussetzungen zu schaffen.
+Jedoch führt dies dazu, dass je nach Nachfüllstrategie beim Auffüllen mit der
+letzten Studien-Sevofluranflasche die Vaporfüllung unvollständig sein wird und
+aufgrund der initialen Füllung mehr als die 10 Flaschen Sevofluran verbraucht
+worden sein kann.
+Der bei häufige eingesetzten Vaporen 2000 und 3000 von Dräger haben ein
+Nachfüllvolumen von 260 ml (eine Sevoflasche 250 ml).
+Die größte zu erwartende Abweichung wäre somit eine Unterschätzung des
+Verbrauches um 10%.
+
+Eine Alternative wäre den Vapor vor Studienbeginn komplett zur leeren, dies ist
+jedoch sehr kompliziert.
+
+Der Goldstand zur Ermittlung des Verbrauchs von volatilen Anästhetika ist das
+Wiegen des Vapors.
+Dies erfordert jedoch sehr teuere Spezialwaagen, da der Vapor 9 kg wiegt, aber
+Veränderungen im Miligrammbereich gemessen werden müssen.
+Solche Waagen sind an keinem Zentrum verfügbar.
+Alternativ könnte man, wie in der Vorläuferstudie VCT-OR, die Sevofluranflaschen
+vor und nach jedem Nachfüllvorgang wiegen.
+Dies würde den Studienablauf an vielen Zentren deutlich komplizieren und auch,
+wenn solche Meßbereiche durch einfachere Waagen erfasst werden können, sind
+diese nicht an jedem Zentrum vorhanden.
+
+### Limitationen beim Recycling
+
+Der letzte CONTRAfluran-Filter je Zentrum und OP wird nicht voll gefüllt sein.
+Das senkt die Effizienz des Recyclingprozesses.
+
+Methodisch bedingt sind 20 CONTRAfluran-Filter für einen Recyclingprozess
+notwendig.
+Die Aufteilung in vier Untergruppen kann zu einer "Unterfüllung" führen, wenn
+die Gruppengröße weit von einem Vielfachen von 20 abweicht und damit die
+Effizenz weiter senken.
+
+### Limitation beim Erfassen des Frischgasflusses
+
+Der Frischgasfluss ist bei jeder Narkose eine dynamische Größe.
+Üblicherweise wird mit einem höheren Frischgasfluss begonnen, um Sevofluran
+"einzuwaschen".
+Wenn die Patient\*innen und das Kreisteil aufgesättigt sind, kann der
+Frischgasfluss reduziert werden.
+Hier können Leckagen, operationsbedingte Manipulationen am
+Thorax/Zwerchfell/Atemweg zur temporären Erhöhung des Frischgasflusses führen.
+Nichtsdestotrotz gibt es in der Regel ein Steady-State in dem wir den
+Frischgasfluss erfassen wollen und somit als Surrogatparameter für die Effizienz
+der Narkoseführung nehmen.
+
+### Limitation beim Erfassen der Narkosezeiten
+
+Wir nehmen an, dass in einem OP-Saal sechs Stunden pro Werktag Anästhesien
+durchgeführt werden.
+Zwei Stunden kalkulieren wir für Wechselzeiten zwischen den Operationen.
+Diese Annahmen können im jeweiligen Zentrum fehlerhaft sein.
+Zusätzlich berücksichtig sie nicht die Narkosezeiten am Wochenende und
+außerhalb der Regelarbeitszeit.
+Eine Alternative wäre die konkrete Erfassung der Narkosezeiten.
+Allerdings wäre das fehleranfällig, umfangreich auszuwerten und bei einer zu
+erwartenden Studienlaufzeit von 15-20 Wochen (durchschnittliche Zeit bis zum
+Verbrauch von 10 Flaschen Sevofluran an der Universitätsmedizin Greifswald) ein
+erheblicher Aufwand für alle Anästhesisten an den beteiligten Zentren.
+Hingegen könnte die reine Anzahl der inhalativen Narkosen pro Tag im Zweifel
+durch den jeweiligen Leiter des Studienzentrums auch retrospektiv erfasst werden.
 
 # Patienten/Probandensicherheit
 
@@ -165,10 +333,10 @@ handelt, entfällt die Notwendigkeit einer zusätzlichen Probandenversicherung.
 
 # Statistische Planung
 
+Da es sich um eine reine Beobachtungsstudie ohne Intervention am Patienten
+ist keine Fallzahlschätzung notwendig.
+
 Es ist eine rein deskriptive Datenanalyse geplant.
-Laut ZeoSys Medical GmbH sind 20 Aktivkohlefilter notwendig,
-um einen Desorptionsprozess zu starten und
-zuverlässige Aussagen über die Menge an recyceltem Sevofluran treffen zu können.
 
 # Datenmanagement / Biologische Marker
 
