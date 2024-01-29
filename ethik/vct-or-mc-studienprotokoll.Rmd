@@ -72,13 +72,13 @@ Bedeutsam sind dabei vor allem die inhalativen Anästhetika, die alle Fluor(chlo
 
 Mit CONTRAfluran bietet die Firma ZeoSys Medical GmbH einen Aktivkohlefilter an, der die Anästhesiegase, die bisher über das Anästhesiegasfortleitungsystem (AGFS) in die Umwelt abgegeben werden, auffängt.
 
-Hinterberg et al. haben die Effektivität von CONTRAfluran im OP während der Nutzung von Desfluran untersucht und konnten nur 25 % wiedergewinnen [@Hinterberg2022].
+Hinterberg et al. haben die Effektivität von CONTRAfluran im OP während der Nutzung von Desfluran untersucht und konnten nur 25% wiedergewinnen [@Hinterberg2022].
 Aufgrund des höheren Blut-/Gas-Verteilungskoeffizienten und der höheren Metabolisierungsrate ist für Sevofluran bei längeren Narkosen eine niedrigere Effizienz zu erwarten.
-Hingegen konnten Ghandi und Baxter mit einem anderen Aktivkohlefiltersystem (SID-Can, SageTech, UK), das im Gegensatz zum CONTRAfluran ein AGFS erfordert, knapp 50 % des Sevoflurans wiedergewinnen [@Gandhi2023].
+Hingegen konnten Ghandi und Baxter mit einem anderen Aktivkohlefiltersystem (SID-Can, SageTech, UK), das im Gegensatz zum CONTRAfluran ein AGFS erfordert, knapp 50% des Sevoflurans wiedergewinnen [@Gandhi2023].
 
 Die Recyclingeffizienz ist in Simulationen vom Frischgasfluss und von der Narkosedauer abhängig [@Dexter2023].
 In der noch laufenden Studie "VCT-OR: Prospektive Beobachtungsstudie zur Bestimmung der Effizienz von Aktivkohlefiltern sowie dem Recycling von Sevofluran im OP" (BB 102/23, 08.08.2023) haben wir an zwei Narkosegeräten vorläufige Recyclingraten von 40 und 75% ermittelt [@vctordata].
-Die unterschiedlichen Narkose, die an beiden Geräten durchgeführt werden, unterstützen die Hypothese der Simulationen.
+Die unterschiedlichen Narkosen, die an beiden Geräten durchgeführt werden, unterstützen die Hypothese der Simulationen.
 
 Der Wirkungsgrad von CONTRAfluran für Sevofluran, dem klimafreundlichsten (trotz 140 CO~2~-Äquivalenten [@Nielsen2024]) inhalativen Anästhetikum, sowie dessen Abhängigkeit vom Frischgasfluss und der Narkosedauer ist von entscheidender Bedeutung für die Beurteilung dieser Methode.
 
@@ -173,7 +173,7 @@ In jeder Narkose wird folgender Dokumentationsbogen ausgefüllt bzw. fortgeführ
 +----------------+--------------+------------+------------+---------------------+----------------------+-----------------+
 {{>>**TODO**: Alternativ nur Strichliste "inhalative Narkose" pro Tag?<<}}
 
-Der Vapor wird bis zum Verbrauch der letzten Studienflasche auschließlich mit
+Der Vapor wird bis zum Verbrauch der letzten Studienflasche ausschließlich mit
 diesen Flaschen befüllt.
 Die Studie endet für den jeweiligen OP mit dem Auffüllen des Vapors mit der
 letzten markierten Sevofluranflasche.
