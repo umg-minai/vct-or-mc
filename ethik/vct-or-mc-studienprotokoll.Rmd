@@ -4,7 +4,7 @@ subtitle: Studienprotokoll
 date: "`r format(Sys.Date(), '%d.%m.%Y')`"
 author: "Dr. med. Sebastian Gibb"
 cfg-acronym: VCT-OR-MC
-cfg-version: 0.1
+cfg-version: 0.2
 cfg-githash: "`r system('git rev-parse --short HEAD', intern = TRUE)`"
 bibliography: bibliography.bib
 output:
@@ -24,7 +24,6 @@ Bezeichnung der Studie      Prospektive, multizentrische Beobachtungsstudie
                             sowie dem Recycling von Sevofluran im OP.
 
 Studiendesign               Prospektive, multizentrische Beobachtungsstudie
-                            im Sinne eines Qualitätsmanagement
 
 Ziel der Studie             Bestimmung der Effizienz von Aktivkohlefiltern
                             sowie dem Recycling von Sevofluran im OP.
@@ -42,7 +41,7 @@ Datum                       `r .eval_meta(rmarkdown::metadata$date)`
 
 Dr. med. Sebastian Gibb
 
-E-Mail: sebastian.gibb\@med.uni-greifswald.de
+E-Mail: sebastian.gibb\@med.uni-greifswald.de\
 Telefon: 03834 865801\
 Fax: 03834 865802\
 
@@ -88,7 +87,7 @@ Welcher Anteil an Sevofluran zur inhalativen Anästhesie kann mittels des Aktivk
 
 # Studientyp / Studiendesign
 
-Multizentrische, prospektive Beobachtungsstudie im Sinne eines Qualitätsmanagement.
+Multizentrische, prospektive Beobachtungsstudie.
 
 # Zielkriterien
 
@@ -156,21 +155,21 @@ Das Set der markierten Sevofluranflaschen verbleibt in dem OP-Saal.
 
 In jeder Narkose wird folgender Dokumentationsbogen ausgefüllt bzw. fortgeführt.
 
-+-------------------------------+------------+-------------------+-------------------------------------------------------+
-| Studienzentrum: VCT-OR-MC-HGW | OP: Saal 1 | Start: 01.06.2024 | Ende: 31.08.2024                                      |
-+-------------------------------+------------+-------------------+-------------------------------------------------------+
++-------------------------------+------------+-------------------+------------------------------------------------------------------------------------------------------------------+
+| Studienzentrum: VCT-OR-MC-HGW | OP: Saal 1 | Start: 01.06.2024 | Ende: 31.08.2024                                                                                                 |
++-------------------------------+------------+-------------------+------------------------------------------------------------------------------------------------------------------+
 
-+----------------+--------------+------------+------------+---------------------+----------------------+-----------------+
-| CONTRAfluranID | SevofluranID | Datum      | Tagespunkt | Inhalative Narkose? | Mittlere FGF (l/min) | Kommentar       |
-+================+==============+============+============+=====================+======================+=================+
-| 1              |  1           | 01.06.2024 | 1          | ja                  | 0.5                  |                 |
-+----------------+--------------+------------+------------+---------------------+----------------------+-----------------+
-| 1              |  1           | 01.06.2024 | 2          | nein                | 0.5                  |                 |
-+----------------+--------------+------------+------------+---------------------+----------------------+-----------------+
-| ...            |  ...         | ...        | ...        | ...                 | ...                  |                 |
-+----------------+--------------+------------+------------+---------------------+----------------------+-----------------+
-| 1              |  2           | 10.06.2024 | 1          | ja                  | 0.5                  | Flaschenwechsel |
-+----------------+--------------+------------+------------+---------------------+----------------------+-----------------+
++----------------+--------------+------------+------------+---------------------+----------------------------------------------------------+----------------------+-----------------+
+| CONTRAfluranID | SevofluranID | Datum      | Tagespunkt | Inhalative Narkose? | Dauer Narkose  Öffnung Vapor - Extubation (min)          | Mittlere FGF (l/min) | Kommentar       |
++================+==============+============+============+=====================+==========================================================+======================+=================+
+| 1              |  1           | 01.06.2024 | 1          | ja                  | 60                                                       | 0.5                  |                 |
++----------------+--------------+------------+------------+---------------------+---------------------------------------------------------------------------------+-----------------+
+| 1              |  1           | 01.06.2024 | 2          | nein                | 95                                                       | 0.5                  |                 |
++----------------+--------------+------------+------------+---------------------+---------------------------------------------------------------------------------+-----------------+
+| ...            |  ...         | ...        | ...        | ...                 | 35                                                       | ...                  |                 |
++----------------+--------------+------------+------------+---------------------+---------------------------------------------------------------------------------+-----------------+
+| 1              |  2           | 10.06.2024 | 1          | ja                  | 245                                                      | 0.5                  | Flaschenwechsel |
++----------------+--------------+------------+------------+---------------------+----------------------------------------------------------+----------------------+-----------------+
 {{>>**TODO**: Alternativ nur Strichliste "inhalative Narkose" pro Tag?<<}}
 
 Der Vapor wird bis zum Verbrauch der letzten Studienflasche ausschließlich mit
@@ -188,6 +187,11 @@ Die CONTRAfluran-Filter werden an ZeoSys geschickt, dort bis zum Abschluss der
 Studien in allen Zentren gesammelt und dann gemeinsam recycelt.
 {>>**TODO**: mit Hr. Ewers absprechen<<}
 
+Während des Studienzeitraums ist in dem OP-Saal bzw. an den
+Studien-CONTRAfluran-Filtern kein Mischbetrieb verschiedener volatiler
+Anästhetika erlaubt. Wenn sich die\*der Anästhesist\*in für eine volatile
+Anästhesie entscheidet, ist ausschließlich Sevofluran zu verwenden.
+
 ## Ablauf Studienleitung
 
 Zum Studieneinschluss erhält jedes Zentrum die Vorlage für den
@@ -196,16 +200,16 @@ und der CONTRAfluran-Filter.
 
 Nach Abschluss der Datenerhebung und Erhalt der Dokumentationsbögen der
 jeweligen Zentren wird für jeden CONTRAfluran-Filter der mittlere
-Frischgasfluss als einfacher Mittelwert über alle für diesen Filter
-dokumentierten Frischgasflüsse bei inhalativen Narkose gebildet.
-Für die mittlere Narkosedauer wird die Laufzeit des Filters in Werktagen mal
-sechs Stunden multipliziert und durch die Anzahl der inhalativen Narkosen in der
-Laufzeit geteilt.
-Die Menge des verbrauchten Sevoflurans wird anhand der Laufzeit des jeweiligen
-CONTRAfluran-Filters im Verhältnis zur Gesamtstudiendauer ermittelt
-(10 * 250 ml * (Laufzeit Filter/StudienLaufzeit)).
+Frischgasfluss bzw. mittlere Narkosedauer als Median
+über alle für diesen Filter dokumentierten Frischgasflüsse bzw. Narkosedauern
+bei inhalativen Narkose gebildet.
+Die Menge des verbrauchten Sevoflurans je CONTRAfluran-Filter
+wird anhand der Laufzeit (Summe der Dauer inhalativer Narkosen) des jeweiligen
+Filters im Verhältnis zur Gesamtlaufzeit (Summe aller
+Filterlaufzeiten) aller Filter ermittelt
+(10 * 250 ml * (Laufzeit Filter/Gesamtaufzeit)).
 
-Anhand dessen werden die CONTRAfluran-Filter in folgende vier Untergruppen aufgeteilt:
+Anhand des medianen Frischgasflusses und der medianen Narkosedauer werden die CONTRAfluran-Filter in folgende vier Untergruppen aufgeteilt:
 
 - MINFLOW-SHORT: mittlerer Frischgasfluss <= 0.5 l/min und durchschnittliche Narkosedauer <= 2 Stunden
 - MINFLOW-LONG: mittlerer Frischgasfluss <= 0.5 l/min und durchschnittliche Narkosedauer > 2 Stunden
@@ -221,7 +225,7 @@ folgenden zwei Untergruppen gebildet:
 
 Die Zuordnung der CONTRAfluran-Filter zu den jeweiligen Gruppen wird an ZeoSys
 geschickt.
-Dort wird für jede Gruppe ein separater Recyclingprozess durchgeführt und die
+Dort wird für jede Gruppe ein bzw. mehrere separate Recyclingprozesse durchgeführt und die
 jeweilig zurückgewonnene Menge an Sevofluran an die Studienleitung übermittelt.
 
 Die Untergruppen der CONTRAfluran-Filter werden durch deskriptive Statistik
@@ -247,22 +251,23 @@ Jedoch führt dies dazu, dass je nach Nachfüllstrategie beim Auffüllen mit der
 letzten Studien-Sevofluranflasche die Vaporfüllung unvollständig sein wird und
 aufgrund der initialen Füllung mehr als die 10 Flaschen Sevofluran verbraucht
 worden sein kann.
-Der bei häufige eingesetzten Vaporen 2000 und 3000 von Dräger haben ein
+Die beiden häufig eingesetzten Vaporen 2000 und 3000 von Dräger haben ein
 Nachfüllvolumen von 260 ml (eine Sevoflasche 250 ml).
 Die größte zu erwartende Abweichung wäre somit eine Unterschätzung des
 Verbrauches um 10%.
 
 Eine Alternative wäre den Vapor vor Studienbeginn komplett zur leeren, dies ist
-jedoch sehr kompliziert.
+jedoch sehr kompliziert und erfordert in der Regel die Unterstützung der
+Medizintechnik.
 
 Der Goldstand zur Ermittlung des Verbrauchs von volatilen Anästhetika ist das
 Wiegen des Vapors.
-Dies erfordert jedoch sehr teuere Spezialwaagen, da der Vapor 9 kg wiegt, aber
+Das erfordert jedoch sehr teuere Spezialwaagen, da der Vapor 9 kg wiegt, aber
 Veränderungen im Miligrammbereich gemessen werden müssen.
 Solche Waagen sind an keinem Zentrum verfügbar.
 Alternativ könnte man, wie in der Vorläuferstudie VCT-OR, die Sevofluranflaschen
 vor und nach jedem Nachfüllvorgang wiegen.
-Dies würde den Studienablauf an vielen Zentren deutlich komplizieren und auch,
+Dadurch würde der Studienablauf an vielen Zentren deutlich komplizierter werden und auch,
 wenn solche Meßbereiche durch einfachere Waagen erfasst werden können, sind
 diese nicht an jedem Zentrum vorhanden.
 
@@ -274,8 +279,8 @@ Das senkt die Effizienz des Recyclingprozesses.
 Methodisch bedingt sind 20 CONTRAfluran-Filter für einen Recyclingprozess
 notwendig.
 Die Aufteilung in vier Untergruppen kann zu einer "Unterfüllung" führen, wenn
-die Gruppengröße weit von einem Vielfachen von 20 abweicht und damit die
-Effizenz weiter senken.
+die Gruppengröße weit von einem Vielfachen von 20 abweicht und die
+Effizenz senken.
 
 ### Limitation beim Erfassen des Frischgasflusses
 
@@ -289,22 +294,6 @@ Thorax/Zwerchfell/Atemweg zur temporären Erhöhung des Frischgasflusses führen
 Nichtsdestotrotz gibt es in der Regel ein Steady-State in dem wir den
 Frischgasfluss erfassen wollen und somit als Surrogatparameter für die Effizienz
 der Narkoseführung nehmen.
-
-### Limitation beim Erfassen der Narkosezeiten
-
-Wir nehmen an, dass in einem OP-Saal sechs Stunden pro Werktag Anästhesien
-durchgeführt werden.
-Zwei Stunden kalkulieren wir für Wechselzeiten zwischen den Operationen.
-Diese Annahmen können im jeweiligen Zentrum fehlerhaft sein.
-Zusätzlich berücksichtig sie nicht die Narkosezeiten am Wochenende und
-außerhalb der Regelarbeitszeit.
-Eine Alternative wäre die konkrete Erfassung der Narkosezeiten.
-Allerdings wäre das fehleranfällig, umfangreich auszuwerten und bei einer zu
-erwartenden Studienlaufzeit von 15-20 Wochen (durchschnittliche Zeit bis zum
-Verbrauch von 10 Flaschen Sevofluran an der Universitätsmedizin Greifswald) ein
-erheblicher Aufwand für alle Anästhesisten an den beteiligten Zentren.
-Hingegen könnte die reine Anzahl der inhalativen Narkosen pro Tag im Zweifel
-durch den jeweiligen Leiter des Studienzentrums auch retrospektiv erfasst werden.
 
 # Patienten/Probandensicherheit
 
