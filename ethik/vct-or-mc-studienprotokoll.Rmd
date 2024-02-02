@@ -106,8 +106,8 @@ Folgende zur Auswertung benötigten Daten werden erfasst:
 
 - Gesamtanzahl verwendeter Sevofluranflaschen je OP und Zentrum.
 - Gesamtanzahl und Laufzeit verwendeter CONTRAfluran-Filter je OP und Zentrum.
-- Mittlerer Frischgasfluss je OP und Zentrum.
-- Mittlere Narkosedauer je OP und Zentrum.
+- Medianer Frischgasfluss je OP und Zentrum.
+- Mediane Narkosedauer je OP und Zentrum.
 - Rückgewonnene Menge an Sevofluran durch die Firma ZeoSys Medical GmbH.
 
 Es findet keine Erhebung personenbezogener Daten statt.
@@ -170,7 +170,6 @@ In jeder Narkose wird folgender Dokumentationsbogen ausgefüllt bzw. fortgeführ
 +----------------+--------------+------------+------------+---------------------+---------------------------------------------------------------------------------+-----------------+
 | 1              |  2           | 10.06.2024 | 1          | ja                  | 245                                                      | 0.5                  | Flaschenwechsel |
 +----------------+--------------+------------+------------+---------------------+----------------------------------------------------------+----------------------+-----------------+
-{{>>**TODO**: Alternativ nur Strichliste "inhalative Narkose" pro Tag?<<}}
 
 Der Vapor wird bis zum Verbrauch der letzten Studienflasche ausschließlich mit
 diesen Flaschen befüllt.
@@ -193,6 +192,10 @@ Studien-CONTRAfluran-Filtern kein Mischbetrieb verschiedener volatiler
 Anästhetika erlaubt. Wenn sich die\*der Anästhesist\*in für eine volatile
 Anästhesie entscheidet, ist ausschließlich Sevofluran zu verwenden.
 
+Die Verwendung von anderen volatilen Anästhetika, wie z.B. Desfluran oder
+Isofluran oder das Auffüllen des Vapors mit einer Sevofluranflasche, die nicht
+Teil der Studie ist, führt zum Ausschluss des jeweiligen CONTRAfluran-Filters.
+
 ## Ablauf Studienleitung
 
 Zum Studieneinschluss erhält jedes Zentrum die Vorlage für den
@@ -212,20 +215,24 @@ Filterlaufzeiten) aller Filter ermittelt
 
 Anhand des medianen Frischgasflusses und der medianen Narkosedauer werden die CONTRAfluran-Filter in folgende vier Untergruppen aufgeteilt:
 
-- MINFLOW-SHORT: mittlerer Frischgasfluss <= 0.5 l/min und durchschnittliche Narkosedauer <= 2 Stunden
-- MINFLOW-LONG: mittlerer Frischgasfluss <= 0.5 l/min und durchschnittliche Narkosedauer > 2 Stunden
-- LOWFLOW-SHORT: mittlerer Frischgasfluss > 0.5 l/min und durchschnittliche Narkosedauer <= 2 Stunden
-- LOWFLOW-LONG: mittlerer Frischgasfluss > 0.5 l/min und durchschnittliche Narkosedauer > 2 Stunden
+- MINFLOW-SHORT: mittlerer Frischgasfluss <= 0.5 l/min und durchschnittliche Narkosedauer <= 1 Stunde
+- MINFLOW-LONG: mittlerer Frischgasfluss <= 0.5 l/min und durchschnittliche Narkosedauer > 1 Stunde
+- LOWFLOW-SHORT: mittlerer Frischgasfluss > 0.5 l/min und durchschnittliche Narkosedauer <= 1 Stunde
+- LOWFLOW-LONG: mittlerer Frischgasfluss > 0.5 l/min und durchschnittliche Narkosedauer > 1 Stunde
 
 Für einen Wiedergewinnungsprozess werden mindestens 20 CONTRAfluran-Filter benötigt.
 Sollte diese Mindestanzahl für eine Gruppe nicht zu Stande kommen, werden die
 folgenden zwei Untergruppen gebildet:
 
-- SHORT: durchschnittliche Narkosedauer <= 2 Stunden
-- LONG: durchschnittliche Narkosedauer > 2 Stunden
+- SHORT: durchschnittliche Narkosedauer <= 1 Stunden
+- LONG: durchschnittliche Narkosedauer > 1 Stunden
 
-Die Zuordnung der CONTRAfluran-Filter zu den jeweiligen Gruppen wird an ZeoSys
-geschickt.
+Wir behalten uns vor, den Grenzwert für die Narkosedauer von 1 Stunde zu
+Gunsten von ähnlichen Gruppengrößen anzupassen.
+Eine Anpassung des Grenzwertes für den Frischgasfluss ist nicht vorgesehen.
+
+Die Zuordnung der CONTRAfluran-Filter zu den jeweiligen Gruppen durch die
+Studienleitung wird an ZeoSys geschickt.
 Dort wird für jede Gruppe ein bzw. mehrere separate Wiedergewinnungsprozesse durchgeführt und die
 jeweilig zurückgewonnene Menge an Sevofluran an die Studienleitung übermittelt.
 
@@ -274,14 +281,14 @@ diese nicht an jedem Zentrum vorhanden.
 
 ### Limitationen bei der Wiedergewinnung von Sevofluran
 
-Der letzte CONTRAfluran-Filter je Zentrum und OP wird nicht voll gefüllt sein.
+Der letzte CONTRAfluran-Filter je Zentrum und OP wird nicht vollständig beladen sein.
 Das senkt die Effizienz des Wiedergewinnungsprozesses.
 
 Methodisch bedingt sind 20 CONTRAfluran-Filter für einen Wiedergewinnungsprozess
 notwendig.
 Die Aufteilung in vier Untergruppen kann zu einer "Unterfüllung" führen, wenn
 die Gruppengröße weit von einem Vielfachen von 20 abweicht und die
-Effizenz senken.
+Effizenz weiter senken.
 
 ### Limitation beim Erfassen des Frischgasflusses
 
