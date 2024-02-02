@@ -158,6 +158,7 @@ In jeder Narkose wird folgender Dokumentationsbogen ausgefüllt bzw. fortgeführ
 +-------------------------------+------------+-------------------+------------------------------------------------------------------------------------------------------------------+
 | Studienzentrum: VCT-OR-MC-HGW | OP: Saal 1 | Start: 01.06.2024 | Ende: 31.08.2024                                                                                                 |
 +-------------------------------+------------+-------------------+------------------------------------------------------------------------------------------------------------------+
+Table: Dokumentationsbogen mit beispielhaften Einträgen.
 
 +----------------+--------------+------------+------------+---------------------+----------------------------------------------------------+----------------------+-----------------+
 | CONTRAfluranID | SevofluranID | Datum      | Tagespunkt | Inhalative Narkose? | Dauer Narkose  Öffnung Vapor - Extubation (min)          | Mittlere FGF (l/min) | Kommentar       |
