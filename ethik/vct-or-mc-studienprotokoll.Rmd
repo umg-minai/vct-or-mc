@@ -1,10 +1,10 @@
 ---
-title: Prospektive, multizentrische Beobachtungsstudie zur Bestimmung der Effizienz von Aktivkohlefiltern sowie dem Recycling von Sevofluran im OP
+title: Prospektive, multizentrische Beobachtungsstudie zur Bestimmung der Effizienz von Aktivkohlefiltern sowie der Wiedergewinnung von Sevofluran im OP
 subtitle: Studienprotokoll
 date: "`r format(Sys.Date(), '%d.%m.%Y')`"
 author: "Dr. med. Sebastian Gibb"
 cfg-acronym: VCT-OR-MC
-cfg-version: 0.2
+cfg-version: 0.3
 cfg-githash: "`r system('git rev-parse --short HEAD', intern = TRUE)`"
 bibliography: bibliography.bib
 output:
@@ -21,12 +21,12 @@ output:
 ------------------------    --------------------------------------------------
 Bezeichnung der Studie      Prospektive, multizentrische Beobachtungsstudie
                             zur Bestimmung der Effizienz von Aktivkohlefiltern
-                            sowie dem Recycling von Sevofluran im OP.
+                            sowie der Wiedergewinnung von Sevofluran im OP.
 
 Studiendesign               Prospektive, multizentrische Beobachtungsstudie
 
 Ziel der Studie             Bestimmung der Effizienz von Aktivkohlefiltern
-                            sowie dem Recycling von Sevofluran im OP.
+                            sowie der Wiedergewinnung von Sevofluran im OP.
 
 Studienzeitraum             ab 01.06.2024 ca. 10 - 20 Wochen
 
@@ -75,8 +75,8 @@ Hinterberg et al. haben die Effektivität von CONTRAfluran im OP während der Nu
 Aufgrund des höheren Blut-/Gas-Verteilungskoeffizienten und der höheren Metabolisierungsrate ist für Sevofluran bei längeren Narkosen eine niedrigere Effizienz zu erwarten.
 Hingegen konnten Ghandi und Baxter mit einem anderen Aktivkohlefiltersystem (SID-Can, SageTech, UK), das im Gegensatz zum CONTRAfluran ein AGFS erfordert, knapp 50% des Sevoflurans wiedergewinnen [@Gandhi2023].
 
-Die Recyclingeffizienz ist in Simulationen vom Frischgasfluss und von der Narkosedauer abhängig [@Dexter2023].
-In der noch laufenden Studie "VCT-OR: Prospektive Beobachtungsstudie zur Bestimmung der Effizienz von Aktivkohlefiltern sowie dem Recycling von Sevofluran im OP" (BB 102/23, 08.08.2023) haben wir an zwei Narkosegeräten vorläufige Recyclingraten von 40 und 75% ermittelt [@vctordata].
+Die Effizienz der Wiedergewinnung ist in Simulationen vom Frischgasfluss und von der Narkosedauer abhängig [@Dexter2023].
+In der noch laufenden Studie "VCT-OR: Prospektive Beobachtungsstudie zur Bestimmung der Effizienz von Aktivkohlefiltern sowie der Wiedergewinnung von Sevofluran im OP" (BB 102/23, 08.08.2023) haben wir an zwei Narkosegeräten vorläufige Auffangraten anhand von Gewichtzunahmen von ca. 40 und 75% ermittelt [@vctordata].
 Die unterschiedlichen Narkosen, die an beiden Geräten durchgeführt werden, unterstützen die Hypothese der Simulationen.
 
 Der Wirkungsgrad von CONTRAfluran für Sevofluran, dem klimafreundlichsten (trotz 140 CO~2~-Äquivalenten [@Nielsen2024]) inhalativen Anästhetikum, sowie dessen Abhängigkeit vom Frischgasfluss und der Narkosedauer ist von entscheidender Bedeutung für die Beurteilung dieser Methode.
@@ -93,12 +93,12 @@ Multizentrische, prospektive Beobachtungsstudie.
 
 ## Primäres Zielkriterium
 
-- Anteil an durch den Aktivkohlefilter gefilterten und recycelten Sevofluran.
+- Anteil an durch den Aktivkohlefilter gefilterten und wiedergewonnenem Sevofluran.
 
 ## Sekundäres Zielkriterium
 
-- Abhängigkeit der Recyclingeffizienz von der Narkosedauer.
-- Falkutativ: Abhängigkeit der Recyclingeffizienz vom Frischgasfluss.
+- Abhängigkeit der Wiedergewinnungsrate von der Narkosedauer.
+- Abhängigkeit der Wiedergewinnungsrate vom Frischgasfluss.
 
 # Methoden der Datenerhebung
 
@@ -184,7 +184,8 @@ E-Mail an die Studienleitung geschickt.
 Die Sevofluranflaschen werden entsprechend der Richtlinien des teilnehmenden
 Zentrums entsorgt.
 Die CONTRAfluran-Filter werden an ZeoSys geschickt, dort bis zum Abschluss der
-Studien in allen Zentren gesammelt und dann gemeinsam recycelt.
+Studien in allen Zentren gesammelt und dann gemeinsam der Wiedergewinnung
+zugeführt.
 {>>**TODO**: mit Hr. Ewers absprechen<<}
 
 Während des Studienzeitraums ist in dem OP-Saal bzw. an den
@@ -216,7 +217,7 @@ Anhand des medianen Frischgasflusses und der medianen Narkosedauer werden die CO
 - LOWFLOW-SHORT: mittlerer Frischgasfluss > 0.5 l/min und durchschnittliche Narkosedauer <= 2 Stunden
 - LOWFLOW-LONG: mittlerer Frischgasfluss > 0.5 l/min und durchschnittliche Narkosedauer > 2 Stunden
 
-Für einen Recyclingprozess werden mindestens 20 CONTRAfluran-Filter benötigt.
+Für einen Wiedergewinnungsprozess werden mindestens 20 CONTRAfluran-Filter benötigt.
 Sollte diese Mindestanzahl für eine Gruppe nicht zu Stande kommen, werden die
 folgenden zwei Untergruppen gebildet:
 
@@ -225,16 +226,16 @@ folgenden zwei Untergruppen gebildet:
 
 Die Zuordnung der CONTRAfluran-Filter zu den jeweiligen Gruppen wird an ZeoSys
 geschickt.
-Dort wird für jede Gruppe ein bzw. mehrere separate Recyclingprozesse durchgeführt und die
+Dort wird für jede Gruppe ein bzw. mehrere separate Wiedergewinnungsprozesse durchgeführt und die
 jeweilig zurückgewonnene Menge an Sevofluran an die Studienleitung übermittelt.
 
 Die Untergruppen der CONTRAfluran-Filter werden durch deskriptive Statistik
 analysiert.
-Die recycelte Menge Sevofluran wird mit der eingesetzten Menge
+Die wiedergewonnenem Menge Sevofluran wird mit der eingesetzten Menge
 je Gruppe verglichen.
 
 Eine induktive Statistik/ein Hypothesentest kann bei vier Gruppen mit je nur
-einer Beobachtung (Menge an recyceltem Sevofluran) nicht durchgeführt werden.
+einer Beobachtung (Menge an wiedergewonnenem Sevofluran) nicht durchgeführt werden.
 
 ## Limitationen
 
@@ -271,12 +272,12 @@ Dadurch würde der Studienablauf an vielen Zentren deutlich komplizierter werden
 wenn solche Meßbereiche durch einfachere Waagen erfasst werden können, sind
 diese nicht an jedem Zentrum vorhanden.
 
-### Limitationen beim Recycling
+### Limitationen bei der Wiedergewinnung von Sevofluran
 
 Der letzte CONTRAfluran-Filter je Zentrum und OP wird nicht voll gefüllt sein.
-Das senkt die Effizienz des Recyclingprozesses.
+Das senkt die Effizienz des Wiedergewinnungsprozesses.
 
-Methodisch bedingt sind 20 CONTRAfluran-Filter für einen Recyclingprozess
+Methodisch bedingt sind 20 CONTRAfluran-Filter für einen Wiedergewinnungsprozess
 notwendig.
 Die Aufteilung in vier Untergruppen kann zu einer "Unterfüllung" führen, wenn
 die Gruppengröße weit von einem Vielfachen von 20 abweicht und die
@@ -337,7 +338,7 @@ Patientendaten werden nicht erhoben und nicht veröffentlicht.
 
 # Patienten/Probanden-Information und Einwilligungserklärung mit Datenschutzerklärung
 
-Die Studie soll die Effektivität der Aktivkohlefilter und des Anästhesiegasrecyclings untersuchen.
+Die Studie soll die Effektivität der Aktivkohlefilter und der Wiedergewinnung von Sevofluran untersuchen.
 Es erfolgt keine Erhebung personenbezogener Daten.
 Eine Einwilligung der Patienten ist nicht notwendig.
 
