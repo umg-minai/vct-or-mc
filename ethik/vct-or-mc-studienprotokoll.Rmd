@@ -18,22 +18,22 @@ output:
 
 # Prüfplan-Synopsis
 
-------------------------    --------------------------------------------------
-Bezeichnung der Studie      Prospektive, multizentrische Beobachtungsstudie
-                            zur Bestimmung der Effizienz von Aktivkohlefiltern
-                            sowie der Wiedergewinnung von Sevofluran im OP.
+------------------------        --------------------------------------------------
+**Bezeichnung der Studie**      Prospektive, multizentrische Beobachtungsstudie
+                                zur Bestimmung der Effizienz von Aktivkohlefiltern
+                                sowie der Wiedergewinnung von Sevofluran im OP.
 
-Studiendesign               Prospektive, multizentrische Beobachtungsstudie
+**Studiendesign**               Prospektive, multizentrische Beobachtungsstudie
 
-Ziel der Studie             Bestimmung der Effizienz von Aktivkohlefiltern
-                            sowie der Wiedergewinnung von Sevofluran im OP.
+**Ziel der Studie**             Bestimmung der Effizienz von Aktivkohlefiltern
+                                sowie der Wiedergewinnung von Sevofluran im OP.
 
-Studienzeitraum             ab 01.06.2024 ca. 10 - 20 Wochen
+**Studienzeitraum**             ab 01.06.2024 ca. 10 - 20 Wochen
 
-Version                     `r paste(rmarkdown::metadata[["cfg-version"]], .eval_meta(rmarkdown::metadata[["cfg-githash"]]), sep = "_")`
+**Version**                     `r paste(rmarkdown::metadata[["cfg-version"]], .eval_meta(rmarkdown::metadata[["cfg-githash"]]), sep = "_")`
 
-Datum                       `r .eval_meta(rmarkdown::metadata$date)`
-------------------------------------------------------------------------------
+**Datum**                       `r .eval_meta(rmarkdown::metadata$date)`
+----------------------------------------------------------------------------------
 
 # Verantwortlichkeiten und Kooperationen
 
