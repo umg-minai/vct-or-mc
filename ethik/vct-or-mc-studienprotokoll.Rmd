@@ -151,12 +151,10 @@ Jedes teilnehmende Zentrum stellt für jeden teilnehmenden OP 10 Flaschen
 Sevofluran zu Verfügung.
 Diese Flaschen werden mit den IDs für das Zentrum, den OP und der jeweiligen
 Flaschennummer markiert.
-{>>**TODO**: Aufkleber bereitstellen<<}
 
 Zum Studienstart wird vor der ersten Narkose des Tages für jeden teilnehmenden
 OP ein neuer CONTRAfluran-Filter installiert und ebenfalls
 mit der ID für das Zentrum, den OP und einer laufenden Filter ID markiert.
-{>>**TODO**: Aufkleber bereitstellen<<}
 
 Zusätzlich wird der Sevofluranvapor aus einer Sevofluranflasche, die nicht zu
 dem Set der Studienflaschen gehört, maximal befüllt.
@@ -198,7 +196,6 @@ Zentrums entsorgt.
 Die CONTRAfluran-Filter werden an ZeoSys geschickt, dort bis zum Abschluss der
 Studien in allen Zentren gesammelt und dann gemeinsam der Wiedergewinnung
 zugeführt.
-{>>**TODO**: mit Hr. Ewers absprechen<<}
 
 Während des Studienzeitraums ist in dem OP-Saal bzw. an den
 Studien-CONTRAfluran-Filtern kein Mischbetrieb verschiedener volatiler
