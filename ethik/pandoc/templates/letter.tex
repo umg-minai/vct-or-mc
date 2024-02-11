@@ -1,0 +1,41 @@
+\documentclass[DIN,
+               pagenumber=false,
+               firstfoot=false,
+               enlargefirstpage=true,
+               fontsize=11pt,
+               fromalign=left,
+               fromphone=true,
+               fromemail=true%
+             ]{scrlttr2}
+
+\usepackage[utf8]{inputenc}
+\usepackage{babel}
+\usepackage{ngerman}
+
+\renewcaptionname{ngerman}{\enclname}{Anlagen}
+
+\setkomavar{fromname}{$fromname$}
+\setkomavar{fromaddress}{$fromaddress$}
+\setkomavar{fromphone}{$fromphone$}
+\setkomavar{fromemail}{$fromemail$}
+\setkomavar{signature}{$fromsignature$}
+
+\setkomavar{subject}{$subject$}
+
+\begin{document}
+
+\begin{letter}{$for(address)$$address$$sep$\\$endfor$}
+\opening{$opening$}
+
+$body$
+
+$if(closing)$
+\closing{$closing$}
+$endif$
+$if(encl)$
+    \encl{\begin{itemize}$for(encl)$\item{$encl$}$sep$$endfor$\end{itemize}}
+$endif$
+
+\end{letter}
+
+\end{document}
