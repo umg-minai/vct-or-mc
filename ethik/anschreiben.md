@@ -49,11 +49,5 @@ Um die Abhängigkeit vom Frischgasfluss und der Narkosedauer
 zu ermitteln, wollen wir unsere o.g. VCT-OR-Studie in einem leicht modifizierten
 Ansatz in einem multizentrischen Design durchführen.
 
-Wir führen keine Interventionen an Patient\*innen durch und erfassen keinerlei
-Patient\*innendaten.
-Somit ist aus unserer Sicht ein Votum einer weiteren Ethikkommission nicht notwendig.
-Wir würden uns freuen, wenn Sie sich dieser Meinung anschließen und uns dies
-schriftlich bestätigen könnten, um anderen Zentren die Teilnahme zu erleichtern.
-
 Wir sind sehr gern bereit, unser Forschungsvorhaben vor der Kommission zu
 präsentieren.
