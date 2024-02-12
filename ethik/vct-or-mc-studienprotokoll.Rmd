@@ -189,13 +189,13 @@ letzten markierten Sevofluranflasche.
 Zu diesem Zeitpunkt wird auch der installierte CONTRAfluran-Filter
 **unabhängig** von seinem Füllstand dekonnektiert.
 
-Zum Studienende werden die Dokumentationsbögen postalisch oder als Scan per
-E-Mail an die Studienleitung geschickt.
+Spätestens zum Studienende werden die Dokumentationsbögen postalisch oder als
+Scan per E-Mail an die Studienleitung geschickt.
 Die Sevofluranflaschen werden entsprechend der Richtlinien des teilnehmenden
 Zentrums entsorgt.
-Die CONTRAfluran-Filter werden an ZeoSys geschickt, dort bis zum Abschluss der
-Studien in allen Zentren gesammelt und dann gemeinsam der Wiedergewinnung
-zugeführt.
+Die CONTRAfluran-Filter werden wie in dem jeweiligen Zentrum üblich
+an ZeoSys geschickt, dort bis zum Abschluss der Studien in allen Zentren
+gesammelt und dann gemeinsam der Wiedergewinnung zugeführt.
 
 Während des Studienzeitraums ist in dem OP-Saal bzw. an den
 Studien-CONTRAfluran-Filtern kein Mischbetrieb verschiedener volatiler
