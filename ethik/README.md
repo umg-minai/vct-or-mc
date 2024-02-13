@@ -1,17 +1,16 @@
 # Reference ODT
 
-muss odt sein, da es mit docx nicht funktioniert
-
-Referenzdokument erzeugen:
+- has to be odt (docx is not supported)
+- generate reference
 
 ```
 pandoc -o pandoc/reference/reference.odt --print-default-data-file reference.odt
 ```
 
-## Variablen in Header/Footer
+## Variables in header/footer
 
-- Hinzufügen über *Datei->Eigenschaften->Benutzerdefiniert*.
-- *Feld* einfügen, *benutzerdefiniert*
-- Feldnamer als Variable in YAML-Header definieren
+- *Datei-\>Eigenschaften-\>Benutzerdefiniert* (File-\>Properties-\>User defined)
+- *Feld* einfügen (insert field), *benutzerdefiniert* (user defined).
+- Define field name as variable in YAML header
 
-Siehe auch: https://github.com/jgm/pandoc/issues/2839
+See also: https://github.com/jgm/pandoc/issues/2839
