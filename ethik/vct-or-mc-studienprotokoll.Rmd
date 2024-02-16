@@ -49,7 +49,7 @@ Klinik für Anästhesie, Intensiv-, Notfall- und Schmerzmedizin\
 Universitätsmedizin Greifswald\
 Ferdinand-Sauerbruch-Straße\
 \
-17475 Greifswald
+17475 Greifswald - Deutschland
 
 und
 
@@ -62,13 +62,14 @@ Abteilung für Anästhesie und Intensivmedizin\
 Krankenhaus Salem der Evang. Stadtmission Heidelberg gGmbH\
 Zeppelinstraße 11 - 33\
 \
-69121 Heidelberg
+69121 Heidelberg - Deutschland
 
 ## Ansprechpartner und Zentren
 
-- Dr. med. Stephan Knigge, Klinik für Anästhesiologie, Universitätsmedizin Greifswald
-- Nadin Möller, Klinik für Anästhesiologie, Universitätsmedizin Greifswald
-- Dr. med. Stephanie Snyder-Ramos, Krankenhaus Salem der Evang. Stadtmission Heidelberg gGmbH
+- Dr. med. Stephan Knigge und Nadin Möller, Klinik für Anästhesiologie, Universitätsmedizin Greifswald, Deutschland
+- Dr. med. Christian Lisson, Abteilung für Anästhesie und Intensivmedizin, Krankenhaus Salem der Evang. Stadtmission Heidelberg gGmbH, Deutschland
+- Dr. med. Rüdiger Hacker, Abteilung für Anästhesie, Intensiv- und Schmerztherapie, Herz-Jesu-Krankenhaus Fulda gGmbH, Deutschland
+- Dr. med. Ernst Trampitsch, Abteilung für Anästhesie und Intensivmedizin, Landeskrankenhaus Villach, Österreich
 - Einschluss weiterer Zentren geplant
 
 # Wissenschaftlicher Hintergrund
