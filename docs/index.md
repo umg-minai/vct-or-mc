@@ -57,7 +57,7 @@ Anteil an durch den Aktivkohlefilter gefilterten und wiedergewonnenem Sevofluran
     - Besonderheiten (Filterwechsel, inhalative Einleitung, ...)
 - Sobald ein Dokumentationsbogen voll ist, muss dieser
     - durch einen neuen ersetzt und
-    - an die Studienleitung per E-Mail minai@med.uni-greifswald.de bzw. per Fax
+    - an die Studienleitung per E-Mail <minai@med.uni-greifswald.de> bzw. per Fax
       an 03834 86 5802 geschickt werden.
 - Mit dem Leeren der letzten (zehnten) Sevofluranflasche im teilnehmenden
   Studien-OP endet die Studie für diesen Operationssaal.
@@ -73,7 +73,7 @@ Anteil an durch den Aktivkohlefilter gefilterten und wiedergewonnenem Sevofluran
 
 Dr. med. Sebastian Gibb
 
-E-Mail: sebastian.gibb\@med.uni-greifswald.de\
+E-Mail: <sebastian.gibb@med.uni-greifswald.de>\
 Telefon: 03834 865801\
 Fax: 03834 865802\
 \
@@ -87,7 +87,7 @@ und
 
 Dr. med. Stephanie Snyder-Ramos
 
-E-Mail: stephanie.snyder-ramos\@stadtmission-hd.de\
+E-Mail: <stephanie.snyder-ramos@stadtmission-hd.de>\
 Telefon: 06221 483364\
 \
 Abteilung für Anästhesie und Intensivmedizin\
