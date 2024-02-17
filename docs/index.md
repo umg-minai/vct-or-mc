@@ -67,7 +67,7 @@ Anteil an durch den Aktivkohlefilter gefilterten und wiedergewonnenem Sevofluran
 ## Dokumente
 
 - [Studienprotokoll](vct-or-mc_studienprotokoll.pdf)
-- [Dokumentationsbogen/Case Report Form](../forms/vct-or-mc_crf-1.1.pdf)
+- [Dokumentationsbogen/Case Report Form](vct-or-mc_crf-1.1.pdf)
 
 ## Studienleitung
 
