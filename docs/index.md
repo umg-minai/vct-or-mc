@@ -29,7 +29,7 @@ Anteil an durch den Aktivkohlefilter gefilterten und wiedergewonnenem Sevofluran
 - Nutzung passiver Filtertechnik (ohne Anschluss an das
   Anästhesiegasfortleitungssystem (AGFS)):
   - *CONTRAfluran*
-  - *SENSOfluran* (nicht *SENSOfluran^PLUS^* oder *SENSOfluran connect*)
+  - *SENSOfluran* (nicht *SENSOfluran<sup>PLUS</sup>* oder *SENSOfluran connect*)
 
 - **Ausschließliche** Verwendung von **Sevofluran** als volatiles Anästhetikum
   im teilnehmenden Studien-OP (kein Desfluran/Isofluran)
