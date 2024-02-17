@@ -98,5 +98,5 @@ Zeppelinstraße 11 - 33\
 
 ## Vorläuferstudie
 
-https://github.com/umg-minai/vct-or
+[vct-or](https://github.com/umg-minai/vct-or)
 
