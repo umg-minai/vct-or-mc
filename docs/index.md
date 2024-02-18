@@ -2,6 +2,10 @@
 
 ## Über die Studie
 
+### Geplanter Start und Laufzeit
+
+ab 01.06.2024, ca. 10 - 20 Wochen
+
 ### Hintergrund
 
 Volatile Anästhetika sind Fluor(chlor)kohlenwasserstoffe (F(C)KW) und verstärken
