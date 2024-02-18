@@ -1,4 +1,4 @@
-# Prospektive, multizentrische Beobachtungsstudie zur Bestimmung der Effizienz von Aktivkohlefiltern sowie der Wiedergewinnung von Sevofluran im OP (VCT-OR-MC)
+# Prospektive, multizentrische Beobachtungsstudie zur Bestimmung der Effizienz von Aktivkohlefiltern sowie der Wiedergewinnung von im OP verwendetem Sevofluran (VCT-OR-MC)
 
 ## Über die Studie
 
@@ -7,7 +7,7 @@
 Volatile Anästhetika sind Fluor(chlor)kohlenwasserstoffe (F(C)KW) und verstärken
 die menschgemachten Klimakatastrophe.
 
-Mit CONTRAfluran bietet die Firma [ZeoSys Medical GmbH](https://zeosys-medical.de/) einen Aktivkohlefilter an, der die Anästhesiegase, die bisher über das Anästhesiegasfortleitungsystem (AGFS) in die Umwelt abgegeben werden, auffängt.
+Mit CONTRAfluran bietet die Firma [ZeoSys Medical GmbH](https://zeosys-medical.de/) einen Aktivkohlefilter an, der die Anästhesiegase, die bisher über das Anästhesiegasfortleitungsystem (AGFS) in die Umwelt abgegeben werden, auffangen kann.
 
 Unsere Studie *VCT-OR-MC* soll den Anteil aufgefangenem und wiedergewonnenen
 Sevofluran mittels CONTRAfluran,
@@ -26,16 +26,16 @@ Anteil an durch den Aktivkohlefilter gefilterten und wiedergewonnenem Sevofluran
 
 ### Teilnahmevoraussetzung für das Zentrum
 
-- Nutzung passiver Filtertechnik (ohne Anschluss an das
+- Nutzung passiver Filtertechnik im teilnehmenden Studien-OP (ohne Anschluss an das
   Anästhesiegasfortleitungssystem (AGFS)):
   - *CONTRAfluran*
   - *SENSOfluran* (nicht *SENSOfluran<sup>PLUS</sup>* oder *SENSOfluran connect*)
 
 - **Ausschließliche** Verwendung von **Sevofluran** als volatiles Anästhetikum
-  im teilnehmenden Studien-OP (kein Desfluran/Isofluran)
+  im teilnehmenden Studien-OP (kein Desfluran/Isofluran).
 
 - TIVA, Regional Anästhesie etc. sind im Studien-OP möglich, die Wahl der Anästhesieform
-  unterliegt den betreuenden Anästhesist\*innen
+  unterliegt den betreuenden Anästhesist\*innen.
 
 ### Praktische Umsetzung
 

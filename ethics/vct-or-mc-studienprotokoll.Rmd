@@ -1,5 +1,5 @@
 ---
-title: Prospektive, multizentrische Beobachtungsstudie zur Bestimmung der Effizienz von Aktivkohlefiltern sowie der Wiedergewinnung von Sevofluran im OP
+title: Prospektive, multizentrische Beobachtungsstudie zur Bestimmung der Effizienz von Aktivkohlefiltern sowie der Wiedergewinnung von im OP verwendetem Sevofluran
 subtitle: Studienprotokoll
 date: "`r format(Sys.Date(), '%d.%m.%Y')`"
 author: "Dr. med. Sebastian Gibb"
@@ -21,12 +21,14 @@ output:
 ------------------------        --------------------------------------------------
 **Bezeichnung der Studie**      Prospektive, multizentrische Beobachtungsstudie
                                 zur Bestimmung der Effizienz von Aktivkohlefiltern
-                                sowie der Wiedergewinnung von Sevofluran im OP.
+                                sowie der Wiedergewinnung von im OP verwendetem
+                                Sevofluran.
 
 **Studiendesign**               Prospektive, multizentrische Beobachtungsstudie
 
 **Ziel der Studie**             Bestimmung der Effizienz von Aktivkohlefiltern
-                                sowie der Wiedergewinnung von Sevofluran im OP.
+                                sowie der Wiedergewinnung von im OP verwendetem
+                                Sevofluran.
 
 **Studienzeitraum**             ab 01.06.2024 ca. 10 - 20 Wochen
 
@@ -80,31 +82,37 @@ Ein Großteil dieser Emission hat die Anästhesie und Intensivmedizin zu verantw
 
 Bedeutsam sind dabei vor allem die inhalativen Anästhetika, die alle Fluor(chlor)kohlenwasserstoffe (F(C)KW) sind.
 
-Mit CONTRAfluran bietet die Firma ZeoSys Medical GmbH einen Aktivkohlefilter an, der die Anästhesiegase, die bisher über das Anästhesiegasfortleitungsystem (AGFS) in die Umwelt abgegeben werden, auffängt.
+Mit CONTRAfluran bietet die Firma ZeoSys Medical GmbH einen Aktivkohlefilter an, der die Anästhesiegase, die bisher über das Anästhesiegasfortleitungsystem (AGFS) in die Umwelt abgegeben werden, auffangen kann.
 
 Hinterberg et al. haben die Effektivität von CONTRAfluran im OP während der Nutzung von Desfluran untersucht und konnten nur 25% wiedergewinnen [@Hinterberg2022].
 Aufgrund des höheren Blut-/Gas-Verteilungskoeffizienten und der höheren Metabolisierungsrate ist für Sevofluran bei längeren Narkosen eine niedrigere Effizienz zu erwarten.
-Hingegen konnten Ghandi und Baxter mit einem anderen Aktivkohlefiltersystem (SID-Can, SageTech, UK), das im Gegensatz zum CONTRAfluran ein AGFS erfordert, knapp 50% des Sevoflurans wiedergewinnen [@Gandhi2023].
+Jedoch weist Sevofluran eine relativ niedrigere MAC~awake~
+(MAC/MAC~awake~, 0.22-0.34 @Katoh1993) auf als
+Desfluran (MAC/MAC~awake~ 0.36-0.53; @Jones1990; @Chortkoff1995),
+so dass die Patient\*innen einen größeren Anteil des volatilen Anästhetikums
+ausgeatmet haben müssen, um extubiert werden zu können.
+Dies könnte erklären, warum
+Ghandi und Baxter mit einem anderen Aktivkohlefiltersystem (SID-Can, SageTech, UK), das im Gegensatz zum CONTRAfluran ein AGFS erfordert, knapp 50% des Sevoflurans wiedergewinnen konnten [@Gandhi2023].
 
 Die Effizienz der Wiedergewinnung ist in Simulationen vom Frischgasfluss und von der Narkosedauer abhängig [@Dexter2023].
-In der noch laufenden Studie "VCT-OR: Prospektive Beobachtungsstudie zur Bestimmung der Effizienz von Aktivkohlefiltern sowie der Wiedergewinnung von Sevofluran im OP" (BB 102/23, 08.08.2023) haben wir an zwei Narkosegeräten vorläufige Auffangraten anhand von Gewichtzunahmen von ca. 40 und 75% ermittelt [@vctordata].
-Die unterschiedlichen Narkosen, die an beiden Geräten durchgeführt werden, unterstützen die Hypothese der Simulationen.
+In der noch laufenden Studie "VCT-OR: Prospektive Beobachtungsstudie zur Bestimmung der Effizienz von Aktivkohlefiltern sowie der Wiedergewinnung von Sevofluran im OP" (BB 102/23, 08.08.2023) haben wir an zwei Narkosegeräten vorläufige Auffangraten anhand der Gewichtzunahmen der CONTRAfluran-Filter von ca. 40 und 75% ermittelt [@vctordata].
+Die unterschiedlichen Einleitungen sowie Länge der Narkosen, die an beiden Geräten durchgeführt werden, unterstützen die Hypothese der Simulationen.
 
-Der Wirkungsgrad von CONTRAfluran für Sevofluran, dem klimafreundlichsten (trotz 140 CO~2~-Äquivalenten [@Nielsen2024]) inhalativen Anästhetikum, sowie dessen Abhängigkeit vom Frischgasfluss und der Narkosedauer ist von entscheidender Bedeutung für die Beurteilung dieser Methode.
+Praxisnahme Daten zur Effizienz von CONTRAfluran für Sevofluran, dem klimafreundlichsten (trotz 140 CO~2~-Äquivalenten [@Nielsen2024]) volatilem Anästhetikum, sowie dessen Abhängigkeit vom Frischgasfluss und der Narkosedauer ist von entscheidender Bedeutung für die Beurteilung dieser Methode und für die Bereitschaft sie einzusetzen.
 
 # Fragestellung / Arbeitshypothese
 
-Welcher Anteil an Sevofluran zur inhalativen Anästhesie kann mittels des Aktivkohlefilters CONTRAfluran im OP wiedergewonnen werden?
+Welcher Anteil des verwendeten Sevoflurans zur inhalativen Anästhesie im OP kann mittels des Aktivkohlefilters CONTRAfluran wiedergewonnen werden?
 
 # Studientyp / Studiendesign
 
-Multizentrische, prospektive Beobachtungsstudie.
+Prospektive, multizentrische, internationale Beobachtungsstudie.
 
 # Zielkriterien
 
 ## Primäres Zielkriterium
 
-- Anteil an durch den Aktivkohlefilter gefilterten und wiedergewonnenem Sevofluran.
+- Anteil des durch den Aktivkohlefilter CONTRAfluran gefilterten und wiedergewonnenem Sevofluran (gemessen an der Gesamtmenge des eingesetzten, in den Verdampfer gegebenen, Sevoflurans).
 
 ## Sekundäres Zielkriterium
 
@@ -113,13 +121,14 @@ Multizentrische, prospektive Beobachtungsstudie.
 
 # Methoden der Datenerhebung
 
-Folgende zur Auswertung benötigten Daten werden erfasst:
+Folgende zur Auswertung benötigten Daten werden im Beobachtungszeitraum erfasst:
 
 - Gesamtanzahl verwendeter Sevofluranflaschen je OP und Zentrum.
 - Gesamtanzahl und Laufzeit verwendeter CONTRAfluran-Filter je OP und Zentrum.
 - Medianer Frischgasfluss je OP und Zentrum.
 - Mediane Narkosedauer je OP und Zentrum.
 - Rückgewonnene Menge an Sevofluran durch die Firma ZeoSys Medical GmbH.
+- Eingesetztes Narkosegerät (Hersteller, Herstellungsjahr, Typ).
 
 Es findet keine Erhebung personenbezogener Daten statt.
 
@@ -145,6 +154,19 @@ keine
 keine
 
 # Versuchsablauf
+
+## Teilnahmevoraussetzung für das Zentrum
+
+- Nutzung passiver Filtertechnik im teilnehmenden Studien-OP (ohne Anschluss
+  an das Anästhesiegasfortleitungssystem (AGFS)):
+  - *CONTRAfluran*
+  - *SENSOfluran* (nicht *SENSOfluran<sup>PLUS</sup>* oder *SENSOfluran connect*)
+
+- **Ausschließliche** Verwendung von **Sevofluran** als volatiles Anästhetikum
+  im teilnehmenden Studien-OP (kein Desfluran/Isofluran).
+
+- TIVA, Regional Anästhesie etc. sind im Studien-OP möglich, die Wahl der
+  Anästhesieform unterliegt den betreuenden Anästhesist\*innen.
 
 ## Ablauf in den teilnehmenden Studienzentren
 
@@ -226,17 +248,17 @@ Filterlaufzeiten) aller Filter ermittelt
 
 Anhand des medianen Frischgasflusses und der medianen Narkosedauer werden die CONTRAfluran-Filter in folgende vier Untergruppen aufgeteilt:
 
-- MINFLOW-SHORT: mittlerer Frischgasfluss <= 0.5 l/min und durchschnittliche Narkosedauer <= 1 Stunde
-- MINFLOW-LONG: mittlerer Frischgasfluss <= 0.5 l/min und durchschnittliche Narkosedauer > 1 Stunde
-- LOWFLOW-SHORT: mittlerer Frischgasfluss > 0.5 l/min und durchschnittliche Narkosedauer <= 1 Stunde
-- LOWFLOW-LONG: mittlerer Frischgasfluss > 0.5 l/min und durchschnittliche Narkosedauer > 1 Stunde
+- MINFLOW-SHORT: medianer Frischgasfluss <= 0.5 l/min und mediane Narkosedauer <= 1 Stunde
+- MINFLOW-LONG: medianer Frischgasfluss <= 0.5 l/min und mediane Narkosedauer > 1 Stunde
+- LOWFLOW-SHORT: medianer Frischgasfluss > 0.5 l/min und mediane Narkosedauer <= 1 Stunde
+- LOWFLOW-LONG: medianer Frischgasfluss > 0.5 l/min und mediane Narkosedauer > 1 Stunde
 
 Für einen Wiedergewinnungsprozess werden mindestens 20 CONTRAfluran-Filter benötigt.
 Sollte diese Mindestanzahl für eine Gruppe nicht zu Stande kommen, werden die
 folgenden zwei Untergruppen gebildet:
 
-- SHORT: durchschnittliche Narkosedauer <= 1 Stunden
-- LONG: durchschnittliche Narkosedauer > 1 Stunden
+- SHORT: mediane Narkosedauer <= 1 Stunden
+- LONG: median Narkosedauer > 1 Stunden
 
 Wir behalten uns vor, den Grenzwert für die Narkosedauer von 1 Stunde zu
 Gunsten von ähnlichen Gruppengrößen anzupassen.
