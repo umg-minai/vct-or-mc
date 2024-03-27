@@ -25,6 +25,8 @@ Anteil an durch den Aktivkohlefilter gefilterten und wiedergewonnenem Sevofluran
 
 - Abhängigkeit der Wiedergewinnungsrate von der Narkosedauer.
 - Abhängigkeit der Wiedergewinnungsrate vom Frischgasfluss.
+- Abhängigkeit der Wiedergewinnungsrate von der Atemwegssicherung.
+- Abhängigkeit der Wiedergewinnungsrate von laparoskopischen Operationsmethoden.
 
 ## Praktischer Studienablauf
 
@@ -57,7 +59,9 @@ Anteil an durch den Aktivkohlefilter gefilterten und wiedergewonnenem Sevofluran
     - Datum
     - Start und Ende der Anästhesie
     - Nutzung einer volatilen Anästhesie
-    - Mittleren Frischgasfluss im Steady-State
+    - Frischgasfluss nach 15 Minuten Narkose
+    - Art der Atemwegssicherung (Larynxmaske oder Tubus)
+    - Art der OP (laparoskopisch/nicht laparoskopisch)
     - Besonderheiten (Filterwechsel, inhalative Einleitung, ...)
 - Sobald ein Dokumentationsbogen voll ist, muss dieser
     - durch einen neuen ersetzt und
@@ -70,9 +74,14 @@ Anteil an durch den Aktivkohlefilter gefilterten und wiedergewonnenem Sevofluran
 
 ## Dokumente
 
-- [Studienprotokoll](vct-or-mc_studienprotokoll.pdf)
+- [Studienprotokoll](vct-or-mc_studienprotokoll-1.1.pdf)
 - [Votum Ethikkommission](vct-or-mc_ethics_vote.pdf)
-- [Dokumentationsbogen/Case Report Form](vct-or-mc_crf-1.1.pdf)
+- [Dokumentationsbogen/Case Report Form](vct-or-mc_crf-1.2.pdf)
+
+ältere Versionen:
+
+- [Studienprotokoll 1.0](vct-or-mc_studienprotokoll-1.0.pdf)
+- [Dokumentationsbogen/Case Report Form 1.1](vct-or-mc_crf-1.1.pdf)
 
 ## Studienleitung
 
