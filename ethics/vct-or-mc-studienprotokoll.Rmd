@@ -46,6 +46,7 @@ output:
 - Art des Atemwegs als sekundäres Zielkriterium.
 - Abhängigkeit von der laparoskopischen Operationsmethode als sekundäres
   Zielkriterium.
+- Entfernung des Beispiel-CRF.
 
 # Verantwortlichkeiten und Kooperationen
 
@@ -198,26 +199,7 @@ dem Set der Studienflaschen gehört, maximal befüllt.
 
 Das Set der markierten Sevofluranflaschen verbleibt in dem OP-Saal.
 
-In jeder Narkose wird folgender Dokumentationsbogen ausgefüllt bzw. fortgeführt.
-
-+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| **VCT-OR-MC**, Studienleitung: Sebastian Gibb, Telefon: 03834 86-5801, E-Mail: sebastian.gibb\@med.uni-greifswald.de, Fax: 03834 86-5802                                           |
-+-------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------+
-| Studienzentrum: VCT-OR-MC-HGW | OP: Saal 1                                                                                                                                         |
-+-------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------+
-Table: Dokumentationsbogen mit beispielhaften Einträgen.
-
-+-----------------+-------------------------+------------------------+------------+--------+-------+---------------------+-----------------------+-----------------+
-| CONTRAfluran ID | CONTRAfluran Filter Nr. | Sevofluran Flasche Nr. | Datum      | Beginn | Ende  | Inhalative Narkose? | Mittlerer FGF (l/min) | Kommentar       |
-+=================+=========================+========================+============+========+=======+=====================+=======================+=================+
-| CH0100012080    | 1                       |  1                     | 01.06.2024 | 08:00  | 09:30 | ja                  | 0.5                   |                 |
-+-----------------+-------------------------+------------------------+------------+--------+-------+---------------------+-----------------------+-----------------+
-| CH0100012080    | 1                       |  1                     | 01.06.2024 | 9:30   | 11:00 | nein                | 0.5                   |                 |
-+-----------------+-------------------------+------------------------+------------+--------+-------+---------------------+-----------------------+-----------------+
-| ...             | ...                     |  ...                   | ...        | ...    | ...   | ...                 | ...                   |                 |
-+-----------------+-------------------------+------------------------+------------+--------+-------+---------------------+-----------------------+-----------------+
-| CH0100012080    | 1                       |  2                     | 10.06.2024 | 08:00  | 10:25 | ja                  | 0.5                   | Flaschenwechsel |
-+-----------------+-------------------------+------------------------+------------+--------+-------+---------------------+-----------------------+-----------------+
+In jeder Narkose wird der Dokumentationsbogen (CRF) ausgefüllt bzw. fortgeführt.
 
 Der Vapor wird bis zum Verbrauch der letzten Studienflasche ausschließlich mit
 diesen Flaschen befüllt.
