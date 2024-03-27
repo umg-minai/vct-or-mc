@@ -4,7 +4,7 @@ subtitle: Studienprotokoll
 date: "`r format(Sys.Date(), '%d.%m.%Y')`"
 author: "Dr. med. Sebastian Gibb"
 cfg-acronym: VCT-OR-MC
-cfg-version: '1.0'
+cfg-version: '1.1'
 cfg-githash: "`r system('git rev-parse --short HEAD', intern = TRUE)`"
 bibliography: bibliography.bib
 output:
@@ -36,6 +36,16 @@ output:
 
 **Datum**                       `r .eval_meta(rmarkdown::metadata$date)`
 ----------------------------------------------------------------------------------
+
+# Änderungen gegenüber vorherigen Versionen
+
+## Version 1.1
+
+- Zeitpunkt zur Ermittelung des Frischgasfluss auf 15 min nach Öffnung des
+  Vapors definiert.
+- Art des Atemwegs als sekundäres Zielkriterium.
+- Abhängigkeit von der laparoskopischen Operationsmethode als sekundäres
+  Zielkriterium.
 
 # Verantwortlichkeiten und Kooperationen
 
@@ -118,6 +128,8 @@ Prospektive, multizentrische, internationale Beobachtungsstudie.
 
 - Abhängigkeit der Wiedergewinnungsrate von der Narkosedauer.
 - Abhängigkeit der Wiedergewinnungsrate vom Frischgasfluss.
+- Abhängigkeit der Wiedergewinnungsrate von der Atemwegssicherung.
+- Abhängigkeit der Wiedergewinnungsrate von laparoskopischen Operationsmethoden.
 
 # Methoden der Datenerhebung
 
@@ -129,6 +141,8 @@ Folgende zur Auswertung benötigten Daten werden im Beobachtungszeitraum erfasst
 - Mediane Narkosedauer je OP und Zentrum.
 - Rückgewonnene Menge an Sevofluran durch die Firma ZeoSys Medical GmbH.
 - Eingesetztes Narkosegerät (Hersteller, Herstellungsjahr, Typ).
+- Art der Atemwegssicherung (Larynxmaske oder Tubus).
+- Art der OP (laparoskopisch/nicht laparoskopisch).
 
 Es findet keine Erhebung personenbezogener Daten statt.
 
@@ -277,6 +291,9 @@ je Gruppe verglichen.
 Eine induktive Statistik/ein Hypothesentest kann bei vier Gruppen mit je nur
 einer Beobachtung (Menge an wiedergewonnenem Sevofluran) nicht durchgeführt werden.
 
+In Abhängigkeit von der Anzahl gewonnener Filter wird geprüft, ob für die Art
+des Atemweges oder Laparoskopien vergleichbare Gruppen gebildet werden können.
+
 ## Limitationen
 
 Um möglichst geringe Anforderungen an die Zentren zu stellen, um vielen Zentren
@@ -332,8 +349,9 @@ Wenn die Patient\*innen und das Kreisteil aufgesättigt sind, kann der
 Frischgasfluss reduziert werden.
 Hier können Leckagen, operationsbedingte Manipulationen am
 Thorax/Zwerchfell/Atemweg zur temporären Erhöhung des Frischgasflusses führen.
-Nichtsdestotrotz gibt es in der Regel ein Steady-State in dem wir den
-Frischgasfluss erfassen wollen und somit als Surrogatparameter für die Effizienz
+Nichtsdestotrotz gibt es in der Regel nach der Einleitungsphase, die nach 15 min
+abgeschlossen sein sollte, ein Steady-State in dem wir den Frischgasfluss
+erfassen wollen und somit als Surrogatparameter für die Effizienz
 der Narkoseführung nehmen.
 
 # Patienten/Probandensicherheit
