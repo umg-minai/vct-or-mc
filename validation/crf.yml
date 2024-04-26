@@ -1,0 +1,16 @@
+---
+options:
+  raise: none
+include:
+  - rules/center.id.R
+  - rules/or.id.R
+  - rules/agc.id.R
+  - rules/agc.number.R
+  - rules/bottle.number.R
+  - rules/date.R
+  - rules/startend.R
+  - rules/balanced.anaesthesia.R
+  - rules/flow.R
+  - rules/airway.R
+  - rules/laparascopic.R
+---

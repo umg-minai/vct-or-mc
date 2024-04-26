@@ -1,0 +1,7 @@
+---
+options:
+  raise: none
+include:
+  - rules/center.id.R
+  - rules/or.id.R
+---
