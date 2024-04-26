@@ -6,6 +6,10 @@
 
 ab 01.06.2024, ca. 10 - 20 Wochen
 
+### Registrierung
+
+https://doi.org/10.17605/OSF.IO/5BMJ8
+
 ### Hintergrund
 
 Volatile Anästhetika sind Fluor(chlor)kohlenwasserstoffe (F(C)KW) und verstärken

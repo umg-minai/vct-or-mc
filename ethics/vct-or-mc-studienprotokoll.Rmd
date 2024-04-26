@@ -30,6 +30,8 @@ output:
                                 sowie der Wiedergewinnung von im OP verwendetem
                                 Sevofluran.
 
+**Registrierung**               https://doi.org/10.17605/OSF.IO/5BMJ8
+
 **Studienzeitraum**             ab 01.06.2024 ca. 10 - 20 Wochen
 
 **Version**                     `r paste(rmarkdown::metadata[["cfg-version"]], .eval_meta(rmarkdown::metadata[["cfg-githash"]]), sep = "_")`
