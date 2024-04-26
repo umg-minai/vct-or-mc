@@ -4,7 +4,7 @@ subtitle: Studienprotokoll
 date: "`r format(Sys.Date(), '%d.%m.%Y')`"
 author: "Dr. med. Sebastian Gibb"
 cfg-acronym: VCT-OR-MC
-cfg-version: '1.1'
+cfg-version: '1.1.1'
 cfg-githash: "`r system('git rev-parse --short HEAD', intern = TRUE)`"
 bibliography: bibliography.bib
 output:
@@ -40,6 +40,11 @@ output:
 ----------------------------------------------------------------------------------
 
 # Änderungen gegenüber vorherigen Versionen
+
+## Version 1.1.1
+
+- Aktualisierung Zentren und Ansprechpartner
+- Registrierung
 
 ## Version 1.1
 
