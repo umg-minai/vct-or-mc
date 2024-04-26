@@ -1,0 +1,45 @@
+---
+title: Studienfortschritt
+---
+
+
+# Übersicht über den Fortschritt der teilnehmenden OPs
+
+
+```{r, results = "asis", echo = FALSE}
+frf <- function(...)
+    rprojroot::find_root_file(..., criterion = ".editorconfig", path = ".")
+
+setting <- read.csv(frf("raw-data", "setting.csv"))
+
+crf <- read.csv(frf("raw-data", "crf.csv"))
+
+or <- sprintf("%02.f-%02.f", setting$center.id, setting$or.id)
+crf$or <- sprintf("%02.f-%02.f", crf$center.id, crf$or.id)
+
+progress <- vector(mode = "list", length = length(or))
+names(progress) <- or
+progress[or] <- 0
+
+progress[crf[["or"]]] <- tapply(
+    crf$bottle.number, crf[["or"]],
+    \(x)max(c(0, (x - 0.5) * 10), na.rm = TRUE)
+)
+
+for (o in or) {
+    cat(
+        '<div class = "row">',
+        '<div class = "col-md-2">',
+        o,
+        '</div>',
+        '<div class = "col-md-10">',
+        '<div class="progress">',
+        '<div class="progress-bar" role="progressbar" style="width: ', progress[[o]], '%;" aria-valuenow="', progress[[o]], '" aria-valuemin="0" aria-valuemax="100"></div>',
+        '</div>',
+        '</div>',
+        '</div>',
+        sep = ""
+    )
+}
+```
+

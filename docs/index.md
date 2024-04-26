@@ -2,6 +2,10 @@
 
 ## Über die Studie
 
+### Fortschritt
+
+[Übersicht über den Fortschritt der teilnehmenden OPs](progress.html)
+
 ### Geplanter Start und Laufzeit
 
 ab 01.06.2024, ca. 10 - 20 Wochen
