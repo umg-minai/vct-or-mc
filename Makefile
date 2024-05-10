@@ -4,6 +4,7 @@ GUIXTM:=${GUIX} time-machine --channels=guix/channels.pinned.scm -- \
 RAWDATA:=raw-data
 
 CRF=$(wildcard $(RAWDATA)/crf.csv)
+SETTING=$(RAWDATA)/setting.csv
 
 DATE=$(shell date +'%Y%m%d')
 GITHEAD=$(shell git rev-parse --short HEAD)
@@ -14,7 +15,7 @@ GITHEADL=$(shell git rev-parse HEAD)
 
 progress: docs/progress.html
 
-docs/progress.html: docs/progress.Rmd $(CRF)
+docs/progress.html: docs/progress.Rmd $(CRF) $(SETTING)
 	${GUIXTM} -- \
 		Rscript -e "rmarkdown::render('docs/progress.Rmd', output_dir = 'docs')"
 
