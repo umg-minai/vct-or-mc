@@ -2,6 +2,7 @@
 title: Studienfortschritt
 ---
 
+[Studienübersicht](index.html)
 
 # Übersicht über den Fortschritt der teilnehmenden OPs
 
