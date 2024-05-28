@@ -270,7 +270,7 @@ folgenden zwei Untergruppen gebildet:
 
 Wir behalten uns vor, den Grenzwert für die Narkosedauer von 1 Stunde zu
 Gunsten von ähnlichen Gruppengrößen anzupassen.
-Eine Anpassung des Grenzwertes für den Frischgasfluss ist nicht vorgesehen.
+Gleiches gilt für den Grenzwert des Frischgasflusses.
 
 Die Zuordnung der CONTRAfluran-Filter zu den jeweiligen Gruppen durch die
 Studienleitung wird an ZeoSys geschickt.
@@ -287,6 +287,8 @@ einer Beobachtung (Menge an wiedergewonnenem Sevofluran) nicht durchgeführt wer
 
 In Abhängigkeit von der Anzahl gewonnener Filter wird geprüft, ob für die Art
 des Atemweges oder Laparoskopien vergleichbare Gruppen gebildet werden können.
+Dazu muss der jeweilige Faktor für mehr als 50 % der Gesamtnarkosezeit des
+Filters vorgelegen haben.
 
 ## Limitationen
 
@@ -322,6 +324,18 @@ vor und nach jedem Nachfüllvorgang wiegen.
 Dadurch würde der Studienablauf an vielen Zentren deutlich komplizierter werden und auch,
 wenn solche Meßbereiche durch einfachere Waagen erfasst werden können, sind
 diese nicht an jedem Zentrum vorhanden.
+
+Der Vapor verliert laut Handbuch bis zu 0,5 ml (0,75 g) Sevofluran pro Tag.
+
+Die verwendeten CO~2~-Absorber werden je Zentrum unterschiedlich sein.
+Der häufig verwendete Dräger CLIC-Absorber 800+ hat ein Volumen von 1200 ml.
+Das genaue Gasvolumen ist uns unbekannt (1200 ml abzüglich des sehr porösen
+Kalks).
+Bei einem MAC von 2% erwarten wir einen Verlust von 0,2 g Sevofluran je Wechsel
+((1200 [ml] * 0.02) / 22400 [ml/mol] * 200 [g/mol]).
+Je nach Operation (laparoskopisch/nicht laparoskopisch) und genutztem
+Frischgasfluss hält ein CO~2~-Absorber mehrere Tage, so dass wir den Verlust als
+vernachlässigbar ansehen.
 
 ### Limitationen bei der Wiedergewinnung von Sevofluran
 
