@@ -128,7 +128,7 @@ Die Effizienz der Wiedergewinnung ist in Simulationen vom Frischgasfluss und von
 In der noch laufenden Studie "VCT-OR: Prospektive Beobachtungsstudie zur Bestimmung der Effizienz von Aktivkohlefiltern sowie der Wiedergewinnung von Sevofluran im OP" (BB 102/23, 08.08.2023) haben wir an zwei Narkosegeräten vorläufige Auffangraten anhand der Gewichtzunahmen der CONTRAfluran-Filter von ca. 40 und 75% ermittelt [@vctordata].
 Die unterschiedlichen Einleitungen sowie Länge der Narkosen, die an beiden Geräten durchgeführt werden, unterstützen die Hypothese der Simulationen.
 
-Praxisnahme Daten zur Effizienz von CONTRAfluran für Sevofluran, dem klimafreundlichsten (trotz 140 CO~2~-Äquivalenten [@Nielsen2024]) volatilem Anästhetikum, sowie dessen Abhängigkeit vom Frischgasfluss und der Narkosedauer ist von entscheidender Bedeutung für die Beurteilung dieser Methode und für die Bereitschaft sie einzusetzen.
+Praxisnahe Daten zur Effizienz von CONTRAfluran für Sevofluran, dem klimafreundlichsten (trotz 140 CO~2~-Äquivalenten [@Nielsen2024]) volatilem Anästhetikum, sowie dessen Abhängigkeit vom Frischgasfluss und der Narkosedauer sind von entscheidender Bedeutung für die Beurteilung dieser Methode und für die Bereitschaft sie einzusetzen.
 
 # Fragestellung / Arbeitshypothese
 
