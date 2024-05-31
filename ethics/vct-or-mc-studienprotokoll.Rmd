@@ -102,8 +102,7 @@ Zeppelinstraße 11 - 33\
 - Dr. med. Ernst Trampitsch, Abteilung für Anästhesie und Intensivmedizin, Landeskrankenhaus Villach, Österreich
 - Dr. med. Reinhard Germann, Abteilung für Anästhesie und Intensivbehandlung, Landeskrankenhaus Feldkirch, Österreich
 - Dr. med. Katja Nickel, Abteilung für Anästhesiologie und Intensivmedizin, Medizinische Hochschule Hannover, Deutschland
-- Dr. med. Jan Jedlicka, Klinik für Anästhesiologie, LMU Klinikum, Deutschland,
-  Deutschland
+- Dr. med. Jan Jedlicka, Klinik für Anästhesiologie, LMU Klinikum, München, Deutschland
 - Dr. med. Linda Grüßer, Klinik für Anästhesiologie, Uniklinik RWTH Aachen,
   Deutschland
 - Dr. med. Gebhard Fröba, Zentrum für Anästhesie, Klinikum Ernst von Bergmann gemeinnützige GmbH Potsdam, Deutschland
