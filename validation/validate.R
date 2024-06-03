@@ -34,31 +34,51 @@ validate <- function(csv, yml, verbose = TRUE) {
 
     failing <- which(smr$fails > 0)
 
-    if (length(failing)) {
-        cat("\n")
+    if (verbose) {
+        if (length(failing)) {
+            cat("\n")
 
-        print(smr)
+            print(smr)
 
-        cat("---\n")
+            cat("---\n")
 
-        print(vld[failing])
+            print(vld[failing])
 
-        cat("\n")
+            cat("\n")
 
-        print(violating(dat, vld[failing]))
-    } else {
-        cat(", ", nrow(dat), " rows: OK\n", sep = "")
+            print(violating(dat, vld[failing]))
+        } else {
+            cat(", ", nrow(dat), " rows: OK\n", sep = "")
+        }
     }
 
     invisible(cfr)
 }
 
-validate(
-    csv = frf("raw-data", "setting.csv"),
-    yml = frf("validation", "setting.yml")
-)
+validate_all <- function(plot = FALSE, verbose = TRUE) {
+    cfr <- validate(
+        csv = frf("raw-data", "setting.csv"),
+        yml = frf("validation", "setting.yml"),
+        verbose = verbose
+    )
 
-validate(
-    csv = frf("raw-data", "crf.csv"),
-    yml = frf("validation", "crf.yml")
-)
+    if (plot) {
+        cat("\n\n## settings\n\n")
+        plot(cfr)
+    }
+
+    csvs <- list.files(
+        frf("raw-data", "crfs"),
+        pattern = "*\\.csv",
+        full.names = TRUE
+    )
+    yml <- frf("validation", "crf.yml")
+
+    for (csv in csvs) {
+        cfr <- validate(csv = csv, yml = yml, verbose = verbose)
+        if (plot) {
+            cat("\n\n## ", basename(tools::file_path_sans_ext(csv)),"\n\n")
+            plot(cfr)
+        }
+    }
+}

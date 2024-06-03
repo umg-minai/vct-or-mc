@@ -13,11 +13,15 @@ GITHEADL=$(shell git rev-parse HEAD)
 .DELETE_ON_ERROR:
 
 
-progress: docs/progress.html
+progress: docs/progress.html docs/validate.html
 
 docs/progress.html: docs/progress.Rmd $(CRF) $(SETTING)
 	${GUIXTM} -- \
 		Rscript -e "rmarkdown::render('docs/progress.Rmd', output_dir = 'docs')"
+
+docs/validate.html: docs/validate.Rmd $(CRF) $(SETTING)
+	${GUIXTM} -- \
+		Rscript -e "rmarkdown::render('docs/validate.Rmd', output_dir = 'docs')"
 
 .PHONEY: validate
 validate: validate-crf
@@ -25,7 +29,7 @@ validate: validate-crf
 validate-crf: $(CRF)
 	${GUIX} time-machine --channels=guix/channels.pinned.scm -- \
 		shell --manifest=guix/manifest.scm -- \
-		Rscript validation/validate.R
+		Rscript -e "source('validation/validate.R'); validate_all()"
 
 ## pinning guix channels to latest commits
 .PHONEY: guix-pin-channels
