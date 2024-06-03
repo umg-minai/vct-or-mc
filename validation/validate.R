@@ -8,12 +8,24 @@ shorten <- function(x, maxn = 80) {
     ifelse(nchar(x) > maxn, paste(substring(x, 1, maxn - 3), "..."), x)
 }
 
-validate <- function(csv, yml) {
-    cat("\n===\n", basename(csv), sep = "")
+rename_rules <- function(x) {
+    rls <- x$rules
+    org <- basename(tools::file_path_sans_ext(sapply(rls, origin)))
+    org[order(org)] <- unlist(
+        tapply(org, org, \(x)sprintf("%s:%02i", x, seq_along(x)))
+    )
+    for (i in seq_along(x$rules))
+        names(x$rules[[i]]) <- org[i]
+    x
+}
+
+validate <- function(csv, yml, verbose = TRUE) {
+    if (verbose)
+        cat("\n===\n", basename(csv), sep = "")
 
     dat  <- read.csv(csv, comment.char = "#", tryLogical = FALSE)
 
-    vld <- validator(.file = yml)
+    vld <- rename_rules(validator(.file = yml))
     cfr <- confront(dat, vld)
     smr <- summary(cfr)
 
