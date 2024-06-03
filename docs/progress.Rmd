@@ -2,7 +2,8 @@
 title: Studienfortschritt
 ---
 
-[Studienübersicht](index.html)
+- [Studienübersicht](index.html)
+- [Übersicht Datenvalidierung](validate.html)
 
 # Übersicht über den Fortschritt der teilnehmenden OPs
 
