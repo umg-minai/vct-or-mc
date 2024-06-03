@@ -13,7 +13,17 @@ frf <- function(...)
 
 setting <- read.csv(frf("raw-data", "setting.csv"))
 
-crf <- read.csv(frf("raw-data", "crf.csv"))
+crf <- do.call(
+    rbind,
+    lapply(
+        list.files(
+            frf("raw-data", "crfs"),
+            pattern = "*\\.csv",
+            full.names = TRUE
+            ),
+        read.csv
+    )
+)
 
 or <- sprintf("%02.f-%02.f", setting$center.id, setting$or.id)
 crf$or <- sprintf("%02.f-%02.f", crf$center.id, crf$or.id)

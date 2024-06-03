@@ -3,7 +3,7 @@ GUIXTM:=${GUIX} time-machine --channels=guix/channels.pinned.scm -- \
 		shell --manifest=guix/manifest.scm
 RAWDATA:=raw-data
 
-CRF=$(wildcard $(RAWDATA)/crf.csv)
+CRF=$(wildcard $(RAWDATA)/crfs/*.csv)
 SETTING=$(RAWDATA)/setting.csv
 
 DATE=$(shell date +'%Y%m%d')
