@@ -1,3 +1,3 @@
 is.numeric(or.id)
 
-or.id > 0L
+in_range(or.id, 1, 6)

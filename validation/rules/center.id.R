@@ -1,3 +1,3 @@
 is.numeric(center.id)
 
-center.id > 0L
+in_range(center.id, 1, 11)
