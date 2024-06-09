@@ -1,3 +1,0 @@
-center.id,or.id,agc.id,agc.number,bottle.number,date,start,end,balanced.anaesthesia,flow,airway,laparoscopic,comments
-1,1,CH1000123456,1,1,2024-06-03,07:00:00,08:00:00,1,0.2,L,1,
-0,1,CH1000123456,1,1,2024-06-03,07:00:00,08:00:00,1,0.2,F,1,
