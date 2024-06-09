@@ -31,6 +31,11 @@ validate-crf: $(CRF)
 		shell --manifest=guix/manifest.scm -- \
 		Rscript -e "source('validation/validate.R'); validate_all()"
 
+.PHONEY:
+shell:
+	${GUIX} time-machine --channels=guix/channels.pinned.scm -- \
+		shell --manifest=guix/manifest.scm
+
 ## pinning guix channels to latest commits
 .PHONEY: guix-pin-channels
 guix-pin-channels: guix/channels.pinned.scm
