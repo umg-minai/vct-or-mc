@@ -10,4 +10,4 @@ field_length(end, 8)
 
 field_format(end, "[0-2][0-9]:[0-5][0-9]:00", type = "regex")
 
-as.POSIXct(paste(date, start)) < as.POSIXct(paste(date, end))
+lubridate::ymd_hms(paste(date, start)) < lubridate::ymd_hms(paste(date, end))
