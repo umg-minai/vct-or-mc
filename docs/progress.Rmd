@@ -5,10 +5,9 @@ title: Studienfortschritt
 - [Studienübersicht](index.html)
 - [Übersicht Datenvalidierung](validate.html)
 
-# Übersicht über den Fortschritt der teilnehmenden OPs
+# Gesamtübersicht
 
-
-```{r, results = "asis", echo = FALSE}
+```{r import, echo = FALSE}
 frf <- function(...)
     rprojroot::find_root_file(..., criterion = ".editorconfig", path = ".")
 
@@ -26,6 +25,30 @@ crf <- do.call(
     )
 )
 
+ncenters <- length(unique(crf$center.id))
+nors <- nrow(unique(crf[, c("center.id", "or.id")]))
+nagcs <- length(unique(crf$agc.id))
+nbottles <- nrow(unique(crf[, c("center.id", "or.id", "bottle.number")]))
+
+knitr::kable(
+    c(
+        Centers = ncenters,
+        ORs = nors,
+        AGCs = nagcs,
+        Flaschen = nbottles
+    ),
+    col.names = c("N"),
+    caption =
+        paste0("Gesamtübersicht. ",
+               "AGCs, CONTRAfluran-Filter; ",
+               "Flaschen, Sevofluranflaschen; ORs, OP-Säle."
+        )
+)
+```
+
+# Übersicht über den Fortschritt der teilnehmenden OPs
+
+```{r progess, results = "asis", echo = FALSE}
 or <- sprintf("%02.f-%02.f", setting$center.id, setting$or.id)
 crf$or <- sprintf("%02.f-%02.f", crf$center.id, crf$or.id)
 
