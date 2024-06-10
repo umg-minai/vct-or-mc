@@ -1,3 +1,3 @@
 is.character(airway)
 
-airway %vin% c("T", "L")
+airway %in% c("T", "L", NA)
