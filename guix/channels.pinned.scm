@@ -3,7 +3,12 @@
         (url "https://github.com/umg-minai/guix-minai.git")
         (branch "main")
         (commit
-          "ded7ed5bd64b5bf84708441d42ef494c058862e7"))
+          "7bbe2397cacdbfe9b45cff6e29300f06b6a73514")
+        (introduction
+          (make-channel-introduction
+            "4e47c0f12cf838335bf731b1947ea434923569e3"
+            (openpgp-fingerprint
+              "7EAB 7082 91D9 28E5 4387  47A7 F9F3 CB1B 50FB 607A"))))
       (channel
         (name 'guix)
         (url "https://git.savannah.gnu.org/git/guix.git")
