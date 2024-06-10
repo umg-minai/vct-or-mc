@@ -31,6 +31,12 @@ validate-crf: $(CRF)
 		shell --manifest=guix/manifest.scm -- \
 		Rscript -e "source('validation/validate.R'); validate_all()"
 
+.PHONEY: generate-umg-crfs
+generate-umg-crfs:
+	${GUIX} time-machine --channels=guix/channels.pinned.scm -- \
+		shell --manifest=guix/manifest.scm -- \
+		Rscript -e "source('raw-data/04-umg/create-umg-crfs.R')"
+
 .PHONEY:
 shell:
 	${GUIX} time-machine --channels=guix/channels.pinned.scm -- \
