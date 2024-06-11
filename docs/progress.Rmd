@@ -7,7 +7,9 @@ title: Studienfortschritt
 
 # Gesamtübersicht
 
-```{r import, echo = FALSE}
+```{r import, echo = FALSE, messages = FALSE}
+library("lubridate")
+
 frf <- function(...)
     rprojroot::find_root_file(..., criterion = ".editorconfig", path = ".")
 
@@ -21,7 +23,7 @@ crf <- do.call(
             pattern = "*\\.csv",
             full.names = TRUE
             ),
-        read.csv
+        function(x)read.csv(x, tryLogical = FALSE)
     )
 )
 
@@ -32,19 +34,69 @@ nbottles <- nrow(unique(crf[, c("center.id", "or.id", "bottle.number")]))
 
 knitr::kable(
     c(
-        Centers = ncenters,
-        ORs = nors,
-        AGCs = nagcs,
-        Flaschen = nbottles
+        `Aktive Zentren` = ncenters,
+        `Teilnehmende OP-Säle` = nors,
+        `CONTRAfluran-Filter` = nagcs,
+        `Begonnene Sevofluranflaschen` = nbottles
     ),
     col.names = c("N"),
     caption =
-        paste0("Gesamtübersicht. ",
-               "AGCs, CONTRAfluran-Filter; ",
-               "Flaschen, Sevofluranflaschen; ORs, OP-Säle."
-        )
+        paste0("Gesamtübersicht. ")
 )
 ```
+
+# Übersicht über CONTRAfluran-Filter
+
+```{r agc-characteristics, echo = FALSE}
+#kable AGC, median time, median flow, module L/T, module lapar
+
+#' @param x `data.frame`, crf, for one AGC
+agcchar <- function(x) {
+    d <- as.double(ymd_hms(x$end) - ymd_hms(x$start), units = "mins")
+    a <- ifelse(x$airway == "L", 0, 1)
+    c(
+        median.duration = median(d, na.rm = TRUE),
+        mean.flow = weighted.mean(x$flow, d, na.rm = TRUE),
+        mean.balanced.anaesthesia = weighted.mean(
+            x$balanced.anaesthesia, d, na.rm = TRUE
+        ),
+        mean.airway = weighted.mean(a, d, na.rm = TRUE),
+        mean.laparoscopic = weighted.mean(x$laparoscopic, d, na.rm = TRUE)
+    )
+}
+
+agcs <- as.data.frame(
+    t(do.call(cbind, tapply(crf, crf$agc.id, agcchar)))
+)
+
+knitr::kable(
+    agcs,
+    col.names = c(
+        "Mediane Dauer", "Mittlerer Frischgasfluss",
+        "Anteil balanc. Anästhesien", "Anteil Tubus",
+        "Anteil Laparoskopien"
+    ),
+    digits = 2
+)
+```
+
+```{r plot-agc, echo = FALSE, fig.cap = "Mediane Narkosedauer ggü. mittlerem Frischgasfluss je CONTRAfluran-Filter"}
+old.par <- par(no.readonly = TRUE)
+on.exit(par(old.par))
+
+plot(NA,
+    xlim = c(0, max(agcs$median.duration, na.rm = TRUE)),
+    ylim = c(0, max(agcs$mean.flow, na.rm = TRUE)),
+    axes = FALSE, xlab = "", ylab = ""
+)
+points(agcs$median.duration, agcs$mean.flow, pch = 19)
+#title(main = "", col.main = "#808080", adj = 0L)
+title(xlab = "MEDIANE ANÄSTHESIEDAUER [min]", adj = 0L, col.lab = "#808080")
+title(ylab = "MITTLERER FRISCHGASFLUS [l/min]", adj = 1L, col.lab = "#808080")
+axis(1L, col = "#808080", col.axis = "#808080", lwd.ticks = 0)
+axis(2L, col = "#808080", col.axis = "#808080", lwd.ticks = 0, las = 2)
+```
+
 
 # Übersicht über den Fortschritt der teilnehmenden OPs
 
