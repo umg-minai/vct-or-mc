@@ -92,7 +92,7 @@ plot(NA,
     ylim = c(0, max(agcs$mean.flow, na.rm = TRUE)),
     axes = FALSE, xlab = "", ylab = ""
 )
-points(agcs$median.duration, agcs$mean.flow, pch = 19)
+points(agcs$median.duration, agcs$mean.flow, pch = 16, col = "#44015460")
 title(main = "Mediane Anästhesiedauer vs mittlerem Frischgasfluss je CONTRAfluran-Filter", col.main = "#808080", adj = 0L, cex.main = 0.9)
 title(xlab = "MEDIANE ANÄSTHESIEDAUER [min]", adj = 0L, col.lab = "#808080")
 title(ylab = "MITTLERER FRISCHGASFLUSS [l/min]", adj = 1L, col.lab = "#808080")
