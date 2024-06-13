@@ -103,12 +103,13 @@ axis(2L, col = "#808080", col.axis = "#808080", lwd.ticks = 0, las = 2)
 ```{r progess, results = "asis", echo = FALSE}
 or <- sprintf("%02.f-%02.f", setting$center.id, setting$or.id)
 crf$or <- sprintf("%02.f-%02.f", crf$center.id, crf$or.id)
+uor <- sort(unique(crf[["or"]]))
 
 progress <- vector(mode = "list", length = length(or))
 names(progress) <- or
 progress[or] <- 0
 
-progress[crf[["or"]]] <- tapply(
+progress[uor] <- tapply(
     crf$bottle.number, crf[["or"]],
     \(x)max(c(0, (x - 0.5) * 10), na.rm = TRUE)
 )
