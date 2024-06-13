@@ -1,5 +1,7 @@
 library("validate")
 
+options(warn = 1)
+
 frf <- function(...)
     rprojroot::find_root_file(..., criterion = ".editorconfig", path = ".")
 
@@ -82,3 +84,4 @@ validate_all <- function(plot = FALSE, verbose = TRUE) {
         }
     }
 }
+
