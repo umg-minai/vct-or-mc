@@ -11,9 +11,9 @@ output:
 # Übersicht über die Validierung der Daten
 
 
-```{r, file = rprojroot::find_root_file('validation/validate.R', criterion = '.editorconfig', path = '.'), include = FALSE}
+```{r import, file = rprojroot::find_root_file('validation/validate.R', criterion = '.editorconfig', path = '.'), include = FALSE}
 ```
 
-```{r, echo = FALSE, error = FALSE, warning = FALSE, message = FALSE, results = "asis"}
+```{r validate-all, echo = FALSE, error = FALSE, warning = FALSE, message = FALSE, results = "asis"}
 validate_all(plot = TRUE, verbose = FALSE)
 ```
