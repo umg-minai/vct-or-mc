@@ -8,7 +8,7 @@ title: Studienfortschritt
 # Gesamtübersicht
 
 ```{r import, echo = FALSE, messages = FALSE}
-library("lubridate")
+suppressPackageStartupMessages(library("lubridate"))
 
 frf <- function(...)
     rprojroot::find_root_file(..., criterion = ".editorconfig", path = ".")
