@@ -31,13 +31,15 @@ ncenters <- length(unique(crf$center.id))
 nors <- nrow(unique(crf[, c("center.id", "or.id")]))
 nagcs <- length(unique(crf$agc.id))
 nbottles <- nrow(unique(crf[, c("center.id", "or.id", "bottle.number")]))
+ncases <- nrow(crf)
 
 knitr::kable(
     c(
         `Aktive Zentren` = ncenters,
         `Teilnehmende OP-Säle` = nors,
         `CONTRAfluran-Filter` = nagcs,
-        `Begonnene Sevofluranflaschen` = nbottles
+        `Begonnene Sevofluranflaschen` = nbottles,
+        `Anzahl Anästhesien` = ncases
     ),
     col.names = c("N"),
     caption =
@@ -61,7 +63,8 @@ agcchar <- function(x) {
             x$balanced.anaesthesia, d, na.rm = TRUE
         ),
         mean.airway = weighted.mean(a, d, na.rm = TRUE),
-        mean.laparoscopic = weighted.mean(x$laparoscopic, d, na.rm = TRUE)
+        mean.laparoscopic = weighted.mean(x$laparoscopic, d, na.rm = TRUE),
+        ncases = nrow(x)
     )
 }
 
@@ -74,7 +77,7 @@ knitr::kable(
     col.names = c(
         "Mediane Dauer", "Mittlerer Frischgasfluss",
         "Anteil balanc. Anästhesien", "Anteil Tubus",
-        "Anteil Laparoskopien"
+        "Anteil Laparoskopien", "Anzahl Anästhesien"
     ),
     digits = 2
 )
