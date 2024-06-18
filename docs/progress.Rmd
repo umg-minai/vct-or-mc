@@ -92,12 +92,32 @@ plot(NA,
     ylim = c(0, max(agcs$mean.flow, na.rm = TRUE)),
     axes = FALSE, xlab = "", ylab = ""
 )
-points(agcs$median.duration, agcs$mean.flow, pch = 16, col = "#44015460")
+points(
+    agcs$median.duration, agcs$mean.flow,
+    pch = ifelse(agcs$mean.airway > 0.5, 16, 17),
+    col = ifelse(agcs$mean.laparoscopic > 0.5, "#21908CF0", "#440154F0")
+)
 title(main = "Mediane Anästhesiedauer vs mittlerem Frischgasfluss je CONTRAfluran-Filter", col.main = "#808080", adj = 0L, cex.main = 0.9)
 title(xlab = "MEDIANE ANÄSTHESIEDAUER [min]", adj = 0L, col.lab = "#808080")
 title(ylab = "MITTLERER FRISCHGASFLUSS [l/min]", adj = 1L, col.lab = "#808080")
 axis(1L, col = "#808080", col.axis = "#808080", lwd.ticks = 0)
 axis(2L, col = "#808080", col.axis = "#808080", lwd.ticks = 0, las = 2)
+legend(
+    "topright",
+    legend = c(
+        "nicht-laparoskopisch", "laparoskopisch",
+        "Tubus", "Larynxmaske"
+    ),
+    col = c(
+        "#440154F0", "#21908CF0",
+        "#808080", "#808080"
+    ),
+    pch = c(
+        15, 15,
+        16, 17
+    ),
+    bty = "n"
+)
 ```
 
 
