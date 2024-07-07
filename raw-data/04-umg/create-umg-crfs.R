@@ -48,15 +48,42 @@ create_crf <- function(id) {
     ## reintroduce CaseId
     logbooks <- add_anaesthesia_case_id(logbooks)
 
-    flow1 <- value_at(logbooks, "FGF", 15, "vaporizer-opening")
-    flow2 <- value_at(logbooks, "FGF", 15, "mechanical-ventilation")
-    flow3 <- value_at(logbooks, "FGF", 15, "start")
+    durations <- logbooks[, case_duration(.SD), by = CaseId]
+    setnames(durations, "V1", "Duration")
+
+    flow1.15 <- value_at(logbooks, "FGF", 15, "vaporizer-opening")
+    flow2.15 <- value_at(logbooks, "FGF", 15, "mechanical-ventilation")
+    flow3.15 <- value_at(logbooks, "FGF", 15, "start")
+
+    # Use 5 min for short cases
+    flow1.5 <- value_at(logbooks, "FGF", 5, "vaporizer-opening")
+    flow2.5 <- value_at(logbooks, "FGF", 5, "mechanical-ventilation")
+    flow3.5 <- value_at(logbooks, "FGF", 5, "start")
+
+    flow1 <- merge(flow1.15, flow1.5)
+    flow2 <- merge(flow2.15, flow2.5)
+    flow3 <- merge(flow3.15, flow3.5)
+    setnames(flow1, c("V1.x", "V1.y"), c("Flow15", "Flow5"))
+    setnames(flow2, c("V1.x", "V1.y"), c("Flow15", "Flow5"))
+    setnames(flow3, c("V1.x", "V1.y"), c("Flow15", "Flow5"))
+
+    flow1 <- merge(flow1, durations)
+    flow2 <- merge(flow2, durations)
+    flow3 <- merge(flow3, durations)
+
+    flow1 <- flow1[, Flow := fifelse(Duration < 30, Flow5, Flow15)]
+    flow2 <- flow2[, Flow := fifelse(Duration < 30, Flow5, Flow15)]
+    flow3 <- flow3[, Flow := fifelse(Duration < 30, Flow5, Flow15)]
+
     f <- merge(
-        merge(flow1, flow2, by = "CaseId", all = TRUE),
-        flow3,
+        merge(
+            flow1[, .(CaseId, Flow)], flow2[, .(CaseId, Flow)],
+            by = "CaseId", all = TRUE
+        ),
+        flow3[, .(CaseId, Flow)],
         by = "CaseId", all = TRUE
     )
-    setnames(f, c("V1.x", "V1.y", "V1"), c("flow1", "flow2", "flow3"))
+    setnames(f, c("Flow.x", "Flow.y", "Flow"), c("flow1", "flow2", "flow3"))
     f[, flow :=
         fifelse(!is.na(flow1), flow1, fifelse(!is.na(flow2), flow2, flow3))
     ]
