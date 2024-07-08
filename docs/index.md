@@ -85,12 +85,15 @@ Anteil an durch den Aktivkohlefilter gefilterten und wiedergewonnenem Sevofluran
 - [Studienprotokoll](vct-or-mc_studienprotokoll-1.2.pdf)
 - [Votum Ethikkommission](vct-or-mc_ethics_vote.pdf)
 - [Votum Ethikkommission Amendment](vct-or-mc_ethics_vote_a.pdf)
-- [Dokumentationsbogen/Case Report Form](vct-or-mc_crf-1.3.pdf)
+- [Dokumentationsbogen/Case Report Form](vct-or-mc_crf-1.4.pdf)
+- [Dokumentationsbogen/Case Report Form (english version)](vct-or-mc_crf-1.4-en.pdf)
 
 ältere Versionen:
 
 - [Studienprotokoll 1.1](vct-or-mc_studienprotokoll-1.1.pdf)
 - [Studienprotokoll 1.0](vct-or-mc_studienprotokoll-1.0.pdf)
+- [Dokumentationsbogen/Case Report Form 1.3](vct-or-mc_crf-1.3.pdf)
+- [Dokumentationsbogen/Case Report Form 1.3 (english version)](vct-or-mc_crf-1.3-en.pdf)
 - [Dokumentationsbogen/Case Report Form 1.2](vct-or-mc_crf-1.2.pdf)
 - [Dokumentationsbogen/Case Report Form 1.1](vct-or-mc_crf-1.1.pdf)
 
