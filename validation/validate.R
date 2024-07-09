@@ -49,7 +49,7 @@ validate <- function(csv, yml, verbose = TRUE) {
 
             cat("\n")
 
-            print(violating(dat, vld[failing]))
+            print(violating(dat, cfr[failing]))
         } else {
             cat(", ", nrow(dat), " rows: OK\n", sep = "")
         }
