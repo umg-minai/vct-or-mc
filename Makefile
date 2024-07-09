@@ -37,6 +37,12 @@ generate-umg-crfs:
 		shell --manifest=guix/manifest.scm -- \
 		Rscript -e "source('raw-data/04-umg/create-umg-crfs.R')"
 
+.PHONEY: export-agcs-for-zeosys
+export-agcs-for-zeosys:
+	${GUIX} time-machine --channels=guix/channels.pinned.scm -- \
+		shell --manifest=guix/manifest.scm r-writexl -- \
+		Rscript -e "source('raw-data/scripts/export-agcs-for-zeosys.R')"
+
 .PHONEY:
 shell:
 	${GUIX} time-machine --channels=guix/channels.pinned.scm -- \
