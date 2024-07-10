@@ -5,6 +5,8 @@ title: Studienfortschritt
 - [Studienübersicht](index.html)
 - [Übersicht Datenvalidierung](validate.html)
 
+Letzte Aktualisierung: `r format(Sys.time())`
+
 # Gesamtübersicht
 
 ```{r import, echo = FALSE, messages = FALSE}
