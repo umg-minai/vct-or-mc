@@ -3,7 +3,9 @@ options:
   raise: none
 include:
   - rules/center.id.R
+  - rules/crf.center.id.R
   - rules/or.id.R
+  - rules/crf.or.id.R
   - rules/agc.id.R
   - rules/agc.number.R
   - rules/bottle.number.R
