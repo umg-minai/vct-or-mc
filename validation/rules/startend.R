@@ -20,4 +20,6 @@ field_format(
 
 lubridate::ymd_hms(start) < lubridate::ymd_hms(end)
 
+lubridate::ymd_hms(start[-1]) >= lubridate::ymd_hms(end[-length(end)])
+
 lubridate::ymd_hms(start) > ymd_hms("2024-06-03 03:00:00")
