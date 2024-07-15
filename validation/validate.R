@@ -26,7 +26,9 @@ validate <- function(csv, yml, verbose = TRUE) {
         cat("\n===\n", basename(csv), sep = "")
 
     set <- read.csv(frf("raw-data", "setting.csv"))
-    dat  <- read.csv(csv, comment.char = "#", tryLogical = FALSE)
+    dat  <- read.csv(
+        csv, comment.char = "#", na.strings = c("NA", ""), tryLogical = FALSE
+    )
 
     vld <- rename_rules(validator(.file = yml))
     cfr <- confront(dat, vld, ref = list(ref_settings = set))
