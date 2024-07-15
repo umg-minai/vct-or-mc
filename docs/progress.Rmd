@@ -25,7 +25,9 @@ crf <- do.call(
             pattern = "*\\.csv",
             full.names = TRUE
             ),
-        function(x)read.csv(x, tryLogical = FALSE)
+        function(x)read.csv(
+            x, comment.char = "#", na.strings = c("NA", ""), tryLogical = FALSE
+        )
     )
 )
 
