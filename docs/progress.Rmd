@@ -55,11 +55,50 @@ knitr::kable(
 
 ```{r agc-characteristics, echo = FALSE}
 #kable AGC, median time, median flow, module L/T, module lapar
+#kable AGC, median time, median flow, module L/T, module lapar
 
 #' @param x `data.frame`, crf, for one AGC
 agcchar <- function(x) {
     d <- as.double(ymd_hms(x$end) - ymd_hms(x$start), units = "mins")
     a <- ifelse(x$airway == "L", 0, 1)
+
+    f <- expand.grid(
+        airway = c("L", "T"),
+        laparoscopic = 0:1,
+        balanced.anaesthesia = 0:1
+    )
+    dur <- apply(
+        f,
+        MARGIN = 1,
+        function(ff)sum(
+            d[
+                x$airway == ff[[1L]] & x$laparoscopic == ff[[2L]] &
+                x$balanced.anaesthesia == ff[[3L]]
+            ],
+            na.rm = TRUE
+        )
+    )
+    flow <- apply(
+        f,
+        MARGIN = 1,
+        function(ff)median(
+            x$flow[
+                x$airway == ff[[1L]] & x$laparoscopic == ff[[2L]] &
+                x$balanced.anaesthesia == ff[[3L]]
+            ],
+            na.rm = TRUE
+        )
+    )
+    nf <- paste(
+        ifelse(f[["airway"]] == "L", "lama", "tube"),
+        ifelse(f[["laparoscopic"]], "lap", "nonlap"),
+        ifelse(f[["balanced.anaesthesia"]], "inha", "tiva"),
+        sep = "."
+    )
+
+    names(dur) <- paste("sum", "dura", nf, sep = ".")
+    names(flow) <- paste("med", "flow", nf, sep = ".")
+
     c(
         median.duration = median(d, na.rm = TRUE),
         mean.flow = weighted.mean(x$flow, d, na.rm = TRUE),
@@ -68,6 +107,8 @@ agcchar <- function(x) {
         ),
         mean.airway = weighted.mean(a, d, na.rm = TRUE),
         mean.laparoscopic = weighted.mean(x$laparoscopic, d, na.rm = TRUE),
+        dur,
+        flow,
         ncases = nrow(x)
     )
 }
@@ -76,8 +117,47 @@ agcs <- as.data.frame(
     t(do.call(cbind, tapply(crf, crf$agc.id, agcchar)))
 )
 
+agcs$weight <- 400
+
+agcs[is.na(agcs)] <- 0
+
+mdl <- lm(weight ~ 0 +
+    sum.dura.lama.nonlap.tiva +
+    sum.dura.tube.nonlap.tiva +
+    sum.dura.tube.lap.tiva +
+    sum.dura.lama.nonlap.inha +
+    sum.dura.tube.nonlap.inha +
+    sum.dura.tube.lap.inha +
+    med.flow.lama.nonlap.tiva +
+    med.flow.tube.nonlap.tiva +
+    med.flow.tube.lap.tiva +
+    med.flow.lama.nonlap.inha +
+    med.flow.tube.nonlap.inha +
+    med.flow.tube.lap.inha,
+    data = agcs
+)
+
 knitr::kable(
-    agcs,
+    agcs[c(
+        "median.duration", "mean.flow", "mean.balanced.anaesthesia",
+        "mean.airway", "mean.laparoscopic", "ncases"
+    )],
+    col.names = c(
+        "Mediane Dauer", "Mittlerer Frischgasfluss",
+        "Anteil balanc. Anästhesien", "Anteil Tubus",
+        "Anteil Laparoskopien", "Anzahl Anästhesien"
+    ),
+    digits = 2
+)
+
+knitr::kable(coef(mdl))
+
+agcs <- as.data.frame(
+    t(do.call(cbind, tapply(crf, crf$agc.id, agcchar)))
+)
+
+knitr::kable(
+    agcs[1:5],
     col.names = c(
         "Mediane Dauer", "Mittlerer Frischgasfluss",
         "Anteil balanc. Anästhesien", "Anteil Tubus",
@@ -123,7 +203,6 @@ legend(
     bty = "n"
 )
 ```
-
 
 # Übersicht über den Fortschritt der teilnehmenden OPs
 
