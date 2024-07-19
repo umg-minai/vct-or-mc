@@ -28,6 +28,10 @@ ifelse(
 
 lubridate::ymd_hms(start) < lubridate::ymd_hms(end)
 
-lubridate::ymd_hms(start[-1]) >= lubridate::ymd_hms(end[-length(end)])
+c(TRUE,
+  lubridate::ymd_hms(start[-1]) >= lubridate::ymd_hms(end[-length(end)])
+) == TRUE ## needed to show validate that it returns a logical vector
 
-lubridate::ymd_hms(start) > ymd_hms("2024-06-03 03:00:00")
+c(TRUE,
+  lubridate::ymd_hms(start) > ymd_hms("2024-06-03 03:00:00")
+) == TRUE ## needed to show validate that it returns a logical vector
