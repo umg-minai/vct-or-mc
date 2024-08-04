@@ -64,7 +64,7 @@ progress[or] <- 0
 
 progress[uor] <- tapply(
     crf$bottle.number, crf[["or"]],
-    \(x)max(c(0, (x - 0.5) * 10), na.rm = TRUE)
+    \(x)max(c(0, (ifelse(x == 10, 10.5, x) - 0.5) * 10), na.rm = TRUE)
 )
 
 for (o in or) {
@@ -75,7 +75,12 @@ for (o in or) {
         '</div>',
         '<div class = "col-md-10">',
         '<div class="progress">',
-        '<div class="progress-bar" role="progressbar" style="width: ', progress[[o]], '%;" aria-valuenow="', progress[[o]], '" aria-valuemin="0" aria-valuemax="100"></div>',
+        if (progress[[o]] > 99) {
+            '<div class="progress-bar progress-bar-success"'
+        } else {
+            '<div class="progress-bar"'
+        },
+        ' role="progressbar" style="width: ', progress[[o]], '%;" aria-valuenow="', progress[[o]], '" aria-valuemin="0" aria-valuemax="100"></div>',
         '</div>',
         '</div>',
         '</div>',
