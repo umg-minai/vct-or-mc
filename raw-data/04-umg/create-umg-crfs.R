@@ -48,6 +48,16 @@ create_crf <- function(id) {
     ## reintroduce CaseId
     logbooks <- add_anaesthesia_case_id(logbooks)
 
+    start <- case_start(logbooks, "vaporizer-opening")
+    start <- ifelse(
+        !is.na(start), start,
+            case_start(logbooks, "mechanical-ventilation")
+    )
+    start <- as_datetime(ifelse(
+        !is.na(start), start,
+            case_start(logbooks, "start")
+    ))
+
     durations <- logbooks[, case_duration(.SD), by = CaseId]
     setnames(durations, "V1", "Duration")
 
@@ -96,7 +106,7 @@ create_crf <- function(id) {
 
     crf <- data.table(
         or.id = id,
-        start = case_start(logbooks),
+        start = start,
         end = case_end(logbooks),
         balanced.anaesthesia = as.integer(is_volatile_anesthesia(logbooks)),
         flow = f[, flow],
