@@ -44,6 +44,7 @@ output:
 ## Version 1.2.1
 
 - Limitationen: Volumen CLIC-Absorber korrigiert.
+- Kontakt Brugge korrigiert.
 
 ## Version 1.2
 
@@ -114,7 +115,7 @@ Zeppelinstraße 11 - 33\
   Deutschland
 - Dr. med. Marie-Luise Rübsam, Fachabteilung für Anästhesie, operative
   Intensivmedizin und Rettungsmedizin, St. Marienhospital Vechta, Deutschland
-- Dr. Harold Mulier, Departement anesthesie en reanimatie, AZ Sint-Jan Brugge,
+- Prof. Dr. Alain Kalmar, Departement anesthesie en reanimatie, AZ Sint-Jan Brugge,
   Niederlande
 
 # Wissenschaftlicher Hintergrund
