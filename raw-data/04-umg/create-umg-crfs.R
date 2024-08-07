@@ -99,7 +99,8 @@ create_crf <- function(id) {
     ]
     peep <- value_at(logbooks, "PEEP", 15, "mechanical-ventilation")
 
-    ## we often use a PEEP of 3 for LMA, has to be checked
+    ## we often use a PEEP of 3 for LMA, has to be checked/corrected by torin
+    ## export
     peep[, airway := fifelse(V1 <= 3, "L", "T")]
 
     f <- merge(f, peep[, .(CaseId, airway)], all = TRUE)
@@ -110,7 +111,7 @@ create_crf <- function(id) {
         end = case_end(logbooks),
         balanced.anaesthesia = as.integer(is_volatile_anesthesia(logbooks)),
         flow = f[, flow],
-        airway = f[, airway]
+        perseus.airway = f[, airway]
     )
 
     filters <- fread(frf(root, "contrafluran-filters", paste0(id_chr, ".csv")))
@@ -121,7 +122,7 @@ create_crf <- function(id) {
     crf <- crf[
         filters,
         .(or.id, agc.id, agc.number,
-          start, end, balanced.anaesthesia, flow, airway),
+          start, end, balanced.anaesthesia, flow, perseus.airway),
         on = .(or.id, crf.start >= agc.start, crf.end <= agc.end)
     ]
 
@@ -133,17 +134,83 @@ create_crf <- function(id) {
     crf <- crf[
         bottles,
         .(or.id, agc.id, agc.number, bottle.number,
-          start, end, balanced.anaesthesia, flow, airway),
+          start, end, balanced.anaesthesia, flow, perseus.airway),
         on = .(or.id, crf.start >= bottles.start, crf.end <= bottles.end)
     ]
+
+    torin <- fread(
+        frf(root, "torin", "export.csv"),
+        select = c(
+            "NARKOSE_BEGIN", "TEXT", "SCHNITTZEIT", "NAHTZEIT",
+            "Saal", "Anaesthesie_Verfahren"
+        ),
+        encoding = "Latin-1"
+    )
+    torin[, `:=` (
+        or.id = fcase(
+            Saal == "ZOP2-Saal 1", 1L,
+            Saal == "ZOP2-Saal 2", 2L,
+            Saal == "ZOP2-Saal 5", 3L,
+            Saal == "ZOP2-Saal 8", 4L,
+            Saal == "ZOP2-Saal 9", 5L,
+            Saal == "ZOP2-Saal 10", 6L,
+            default = NA_integer_
+        )
+    )]
+    torin <- torin[or.id == id & SCHNITTZEIT > ymd_hms("2024-06-03 00:00:00"),]
+    torin[, `:=` (
+        ## sometimes multiple operations are done in one anaesthesia, we don't
+        ## care about different operations and use first/last cut/suture time
+        SCHNITTZEIT = min(SCHNITTZEIT),
+        NAHTZEIT = max(NAHTZEIT),
+        airway = fcase(
+            any(grepl("Tracheotomie|Intubation", Anaesthesie_Verfahren)), "T",
+            any(grepl("Larynxmaske", Anaesthesie_Verfahren)), "L",
+            default = NA_character_
+        ),
+        laparoscopic = as.integer(
+            any(grepl("[Ll]aparoskopisch|[Tt]horakoskopisch", TEXT))
+        )
+    ), by = NARKOSE_BEGIN]
+    torin[, `:=` (
+        NARKOSE_BEGIN = NULL,
+        TEXT = NULL,
+        Saal = NULL,
+        Anaesthesie_Verfahren = NULL
+    )]
+    torin <- unique(torin)
+
+    ## add/sub tolerance of 10 minutes to reduce missing matches due to
+    ## different time between torin and perseus (unfortunately each clock in the
+    ## OR shows a slightly different time).
+    torin[, `:=` (
+        torin.start = SCHNITTZEIT + minutes(10),
+        torin.end = NAHTZEIT - minutes(10)
+    )]
+
+    crf[, `:=` (crf.start = start, crf.end = end)]
+
+    crf <- crf[
+        torin,
+        .(or.id, agc.id, agc.number, bottle.number, start, end,
+          balanced.anaesthesia, flow, airway, perseus.airway, laparoscopic),
+        on = .(or.id, crf.start <= torin.start, crf.end >= torin.end)
+    ]
+
+    ## drop entries without anaesthesia (sometimes a surgery is documented in a
+    ## different operating room and done in another one)
+    crf <- crf[!is.na(start),]
+
+    ## if airway was not documented use perseus heuristic
+    crf[, airway := fifelse(!is.na(airway), airway, perseus.airway)]
+    crf[, perseus.airway := NULL]
 
     crf[, `:=` (
         ## 04-umg
         center.id = 4,
-        ## has to be added by another source
-        laparoscopic = 0L,
         comments = character()
     )]
+    setorder(crf, start)
     setcolorder(crf, "center.id", before = "or.id")
 
     corrections  <- fread(frf(root, "corrections", paste0(id_chr, ".csv")))
