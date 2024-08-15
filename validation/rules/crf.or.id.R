@@ -1,1 +1,1 @@
-all(or.id == or.id[1L])
+or.id == or.id[1L]
