@@ -65,6 +65,30 @@ progress[uor] <- tapply(
     \(x)max(c(0, (ifelse(x == 10, 10.5, x) - 0.5) * 10), na.rm = TRUE)
 )
 
+```
+
+### Gesamt
+
+```{r progess-total, results = "asis", echo = FALSE}
+tprogress <- round(sum(unlist(progress)) / length(progress))
+
+cat(
+    '<div class = "row">',
+    '<div class = "col-md-2">Gesamt</div>',
+    '<div class = "col-md-10">',
+    '<div class="progress">',
+    '<div class="progress-bar" role="progressbar" style="width: ',
+    tprogress, '%;" aria-valuenow="', tprogress, '" aria-valuemin="0" aria-valuemax="100"></div>',
+    '</div>',
+    '</div>',
+    '</div>',
+    sep = ""
+)
+```
+
+### Details
+
+```{r progess-detail, results = "asis", echo = FALSE}
 for (o in or) {
     cat(
         '<div class = "row">',
