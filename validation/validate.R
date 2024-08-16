@@ -41,10 +41,6 @@ validate <- function(csv, yml, verbose = TRUE) {
         if (length(failing)) {
             cat("\n")
 
-            print(smr)
-
-            cat("---\n")
-
             print(vld[failing])
 
             cat("\n")
