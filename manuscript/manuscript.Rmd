@@ -17,10 +17,11 @@ author:
             - data curation
             - formal analysis
             - methodology
+            - project administration
+            - resources
             - validation
             - writing -- original draft
             - writing -- review and editing
-            - supervision
     - 'Nadin Möller':
         email: nadin.moeller@med.uni-greifswald.de
         institute: [KAINS]
@@ -37,8 +38,9 @@ author:
             - Conceptualization
             - investigation
             - methodology
+            - project administration
+            - resources
             - writing -- review and editing
-            - supervision
 ethics_committee:
     reference_number: BB 022/24
     approval_date: 5 March 2024
