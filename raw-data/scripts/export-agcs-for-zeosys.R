@@ -1,13 +1,11 @@
 library("lubridate")
-
-frf <- function(...)
-    rprojroot::find_root_file(..., criterion = ".editorconfig", path = ".")
+library("minair")
 
 crfs <- do.call(
     rbind,
     lapply(
         list.files(
-            frf("raw-data", "crfs"),
+            find_git_root_file("raw-data", "crfs"),
             pattern = "*\\.csv",
             full.names = TRUE
             ),
@@ -31,7 +29,11 @@ agcs <- do.call(rbind.data.frame, tapply(crfs, crfs$agc.id, function(x) {
 }))
 
 ## contacts.csv is not part of the git repository due to privacy reasons
-centers <- unique(read.csv(frf("contacts", "contacts.csv"))[c("ID", "Zentrum")])
+centers <- unique(
+    read.csv(
+        find_git_root_file("contacts", "contacts.csv")
+    )[c("ID", "Zentrum")]
+)
 
 d <- merge(agcs, centers, by.x = "center.id", by.y = "ID")
 d$center.id <- NULL
@@ -43,7 +45,7 @@ d$Ende <- as.POSIXct(d$Ende)
 
 writexl::write_xlsx(
     d,
-    path = frf(
+    path = find_git_root_file(
         "export",
         paste0(format(Sys.Date(), "%Y%m%d"), "_vct-or-mc_agcs-per-center.xlsx")
     )

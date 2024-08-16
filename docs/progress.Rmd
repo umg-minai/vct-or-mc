@@ -11,17 +11,15 @@ Letzte Aktualisierung: `r format(Sys.time())`
 
 ```{r import, echo = FALSE, messages = FALSE}
 suppressPackageStartupMessages(library("lubridate"))
+library("minair")
 
-frf <- function(...)
-    rprojroot::find_root_file(..., criterion = ".editorconfig", path = ".")
-
-setting <- read.csv(frf("raw-data", "setting.csv"))
+setting <- read.csv(find_git_root_file("raw-data", "setting.csv"))
 
 crf <- do.call(
     rbind,
     lapply(
         list.files(
-            frf("raw-data", "crfs"),
+            find_git_root_file("raw-data", "crfs"),
             pattern = "*\\.csv",
             full.names = TRUE
             ),

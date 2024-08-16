@@ -1,17 +1,16 @@
 library("data.table")
 library("dltr")
 library("lubridate")
-
-frf <- function(...)
-    rprojroot::find_root_file(..., criterion = ".editorconfig", path = ".")
+library("minair")
 
 create_crf <- function(id) {
-    root <- frf("raw-data", "04-umg")
+    root <- find_git_root_file("raw-data", "04-umg")
 
     id_chr <- sprintf("%02d", id)
 
     logbook_files <- list.files(
-        frf(root, "logbooks", id_chr), pattern = ".*\\.txt", full.names = TRUE
+        find_git_root_file(root, "logbooks", id_chr),
+        pattern = ".*\\.txt", full.names = TRUE
     )
 
     logbooks <- do.call(rbind, lapply(
@@ -29,7 +28,7 @@ create_crf <- function(id) {
     logbooks <- unique(logbooks)
 
     ## sometimes devices/OR were changed
-    devices <- fread(frf(root, "logbooks", id_chr, "devices.csv"))
+    devices <- fread(find_git_root_file(root, "logbooks", id_chr, "devices.csv"))
     devices[, `:=` (devices.start = start, devices.end = end)]
 
     logbooks[, `:=` (logbook.start = DateTime, logbook.end = DateTime)]
@@ -114,7 +113,9 @@ create_crf <- function(id) {
         perseus.airway = f[, airway]
     )
 
-    filters <- fread(frf(root, "contrafluran-filters", paste0(id_chr, ".csv")))
+    filters <- fread(
+        find_git_root_file(root, "contrafluran-filters", paste0(id_chr, ".csv"))
+    )
     filters[, `:=` (agc.start = start, agc.end = end)]
 
     crf[, `:=` (crf.start = start, crf.end = end)]
@@ -126,7 +127,9 @@ create_crf <- function(id) {
         on = .(or.id, crf.start >= agc.start, crf.end <= agc.end)
     ]
 
-    bottles <- fread(frf(root, "sevoflurane-bottles", paste0(id_chr, ".csv")))
+    bottles <- fread(
+        find_git_root_file(root, "sevoflurane-bottles", paste0(id_chr, ".csv"))
+    )
     bottles[, `:=` (bottles.start = start, bottles.end = end)]
 
     crf[, `:=` (crf.start = start, crf.end = end)]
@@ -139,7 +142,7 @@ create_crf <- function(id) {
     ]
 
     torin <- fread(
-        frf(root, "torin", "export.csv"),
+        find_git_root_file(root, "torin", "export.csv"),
         select = c(
             "NARKOSE_BEGIN", "TEXT", "SCHNITTZEIT", "NAHTZEIT",
             "Saal", "Anaesthesie_Verfahren"
@@ -213,19 +216,23 @@ create_crf <- function(id) {
     setorder(crf, start)
     setcolorder(crf, "center.id", before = "or.id")
 
-    corrections  <- fread(frf(root, "corrections", paste0(id_chr, ".csv")))
+    corrections  <- fread(
+        find_git_root_file(root, "corrections", paste0(id_chr, ".csv"))
+    )
 
     if (nrow(corrections))
         crf[match(corrections$start, crf$start),] <- corrections
 
     fwrite(
         crf,
-        file = frf("raw-data", "crfs", paste0("04-", id_chr, ".csv")),
+        file = find_git_root_file(
+            "raw-data", "crfs", paste0("04-", id_chr, ".csv")
+        ),
         dateTimeAs = "write.csv"
     )
 }
 
-iORs <- as.numeric(dir(frf("raw-data", "04-umg", "logbooks")))
+iORs <- as.numeric(dir(find_git_root_file("raw-data", "04-umg", "logbooks")))
 
 for (i in iORs)
     create_crf(i)

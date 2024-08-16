@@ -1,9 +1,7 @@
+library("minair")
 library("validate")
 
 options(warn = 1)
-
-frf <- function(...)
-    rprojroot::find_root_file(..., criterion = ".editorconfig", path = ".")
 
 shorten <- function(x, maxn = 80) {
     if (is.null(x)) return(NULL)
@@ -25,7 +23,7 @@ validate <- function(csv, yml, verbose = TRUE) {
     if (verbose)
         cat("\n===\n", basename(csv), sep = "")
 
-    set <- read.csv(frf("raw-data", "setting.csv"))
+    set <- read.csv(find_git_root_file("raw-data", "setting.csv"))
     dat  <- read.csv(
         csv, comment.char = "#", na.strings = c("NA", ""), tryLogical = FALSE
     )
@@ -62,8 +60,8 @@ validate <- function(csv, yml, verbose = TRUE) {
 
 validate_all <- function(plot = FALSE, verbose = TRUE) {
     cfr <- validate(
-        csv = frf("raw-data", "setting.csv"),
-        yml = frf("validation", "setting.yml"),
+        csv = find_git_root_file("raw-data", "setting.csv"),
+        yml = find_git_root_file("validation", "setting.yml"),
         verbose = verbose
     )
 
@@ -73,11 +71,11 @@ validate_all <- function(plot = FALSE, verbose = TRUE) {
     }
 
     csvs <- list.files(
-        frf("raw-data", "crfs"),
+        find_git_root_file("raw-data", "crfs"),
         pattern = "*\\.csv",
         full.names = TRUE
     )
-    yml <- frf("validation", "crf.yml")
+    yml <- find_git_root_file("validation", "crf.yml")
 
     for (csv in csvs) {
         cfr <- validate(csv = csv, yml = yml, verbose = verbose)
@@ -87,4 +85,3 @@ validate_all <- function(plot = FALSE, verbose = TRUE) {
         }
     }
 }
-

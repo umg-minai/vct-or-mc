@@ -4,5 +4,5 @@
     "r-dltr"
     "r-gtsummary"
     "r-lubridate"
-    "r-rprojroot"
+    "r-minair"
     "r-validate"))
