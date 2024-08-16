@@ -1,0 +1,21 @@
+# Methods
+
+## Ethics approval
+
+The study was approved by the ethics committee of the University Medicine Greifswald
+(reference number: `r rmarkdown::metadata[["ethics_committee"]][["reference_number"]]`;
+approval date: `r rmarkdown::metadata[["ethics_committee"]][["approval_date"]]`)
+
+## Setting
+
+## Outcome
+
+## Data processing and statistical analysis
+
+All data processing and statistical analyses were performed using R version
+`r paste0(sessionInfo()$R.version[c("major", "minor")], collapse = ".")`
+[@R-base].
+Summary tables were generated using the *gtsummary* package [@Sjoberg2021].
+
+TODO:
+All data and analysis can be found at https://github.com/umg-minai/vct-or-mc [@vctordata].

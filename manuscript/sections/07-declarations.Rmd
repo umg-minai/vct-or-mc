@@ -1,0 +1,79 @@
+# Declarations
+
+## Ethical approval
+
+Research involving human subjects complied with all relevant national regulations and institutional policies, as well as the tenets of the Helsinki Declaration (as revised in 2013), and was approved by the ethics committee of the University Medicine Greifswald
+(reference number: `r rmarkdown::metadata[["ethics_committee"]][["reference_number"]]`;
+approval date: `r rmarkdown::metadata[["ethics_committee"]][["approval_date"]]`)
+
+## Consent for publication
+
+Not applicable.
+
+## Availability of data and materials
+
+TODO:
+The datasets generated and/or analysed during the current study are available in the zenodo repository,
+`r bib <- bibtex::read.bib(find_git_root_file("manuscript", "bibliography", "bibliography.bib")); bib[["vctordata"]]$url` @vctordata.
+
+## Competing interests
+
+```{r competing-interests, echo = FALSE, results = "asis"}
+.enum <- function(x)
+    paste0(paste0(head(x, -1L), collapse = ", "), " and ", tail(x, 1))
+.drop_author_title <- function(x)gsub(",.*$", "", x)
+.initials <- function(x)gsub("\\W*\\b(\\w)\\w*", "\\1", x)
+authors <- unlist(rmarkdown::metadata$author, recursive = FALSE)
+
+cois <- vapply(authors, "[[", "competing_interest", FUN.VALUE = NA_character_)
+
+names(cois) <- .initials(.drop_author_title(names(cois)))
+is_none <- cois == "none"
+
+if (all(is_none)) {
+    cat("All authors state no conflict of interest.")
+} else if (all(!is_none)) {
+    cat(paste(names(cois), cois))
+} else {
+    cat(
+        paste(names(cois)[!is_none], cois[!is_none]),
+        "The authors declare that they have no competing interests."
+    )
+}
+```
+
+## Funding
+
+None.
+
+## Author Contributions
+
+```{r author-contributions, echo = FALSE, results = "asis"}
+roles <- lapply(authors, "[[", "role")
+nn <- lengths(roles)
+ctbs <- data.frame(
+    author = rep(names(roles), nn),
+    contribution = unlist(roles),
+    row.names = seq_len(sum(nn))
+)
+ctbs <- ctbs[order(ctbs$contribution, ctbs$author),]
+l <- split(.initials(.drop_author_title(ctbs$author)), ctbs$contribution)
+nms <- names(l)
+actbs <- character(length(l))
+## lapply/mapply is not working with .cli_text, even `force` doesn't help
+for (i in seq_along(l)) {
+    nm <- nms[i]
+    txt <- l[[i]]
+    actbs[i] <- paste0(nm, ": ", .enum(txt), collapse = "; ")
+}
+cat(
+    paste0(actbs, collapse = "; "),
+    ". All authors have read and agreed to the published version",
+    " of the manuscript.",
+    sep = ""
+)
+```
+
+## Acknowledgements
+
+We thank Saskia Mohrhagen for converting most of the scanned case report forms into comma-separated value files.

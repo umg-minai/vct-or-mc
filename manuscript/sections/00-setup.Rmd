@@ -1,0 +1,31 @@
+```{r knitr_setup, include = FALSE}
+Sys.setlocale("LC_ALL", "en_US.UTF-8")
+
+library("minair")
+
+knitr::opts_chunk$set(
+    cache.path = find_git_root_file(
+        "manuscript", "cache", knitr::opts_knit$get('rmarkdown.pandoc.to'), "/"
+    )
+)
+```
+
+```{r package_bibliography, include = FALSE}
+knitr::write_bib(
+    c(
+        "base",
+        "gtsummary"
+    ),
+    file = find_git_root_file("manuscript", "bibliography", "rpackages.bib")
+)
+```
+
+```{r libraries, include = FALSE}
+library("english")
+library("lubridate")
+
+options(english.UK = FALSE)
+```
+
+```{r helper_functions, include = FALSE}
+```

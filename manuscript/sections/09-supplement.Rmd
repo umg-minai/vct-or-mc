@@ -1,0 +1,24 @@
+# Supplement
+
+## Table of anaesthetic gas canisters
+
+
+```{r tableagc, echo = FALSE, message = FALSE, caption = "Details of anaesthetic gas canisters."}
+```
+
+
+## R session information
+
+
+```{r sessioninfo}
+sessionInfo()
+```
+
+
+## Git commit hash
+
+
+```{r gitcommithash, echo = FALSE}
+sprintf("Git commit revision: %s", system("git rev-parse HEAD", intern = TRUE))
+```
+

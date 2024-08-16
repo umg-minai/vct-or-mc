@@ -1,0 +1,71 @@
+---
+title: >
+    Capture efficiency of CONTRAfluran absorbers for sevoflurane in a real-world scenario - a multicenter observational study
+institute:
+    - KAINS: Department of Anesthesiology and Intensive Care Medicine, University Hospital Greifswald, Ferdinand-Sauerbruch-Straße, D-17475 Greifswald, Germany.
+    - SALEM: Department of Anesthesiology and Intensive Care Medicine, Hospital Salem, Zeppelinstraße 11 - 33, D-69121 Heidelberg, Germandy.
+author:
+    # Contributorship roles (e.g. CRediT, https://credit.niso.org/)
+    - 'Sebastian Gibb':
+        email: mail@sebastiangibb.de
+        institute: [KAINS]
+        orcid_id: 0000-0001-7406-4443
+        correspondence: true
+        competing_interest: none
+        role:
+            - Conceptualization
+            - data curation
+            - formal analysis
+            - methodology
+            - validation
+            - writing -- original draft
+            - writing -- review and editing
+            - supervision
+    - 'Nadin Möller':
+        email: nadin.moeller@med.uni-greifswald.de
+        institute: [KAINS]
+        correspondence: false
+        competing_interest: none
+        role:
+            - investigation
+    - 'Stephanie Snyder-Ramos':
+        email: stephanie.snyder-ramos@stadtmission-hd.de
+        institute: [SALEM]
+        correspondence: false
+        competing_interest: none
+        role:
+            - Conceptualization
+            - investigation
+            - methodology
+            - writing -- review and editing
+            - supervision
+ethics_committee:
+    reference_number: BB 022/24
+    approval_date: 5 March 2024
+bibliography:
+    - bibliography/bibliography.bib
+    - bibliography/rpackages.bib
+csl: pandoc/csl/anaesthesia.csl
+link-citations: yes
+linkcolor: blue
+output:
+    bookdown::html_document2:
+        keep_md: true # keep images for submission
+        number_sections: true
+        pandoc_args:
+            - --lua-filter=pandoc/lua-filters/abstract-section.lua
+            - --lua-filter=pandoc/lua-filters/scholarly-metadata.lua
+            - --lua-filter=pandoc/lua-filters/author-info-blocks.lua
+            - --lua-filter=pandoc/lua-filters/wordcount.lua
+    bookdown::word_document2:
+        keep_md: true # keep images for submission
+        number_sections: false
+        pandoc_args:
+            - --lua-filter=pandoc/lua-filters/abstract-section.lua
+            - --lua-filter=pandoc/lua-filters/scholarly-metadata.lua
+            - --lua-filter=pandoc/lua-filters/author-info-blocks.lua
+            - --lua-filter=pandoc/lua-filters/wordcount.lua
+---
+
+```{r children, child = list.files(minair::find_git_root_file("manuscript", "sections"), pattern = "[0-9][0-9].*\\.Rmd", recursive = TRUE, full.names = TRUE)}
+```

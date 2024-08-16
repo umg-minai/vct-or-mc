@@ -1,7 +1,9 @@
 (specifications->manifest
   '("r-minimal"
+    "r-bibtex"
     "r-bookdown"
     "r-dltr"
+    "r-english"
     "r-gtsummary"
     "r-lubridate"
     "r-minair"
