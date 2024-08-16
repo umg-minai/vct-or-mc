@@ -154,6 +154,33 @@ agcs$weight <- 400
 
 agcs[is.na(agcs)] <- 0
 
+model_columns <- c(
+    "sum.dura.lama.nonlap.tiva",
+    "sum.dura.tube.nonlap.tiva",
+    "sum.dura.tube.lap.tiva",
+    "sum.dura.lama.nonlap.inha",
+    "sum.dura.tube.nonlap.inha",
+    "sum.dura.tube.lap.inha",
+    "med.flow.lama.nonlap.tiva",
+    "med.flow.tube.nonlap.tiva",
+    "med.flow.tube.lap.tiva",
+    "med.flow.lama.nonlap.inha",
+    "med.flow.tube.nonlap.inha",
+    "med.flow.tube.lap.inha"
+)
+
+agcs$agc.id <- rownames(agcs)
+agcs$or <- crf$or[match(agcs$agc.id, crf$agc.id)]
+
+d <- dist(scale(agcs[model_columns]), method = "euclidean")
+agcs$cluster <- fixed_sized_clustering(d, size = 20)
+agcs <- agcs[order(agcs$cluster, agcs$or),]
+
+knitr::kable(
+    agcs[c("cluster", "or", "ncases", "weight", model_columns)],
+    digits = 2
+)
+
 mdl <- lm(weight ~ 0 +
     sum.dura.lama.nonlap.tiva +
     sum.dura.tube.nonlap.tiva +
@@ -168,19 +195,6 @@ mdl <- lm(weight ~ 0 +
     med.flow.tube.nonlap.inha +
     med.flow.tube.lap.inha,
     data = agcs
-)
-
-knitr::kable(
-    agcs[c(
-        "median.duration", "mean.flow", "mean.balanced.anaesthesia",
-        "mean.airway", "mean.laparoscopic", "ncases"
-    )],
-    col.names = c(
-        "Mediane Dauer", "Mittlerer Frischgasfluss",
-        "Anteil balanc. Anästhesien", "Anteil Tubus",
-        "Anteil Laparoskopien", "Anzahl Anästhesien"
-    ),
-    digits = 2
 )
 
 knitr::kable(coef(mdl))
