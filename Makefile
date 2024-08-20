@@ -104,3 +104,5 @@ clean-dist:
 .PHONEY: clean-output
 clean-output:
 	@rm -rf $(OUTPUTDIR)
+
+FORCE:
