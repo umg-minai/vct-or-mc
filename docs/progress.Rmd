@@ -212,7 +212,7 @@ knitr::kable(
 # Lineare Regression
 
 
-```{r lm, echo = FASLE}
+```{r lm, echo = FALSE}
 mdl <- lm(weight ~ 0 +
     sum.dura.lama.nonlap.tiva +
     sum.dura.tube.nonlap.tiva +
