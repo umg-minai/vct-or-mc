@@ -41,6 +41,8 @@ the anaesthesia machine was used in this OR:
 - start: date/time of device start, should be YYYY-MM-DD HH:MM.
 - end: date/time of device end, should be YYYY-MM-DD HH:MM.
 
+(not uploaded for privacy reasons)
+
 ## sevoflurane-bottles/\*.csv
 
 A file for each study OR.
@@ -50,4 +52,9 @@ A file for each study OR.
 - start: POSIXct, date/time of bottle opening, should be YYYY-MM-DD HH:MM.
 - end: POSIXct, date/time of empty bottle, should be YYYY-MM-DD HH:MM.
 
+## torin/
 
+A Torin export with start and end of each surgery and the OPS codes.
+Used to find laparoscopic surgeries.
+
+(not uploaded for privacy reasons)
