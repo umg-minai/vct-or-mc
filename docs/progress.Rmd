@@ -206,6 +206,13 @@ knitr::kable(
     digits = 2
 )
 
+```
+
+
+# Lineare Regression
+
+
+```{r lm, echo = FASLE}
 mdl <- lm(weight ~ 0 +
     sum.dura.lama.nonlap.tiva +
     sum.dura.tube.nonlap.tiva +
@@ -225,7 +232,9 @@ mdl <- lm(weight ~ 0 +
 knitr::kable(coef(mdl))
 ```
 
-```{r rcvglmnet, echo = FALSE, message = FALSE, warning = FALSE}
+# Penalized Regression
+
+```{r rcvglmnet, echo = TRUE, message = FALSE, warning = FALSE}
 y <- agcs[, "weight"]
 x <- model.matrix(
 weight ~ 0 +
@@ -257,6 +266,9 @@ knitr::kable(
 plot(m)
 plot(m, "path")
 ```
+
+# Mediane Narkosedauer ggü. mittlerem Frischgasfluss
+
 
 ```{r plot-agc, echo = FALSE, fig.cap = "Mediane Narkosedauer ggü. mittlerem Frischgasfluss je CONTRAfluran-Filter"}
 old.par <- par(no.readonly = TRUE)
