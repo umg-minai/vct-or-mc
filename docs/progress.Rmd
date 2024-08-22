@@ -255,7 +255,10 @@ weight ~ 0 +
 
 ## TODO: replace y with measured weight and drop `jitter` call (just used to
 ## avoid error about constant y)
-m <- rcv.glmnet(y = jitter(y), x = x, nfolds = 10, intercept = FALSE)
+m <- rcv.glmnet(
+    y = jitter(y), x = x, intercept = FALSE,
+    nrepcv = 100, nfolds = 10
+)
 knitr::kable(
     cbind(
         as.matrix(coef(m, s = "lambda.1se")),
