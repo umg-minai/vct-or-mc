@@ -1,10 +1,14 @@
 (specifications->manifest
   '("r-minimal"
+    "r-ameld"
     "r-bibtex"
     "r-bookdown"
     "r-dltr"
+    "r-dofuture"
     "r-english"
+    "r-future-apply"
     "r-gtsummary"
     "r-lubridate"
     "r-minair"
+    "r-progressr"
     "r-validate"))

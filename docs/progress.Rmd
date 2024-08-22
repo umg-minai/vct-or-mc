@@ -11,7 +11,8 @@ Letzte Aktualisierung: `r format(Sys.time())`
 
 ```{r import, echo = FALSE, messages = FALSE}
 suppressPackageStartupMessages(library("lubridate"))
-library("minair")
+suppressPackageStartupMessages(library("ameld"))
+suppressPackageStartupMessages(library("minair"))
 
 setting <- read.csv(find_git_root_file("raw-data", "setting.csv"))
 
@@ -222,6 +223,39 @@ mdl <- lm(weight ~ 0 +
 )
 
 knitr::kable(coef(mdl))
+```
+
+```{r rcvglmnet, echo = FALSE, message = FALSE, warning = FALSE}
+y <- agcs[, "weight"]
+x <- model.matrix(
+weight ~ 0 +
+    sum.dura.lama.nonlap.tiva +
+    sum.dura.tube.nonlap.tiva +
+    sum.dura.tube.lap.tiva +
+    sum.dura.lama.nonlap.inha +
+    sum.dura.tube.nonlap.inha +
+    sum.dura.tube.lap.inha +
+    med.flow.lama.nonlap.tiva +
+    med.flow.tube.nonlap.tiva +
+    med.flow.tube.lap.tiva +
+    med.flow.lama.nonlap.inha +
+    med.flow.tube.nonlap.inha +
+    med.flow.tube.lap.inha,
+    data = agcs
+)
+
+## TODO: replace y with measured weight and drop `jitter` call (just used to
+## avoid error about constant y)
+m <- rcv.glmnet(y = jitter(y), x = x, nfolds = 10, intercept = FALSE)
+knitr::kable(
+    cbind(
+        as.matrix(coef(m, s = "lambda.1se")),
+        as.matrix(coef(m, s = "lambda.min"))[, 1]
+    ),
+    col.names = c("variable", "s, lambda.1se", "s, lambda.min")
+)
+plot(m)
+plot(m, "path")
 ```
 
 ```{r plot-agc, echo = FALSE, fig.cap = "Mediane Narkosedauer ggü. mittlerem Frischgasfluss je CONTRAfluran-Filter"}
