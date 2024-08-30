@@ -9,6 +9,8 @@ SETTING=$(RAWDATA)/setting.csv
 MANUSCRIPT:=manuscript
 SECTIONDIR:=manuscript/sections
 RMD=$(wildcard $(SECTIONDIR)/*.Rmd)
+DOCSRMD=$(wildcard docs/*.Rmd)
+HTMLS=$(DOCSRMD:%.Rmd=%.html)
 BIB=manuscript/bibliography/bibliography.bib
 DISTDIR:=distribute
 OUTPUTDIR:=manuscript/output
@@ -43,15 +45,11 @@ dist: $(OUTPUTDIR)/$(MANUSCRIPT).docx | $(DISTDIR)
 
 progress: docs/progress.html docs/validate.html
 
-docs/progress.html: docs/progress.Rmd $(CRF) $(SETTING)
+docs/%.html: docs/%.Rmd $(CRF) $(SETTING)
 	${GUIXTM} -- \
-		Rscript -e "rmarkdown::render('docs/progress.Rmd', output_dir = 'docs')"
+		Rscript -e "rmarkdown::render('$<', output_dir = 'docs')"
 
-docs/validate.html: docs/validate.Rmd $(CRF) $(SETTING)
-	${GUIXTM} -- \
-		Rscript -e "rmarkdown::render('docs/validate.Rmd', output_dir = 'docs')"
-
-docs: docs/progress.html docs/validate.html docs/manuscript.html
+docs: $(HTMLS) docs/manuscript.html
 
 docs/manuscript.html: manuscript
 	sed 's#</h4>#</h4> \
