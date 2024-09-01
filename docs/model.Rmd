@@ -1,0 +1,262 @@
+---
+title: Übersicht/Clustering/Modelierung
+---
+
+- [Studienübersicht](index.html)
+- [Studienfortschritt](progress.html)
+- [Übersicht Datenvalidierung](validate.html)
+
+Letzte Aktualisierung: `r format(Sys.time())`
+
+# Gesamtübersicht
+
+```{r import, echo = FALSE, messages = FALSE}
+suppressPackageStartupMessages(library("lubridate"))
+suppressPackageStartupMessages(library("ameld"))
+suppressPackageStartupMessages(library("minair"))
+suppressPackageStartupMessages(library("dendextend"))
+
+setting <- read.csv(find_git_root_file("raw-data", "setting.csv"))
+
+crf <- do.call(
+    rbind,
+    lapply(
+        list.files(
+            find_git_root_file("raw-data", "crfs"),
+            pattern = "*\\.csv",
+            full.names = TRUE
+            ),
+        function(x)read.csv(
+            x, comment.char = "#", na.strings = c("NA", ""), tryLogical = FALSE
+        )
+    )
+)
+crf$or <- sprintf("%02.f-%02.f", crf$center.id, crf$or.id)
+```
+
+# Übersicht über CONTRAfluran-Filter
+
+```{r agc-characteristics, echo = FALSE}
+#' @param x `data.frame`, crf, for one AGC
+agcchar <- function(x) {
+    d <- as.double(ymd_hms(x$end) - ymd_hms(x$start), units = "mins")
+    a <- ifelse(x$airway == "L", 0, 1)
+
+    f <- expand.grid(
+        airway = c("L", "T"),
+        laparoscopic = 0:1,
+        balanced.anaesthesia = 0:1
+    )
+    dur <- apply(
+        f,
+        MARGIN = 1,
+        function(ff)sum(
+            d[
+                x$airway == ff[[1L]] & x$laparoscopic == ff[[2L]] &
+                x$balanced.anaesthesia == ff[[3L]]
+            ],
+            na.rm = TRUE
+        )
+    )
+    flow <- apply(
+        f,
+        MARGIN = 1,
+        function(ff)median(
+            x$flow[
+                x$airway == ff[[1L]] & x$laparoscopic == ff[[2L]] &
+                x$balanced.anaesthesia == ff[[3L]]
+            ],
+            na.rm = TRUE
+        )
+    )
+    nf <- paste(
+        ifelse(f[["airway"]] == "L", "lama", "tube"),
+        ifelse(f[["laparoscopic"]], "lap", "nonlap"),
+        ifelse(f[["balanced.anaesthesia"]], "inha", "tiva"),
+        sep = "."
+    )
+
+    names(dur) <- paste("sum", "dura", nf, sep = ".")
+    names(flow) <- paste("med", "flow", nf, sep = ".")
+
+    c(
+        median.duration = median(d, na.rm = TRUE),
+        mean.flow = weighted.mean(x$flow, d, na.rm = TRUE),
+        mean.balanced.anaesthesia = weighted.mean(
+            x$balanced.anaesthesia, d, na.rm = TRUE
+        ),
+        mean.airway = weighted.mean(a, d, na.rm = TRUE),
+        mean.laparoscopic = weighted.mean(x$laparoscopic, d, na.rm = TRUE),
+        dur,
+        flow,
+        ncases = nrow(x)
+    )
+}
+
+agcs <- as.data.frame(
+    t(do.call(cbind, tapply(crf, crf$agc.id, agcchar)))
+)
+
+agcs$weight <- 400
+
+agcs[is.na(agcs)] <- 0
+
+model_columns <- c(
+    "sum.dura.lama.nonlap.tiva",
+    "sum.dura.tube.nonlap.tiva",
+    "sum.dura.tube.lap.tiva",
+    "sum.dura.lama.nonlap.inha",
+    "sum.dura.tube.nonlap.inha",
+    "sum.dura.tube.lap.inha",
+    "med.flow.lama.nonlap.tiva",
+    "med.flow.tube.nonlap.tiva",
+    "med.flow.tube.lap.tiva",
+    "med.flow.lama.nonlap.inha",
+    "med.flow.tube.nonlap.inha",
+    "med.flow.tube.lap.inha"
+)
+
+agcs$agc.id <- rownames(agcs)
+agcs$center <- crf[["center.id"]][match(agcs$agc.id, crf$agc.id)]
+agcs$or <- crf[["or"]][match(agcs$agc.id, crf$agc.id)]
+
+knitr::kable(agcs, digits = 2)
+```
+
+# Clustering
+
+```{r clustering, message = FALSE, warning = FALSE, fig.width = 14, fig.height = 9}
+a <- scale(agcs[model_columns])
+d <- dist(a, method = "euclidean")
+clsize <- 20
+agcs$cluster.nn.min <-
+    fixed_size_clustering_nearest_neighbor(d, size = clsize, method = "min")
+agcs$cluster.hc.wardD2 <-
+    fixed_size_clustering_hclust(d, size = clsize, method = "ward.D2")
+agcs$cluster.km.rst.rng <-
+    fixed_size_clustering_kmeans(a, size = clsize, method = "range")
+agcs$cluster.km.std <-
+    kmeans(a, ceiling(nrow(a) / clsize))$cluster
+
+cols <- viridisLite::viridis(max(agcs$cluster.nn.min))
+
+library("pvclust")
+pv <- pvclust(
+    t(a), method.hclust = "ward.D2", method.dist = "euclidean",
+    quiet = TRUE
+)
+pvd <- as.dendrogram(pv)
+par(mar = c(12, 2, 2, 1))
+plot(pvd)
+text(pv)
+cls <- cbind(
+    nn.min = agcs$cluster.nn.min,
+    km.rst.rng = agcs$cluster.km.rst.rng,
+    km.std = agcs$cluster.km.std,
+    hc.wardD2 = agcs$cluster.hc.wardD2
+)
+cls[] <- cols[cls]
+colored_bars(cls, pvd)
+colored_bars(
+    cbind(
+        center = agcs$center,
+        or.id = match(agcs$or, unique(agcs$or))
+    ),
+    pvd, y_shift = -3.5
+)
+```
+
+```{r wcss, fig.width = 12, fig.height = 7}
+wss <- sapply(
+    list(
+        nn.min = agcs$cluster.nn.min,
+        km.rst.rng = agcs$cluster.km.rst.rng,
+        km.std = agcs$cluster.km.std,
+        hc.wardD2 = agcs$cluster.hc.wardD2
+    ),
+    within_cluster_sum_of_squares, x = a
+)
+tss <- total_sum_of_squares(a)
+
+col <- seq_len(ncol(wss))
+barplot(
+    t(wss), col = col, beside = TRUE,
+    main = "Within cluster sum of squares"
+)
+legend("topright", legend = colnames(wss), col = col, pch = 15)
+```
+
+```{r b-tss}
+barplot(
+    1 - colSums(wss) / tss, col = col, horiz = TRUE,
+    main = "Between/Total sum of squares"
+)
+legend(
+    "bottomright",
+    legend = colnames(wss),
+    col = col, pch = 15,
+    bty = "n"
+)
+```
+
+
+# Lineare Regression
+
+
+```{r lm, echo = FALSE}
+mdl <- lm(weight ~ 0 +
+    sum.dura.lama.nonlap.tiva +
+    sum.dura.tube.nonlap.tiva +
+    sum.dura.tube.lap.tiva +
+    sum.dura.lama.nonlap.inha +
+    sum.dura.tube.nonlap.inha +
+    sum.dura.tube.lap.inha +
+    med.flow.lama.nonlap.tiva +
+    med.flow.tube.nonlap.tiva +
+    med.flow.tube.lap.tiva +
+    med.flow.lama.nonlap.inha +
+    med.flow.tube.nonlap.inha +
+    med.flow.tube.lap.inha,
+    data = agcs
+)
+
+knitr::kable(coef(mdl))
+```
+
+# Penalized Regression
+
+```{r rcvglmnet, echo = TRUE, message = FALSE, warning = FALSE}
+y <- agcs[, "weight"]
+x <- model.matrix(
+weight ~ 0 +
+    sum.dura.lama.nonlap.tiva +
+    sum.dura.tube.nonlap.tiva +
+    sum.dura.tube.lap.tiva +
+    sum.dura.lama.nonlap.inha +
+    sum.dura.tube.nonlap.inha +
+    sum.dura.tube.lap.inha +
+    med.flow.lama.nonlap.tiva +
+    med.flow.tube.nonlap.tiva +
+    med.flow.tube.lap.tiva +
+    med.flow.lama.nonlap.inha +
+    med.flow.tube.nonlap.inha +
+    med.flow.tube.lap.inha,
+    data = agcs
+)
+
+## TODO: replace y with measured weight and drop `jitter` call (just used to
+## avoid error about constant y)
+m <- rcv.glmnet(
+    y = jitter(y), x = x, intercept = FALSE,
+    nrepcv = 100, nfolds = 10
+)
+knitr::kable(
+    cbind(
+        as.matrix(coef(m, s = "lambda.1se")),
+        as.matrix(coef(m, s = "lambda.min"))[, 1]
+    ),
+    col.names = c("variable", "s, lambda.1se", "s, lambda.min")
+)
+plot(m)
+plot(m, "path")
+```

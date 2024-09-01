@@ -3,6 +3,7 @@
     "r-ameld"
     "r-bibtex"
     "r-bookdown"
+    "r-dendextend"
     "r-dltr"
     "r-dofuture"
     "r-english"
@@ -11,4 +12,5 @@
     "r-lubridate"
     "r-minair"
     "r-progressr"
+    "r-pvclust"
     "r-validate"))
