@@ -79,7 +79,23 @@ validate_all <- function(plot = FALSE, verbose = TRUE) {
         crf <- validate(csv = csv, yml = yml, verbose = verbose)
         if (plot) {
             cat("\n\n## ", basename(tools::file_path_sans_ext(csv)),"\n\n")
-            plot(cfr)
+            plot(crf)
+        }
+    }
+
+    ## weights
+    csvs <- list.files(
+        find_git_root_file("raw-data", "weights"),
+        pattern = "*\\.csv",
+        full.names = TRUE
+    )
+    yml <- find_git_root_file("validation", "weights.yml")
+
+    for (csv in csvs) {
+        weights <- validate(csv = csv, yml = yml, verbose = verbose)
+        if (plot) {
+            cat("\n\n## ", basename(tools::file_path_sans_ext(csv)),"\n\n")
+            plot(weights)
         }
     }
 }
