@@ -29,8 +29,8 @@ validate <- function(csv, yml, verbose = TRUE) {
     )
 
     vld <- rename_rules(validator(.file = yml))
-    cfr <- confront(dat, vld, ref = list(ref_settings = set))
-    smr <- summary(cfr)
+    crf <- confront(dat, vld, ref = list(ref_settings = set))
+    smr <- summary(crf)
 
     dat$Comment <- shorten(dat$Comment, 53)
     smr$expression <- shorten(smr$expression, 33)
@@ -45,17 +45,18 @@ validate <- function(csv, yml, verbose = TRUE) {
 
             cat("\n")
 
-            print(violating(dat, cfr[failing]))
+            print(violating(dat, crf[failing]))
         } else {
             cat(", ", nrow(dat), " rows: OK\n", sep = "")
         }
     }
 
-    invisible(cfr)
+    invisible(crf)
 }
 
 validate_all <- function(plot = FALSE, verbose = TRUE) {
-    cfr <- validate(
+    ## settings
+    settings <- validate(
         csv = find_git_root_file("raw-data", "setting.csv"),
         yml = find_git_root_file("validation", "setting.yml"),
         verbose = verbose
@@ -63,9 +64,10 @@ validate_all <- function(plot = FALSE, verbose = TRUE) {
 
     if (plot) {
         cat("\n\n## settings\n\n")
-        plot(cfr)
+        plot(settings)
     }
 
+    ## CRFs
     csvs <- list.files(
         find_git_root_file("raw-data", "crfs"),
         pattern = "*\\.csv",
@@ -74,7 +76,7 @@ validate_all <- function(plot = FALSE, verbose = TRUE) {
     yml <- find_git_root_file("validation", "crf.yml")
 
     for (csv in csvs) {
-        cfr <- validate(csv = csv, yml = yml, verbose = verbose)
+        crf <- validate(csv = csv, yml = yml, verbose = verbose)
         if (plot) {
             cat("\n\n## ", basename(tools::file_path_sans_ext(csv)),"\n\n")
             plot(cfr)
