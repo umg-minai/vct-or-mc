@@ -17,6 +17,16 @@ A file for each center/or combination.
 - laparoscopic: laparoscopic surgery (1 = TRUE, 0 = FALSE).
 - comments: free text comments.
 
+## weights/*.csv
+
+Initial weights of AGCs not used in this study to estimate weight gain of study
+AGCs (substract the median weight of these AGCs from the reported weight of the
+exhausted study AGCs).
+The AGCs were closed with the "red cap" when the initial weight was measured.
+
+- agc.id: id of the anaesthetic gas canister (AGC).
+- initial.weight: initial weight of the unused AGC.
+
 ## setting.csv
 
 - center.id: id of the center.
