@@ -204,6 +204,13 @@ legend(
 
 # Lineare Regression
 
+Behalte nur Filter mit `r clsize` Filtern pro Gruppe.
+
+```{r drop-smallest-cluster}
+keep <-
+    agcs$cluster.hc.wardD2 %in% which(table(agcs$cluster.hc.wardD2) == clsize)
+table(keep)
+```
 
 ```{r lm, echo = FALSE}
 mdl <- lm(weight ~ 0 +
@@ -219,7 +226,7 @@ mdl <- lm(weight ~ 0 +
     med.flow.lama.nonlap.inha +
     med.flow.tube.nonlap.inha +
     med.flow.tube.lap.inha,
-    data = agcs
+    data = agcs[keep, ]
 )
 
 knitr::kable(coef(mdl))
@@ -228,8 +235,9 @@ knitr::kable(coef(mdl))
 # Penalized Regression
 
 ```{r rcvglmnet, echo = TRUE, message = FALSE, warning = FALSE}
-y <- agcs[, "weight"]
-x <- model.matrix(
+y <- agcs[keep, "weight"]
+
+X <- model.matrix(
 weight ~ 0 +
     sum.dura.lama.nonlap.tiva +
     sum.dura.tube.nonlap.tiva +
