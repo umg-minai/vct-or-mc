@@ -4,8 +4,8 @@ subtitle: Studienprotokoll
 date: "`r format(Sys.Date(), '%d.%m.%Y')`"
 author: "Dr. med. Sebastian Gibb"
 cfg-acronym: VCT-OR-MC
-cfg-version: '1.2'
-cfg-githash: "`r system('git rev-parse --short HEAD', intern = TRUE)`"
+cfg-version: '1.3'
+cfgcfg-githash: "`r system(paste0('git log -n 1 --pretty=format:%h -- ', knitr::current_input()), intern = TRUE)`"
 bibliography: bibliography.bib
 output:
     bookdown::odt_document2:
@@ -41,8 +41,10 @@ output:
 
 # Änderungen gegenüber vorherigen Versionen
 
-## Version 1.2.1
+## Version 1.3
 
+- Ablauf: Filtergruppierung für den Wiederaufbereitungsprozess über hierarchisches Clustering.
+- Statistische Auswertung: Nutzung einer linearen bzw. penalized regression.
 - Limitationen: Volumen CLIC-Absorber korrigiert.
 - Kontakte korrigiert.
 
@@ -266,51 +268,50 @@ Dokumentationsbogen, Aufkleber zur eindeutigen Markierung der Sevofluranflaschen
 und der CONTRAfluran-Filter.
 
 Nach Abschluss der Datenerhebung und Erhalt der Dokumentationsbögen der
-jeweligen Zentren wird für jeden CONTRAfluran-Filter der mittlere
-Frischgasfluss bzw. mittlere Narkosedauer als Median
-über alle für diesen Filter dokumentierten Frischgasflüsse bzw. Narkosedauern
-bei inhalativen Narkose gebildet.
-Die Menge des verbrauchten Sevoflurans je CONTRAfluran-Filter
-wird anhand der Laufzeit (Summe der Dauer inhalativer Narkosen) des jeweiligen
-Filters im Verhältnis zur Gesamtlaufzeit (Summe aller
-Filterlaufzeiten) aller Filter ermittelt
-(10 * 250 ml * (Laufzeit Filter/Gesamtaufzeit)).
+jeweligen Zentren werden für jeden CONTRAfluran-Filter die kumulierten
+Gesamtzeiten der einzelnen Atemwegssicherungen, Anästhesiearten und
+Operationsmethoden sowie die dazugehörigen medianen Frischgasflüsse ermittelt.
+Dabei ergeben sich Gesamtzeiten und mediane Frischgasflüsse für
+folgende sechs Kombinationen:
 
-Anhand des medianen Frischgasflusses und der medianen Narkosedauer werden die CONTRAfluran-Filter in folgende vier Untergruppen aufgeteilt:
+- Larynxmaske / intravenöse Anästhesie / nicht laparoskopisch
+- Larynxmaske / inhalative Anästhesie / nicht laparoskopisch
+- Tubus / intravenöse Anästhesie / nicht laparoskopisch
+- Tubus / inhalative Anästhesie / nicht laparoskopisch
+- Tubus / intravenöse Anästhesie / laparoskopisch
+- Tubus / inhalative Anästhesie / laparoskopisch
 
-- MINFLOW-SHORT: medianer Frischgasfluss <= 0.5 l/min und mediane Narkosedauer <= 1 Stunde
-- MINFLOW-LONG: medianer Frischgasfluss <= 0.5 l/min und mediane Narkosedauer > 1 Stunde
-- LOWFLOW-SHORT: medianer Frischgasfluss > 0.5 l/min und mediane Narkosedauer <= 1 Stunde
-- LOWFLOW-LONG: medianer Frischgasfluss > 0.5 l/min und mediane Narkosedauer > 1 Stunde
+Der Einsatz einer Larynxmaske bei laparoskopischen Operationen ist nicht
+üblich.
+Somit ist jeder CONTRAfluran-Filter durch 12 Kennzahlen klassifiziert.
 
-Für einen Wiedergewinnungsprozess werden mindestens 20 CONTRAfluran-Filter benötigt.
-Sollte diese Mindestanzahl für eine Gruppe nicht zu Stande kommen, werden die
-folgenden zwei Untergruppen gebildet:
-
-- SHORT: mediane Narkosedauer <= 1 Stunden
-- LONG: median Narkosedauer > 1 Stunden
-
-Wir behalten uns vor, den Grenzwert für die Narkosedauer von 1 Stunde zu
-Gunsten von ähnlichen Gruppengrößen anzupassen.
-Gleiches gilt für den Grenzwert des Frischgasflusses.
+Für einen Wiedergewinnungsprozess werden 20 CONTRAfluran-Filter
+benötigt.
+Die Filter werden anhand der o.g. Kennzahlen mittels hierarchischem Clustering
+(euclidische Distanzmetrik) in Gruppen zu je 20 Filter mit minimaler Varianz
+(Ward's minimum variance method) kombiniert.
+Die Filter der kleinsten Gruppe (kleiner als 20 Filter) werden verworfen und
+in der weiteren Analyse ausgeschlossen. Gleiches gilt für die dazugehörigen
+Anästhesien.
 
 Die Zuordnung der CONTRAfluran-Filter zu den jeweiligen Gruppen durch die
 Studienleitung wird an ZeoSys geschickt.
-Dort wird für jede Gruppe ein bzw. mehrere separate Wiedergewinnungsprozesse durchgeführt und die
-jeweilig zurückgewonnene Menge an Sevofluran an die Studienleitung übermittelt.
+Dort wird für jede Gruppe ein separater Wiedergewinnungsprozesse durchgeführt
+und die jeweilig zurückgewonnene Menge an Sevofluran an die Studienleitung
+übermittelt.
 
-Die Untergruppen der CONTRAfluran-Filter werden durch deskriptive Statistik
-analysiert.
-Die wiedergewonnenem Menge Sevofluran wird mit der eingesetzten Menge
-je Gruppe verglichen.
+Vor dem Wiedergewinnungsprozess wird jeder Filter durch ZeoSys gewogen.
+Das wiedergewonnene Sevofluran wird anhand der Filtergewichte proportional auf
+die Filter aufgeteilt:
 
-Eine induktive Statistik/ein Hypothesentest kann bei vier Gruppen mit je nur
-einer Beobachtung (Menge an wiedergewonnenem Sevofluran) nicht durchgeführt werden.
+zurückgewonnenes Sevofluran [g] = zurückgewonnenes Sevofluran der 20 Filtern * Filtergewicht [g]/(Summe der Gewichte der 20 Filter) [g]
 
-In Abhängigkeit von der Anzahl gewonnener Filter wird geprüft, ob für die Art
-des Atemweges oder Laparoskopien vergleichbare Gruppen gebildet werden können.
-Dazu muss der jeweilige Faktor für mehr als 50 % der Gesamtnarkosezeit des
-Filters vorgelegen haben.
+Jeder CONTRAfluran-Filter wird mittels deskriptiver Statistik beschrieben.
+
+Um den Einfluss einzelner Faktoren (Atemwegssicherung, Anästhesieart,
+Operationsmethode) auf die Rückgewinnung des Sevofluran zu berechnen wird eine
+lineare bzw. penalized regression (LASSO) verwendet.
+
 
 ## Limitationen
 
