@@ -229,7 +229,7 @@ mdl <- lm(weight ~ 0 +
     data = agcs[keep, ]
 )
 
-knitr::kable(coef(mdl))
+summary(mdl)
 ```
 
 # Penalized Regression
