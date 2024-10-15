@@ -5,7 +5,7 @@ date: "`r format(Sys.Date(), '%d.%m.%Y')`"
 author: "Dr. med. Sebastian Gibb"
 cfg-acronym: VCT-OR-MC
 cfg-version: '1.3'
-cfgcfg-githash: "`r system(paste0('git log -n 1 --pretty=format:%h -- ', knitr::current_input()), intern = TRUE)`"
+cfg-githash: "`r system(paste0('git log -n 1 --pretty=format:%h -- ', knitr::current_input()), intern = TRUE)`"
 bibliography: bibliography.bib
 output:
     bookdown::odt_document2:
