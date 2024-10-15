@@ -3,7 +3,7 @@
         (url "https://github.com/umg-minai/guix-minai.git")
         (branch "main")
         (commit
-          "efd6d3d5feb6f1cad1c27353ea14f1445329c343")
+          "b8f25c02ecfdc3b36d35291ea33e2abb2634da15")
         (introduction
           (make-channel-introduction
             "4e47c0f12cf838335bf731b1947ea434923569e3"
@@ -14,7 +14,7 @@
         (url "https://git.savannah.gnu.org/git/guix.git")
         (branch "master")
         (commit
-          "f88a946249d75b9e8fa310471e7f2fec91d9790b")
+          "aaa12db63270c487e3be1963b0fdfe93fdb2544d")
         (introduction
           (make-channel-introduction
             "9edb3f66fd807b096b48283debdcddccfea34bad"

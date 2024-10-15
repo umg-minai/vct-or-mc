@@ -11,6 +11,7 @@
     "r-gtsummary"
     "r-lubridate"
     "r-minair"
+    "r-nestedcv-bates"
     "r-progressr"
     "r-pvclust"
     "r-validate"))
