@@ -14,6 +14,7 @@ Letzte Aktualisierung: `r format(Sys.time())`
 suppressPackageStartupMessages(library("lubridate"))
 suppressPackageStartupMessages(library("ameld"))
 suppressPackageStartupMessages(library("minair"))
+suppressPackageStartupMessages(library("nestedcv"))
 suppressPackageStartupMessages(library("dendextend"))
 
 setting <- read.csv(find_git_root_file("raw-data", "setting.csv"))
@@ -242,22 +243,99 @@ weight ~ 0 +
     med.flow.lama.nonlap.inha +
     med.flow.tube.nonlap.inha +
     med.flow.tube.lap.inha,
-    data = agcs
+    data = agcs[keep, ]
 )
 
 ## TODO: replace y with measured weight and drop `jitter` call (just used to
 ## avoid error about constant y)
-m <- rcv.glmnet(
-    y = jitter(y), x = x, intercept = FALSE,
-    nrepcv = 100, nfolds = 10
+Y <- jitter(y)
+
+## TODO: increase nrepcv and nfolds for final calculations
+## number of repeated cv for model estimation
+nrepcv <- 2
+## number of cv folds for model estimation
+nfolds <- 5
+## number of repeated cv for mse estimation (authors of nested_cv suggest at
+## least 50)
+mse.nrepcv <- 5
+## number of cv folds for mse estimation
+mse.nfolds <- 5
+## percentage of training data
+ptrain <- 0.8
+
+## helper functions
+se_loss_rcv.glmnet <- function(y1, y2, funcs_params = NULL) {
+    (y1 - y2)^2
+}
+
+fitter_rcv.glmnet <- function(X, Y, idx = seq_len(nrow(X)), funcs_params = NULL) {
+    rcv.glmnet(
+        X[idx, ], Y[idx],
+        lambda = funcs_params$lambda,
+        alpha = funcs_params$alpha,
+        intercept = funcs_params$intercept,
+        nfolds = funcs_params$nfolds,
+        nrepcv = funcs_params$nrepcv
+    )
+}
+
+predictor_rcv.glmnet <- function(fit, X_new, funcs_params = NULL) {
+    predict(fit, X_new, s = funcs_params$s)
+}
+
+funcs_rcv.glmnet <- list(
+    fitter = fitter_rcv.glmnet,
+    predictor = predictor_rcv.glmnet,
+    loss = se_loss_rcv.glmnet
 )
+
+params <- list(
+    alpha = 1,
+    s = "lambda.1se",
+    intercept = FALSE,
+    nfolds = nfolds,
+    nrepcv = nrepcv
+)
+
+set.seed(1)
+nr <- nrow(X)
+ntrain <- ceiling(nr * ptrain)
+train_idx <- sample(seq_len(nr), ntrain, replace = FALSE)
+test_idx <- setdiff(seq_len(nr), train_idx)
+X_train <- X[train_idx, ]
+Y_train <- Y[train_idx]
+
+## fit once to keep lambda/best lambda fixed
+fit <- funcs_rcv.glmnet$fitter(X_train, Y_train, funcs_params = params)
+params$lambda <- fit$lambda
+params$lambda.min <- fit$lambda.min
+
+out <- nested_cv(
+    X_train, Y_train,
+    funcs = funcs_rcv.glmnet,
+    n_folds = mse.nfolds,
+    reps = mse.nrepcv,
+    n_cores = parallel::detectCores(),
+    funcs_params = params,
+    alpha = 0.05
+)
+out[["ho_err"]] <- mean(funcs_rcv.glmnet$loss(
+    funcs_rcv.glmnet$predictor(fit, X[test_idx, ], funcs_params = params),
+    Y[test_idx],
+    funcs_params = params
+))
+out
+
+# RMSE
+sqrt(c(out$err_hat, out$ho_err))
+
 knitr::kable(
     cbind(
-        as.matrix(coef(m, s = "lambda.1se")),
-        as.matrix(coef(m, s = "lambda.min"))[, 1]
+        as.matrix(coef(fit, s = "lambda.1se")),
+        as.matrix(coef(fit, s = "lambda.min"))[, 1]
     ),
     col.names = c("variable", "s, lambda.1se", "s, lambda.min")
 )
-plot(m)
-plot(m, "path")
+plot(fit)
+plot(fit, "path")
 ```
