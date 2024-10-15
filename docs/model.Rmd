@@ -143,6 +143,7 @@ cols <- viridisLite::viridis(max(agcs$cluster.nn.min))
 library("pvclust")
 pv <- pvclust(
     t(a), method.hclust = "ward.D2", method.dist = "euclidean",
+    nboot = 100,
     quiet = TRUE
 )
 pvd <- as.dendrogram(pv)
