@@ -98,6 +98,7 @@ agcs <- as.data.frame(
     t(do.call(cbind, tapply(crf, crf$agc.id, agcchar)))
 )
 
+## TODO: remove later and use true weight
 agcs$weight <- 400
 
 agcs[is.na(agcs)] <- 0
