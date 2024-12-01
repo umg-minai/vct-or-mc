@@ -48,6 +48,15 @@ agcchar <- function(x) {
         laparoscopic = 0:1,
         balanced.anaesthesia = 0:1
     )
+    n <- apply(
+        f,
+        MARGIN = 1,
+        function(ff)sum(
+            x$airway == ff[[1L]] & x$laparoscopic == ff[[2L]] &
+            x$balanced.anaesthesia == ff[[3L]],
+            na.rm = TRUE
+        )
+    )
     dur <- apply(
         f,
         MARGIN = 1,
@@ -77,6 +86,7 @@ agcchar <- function(x) {
         sep = "."
     )
 
+    names(n) <- paste("n", "cases", nf, sep = ".")
     names(dur) <- paste("sum", "dura", nf, sep = ".")
     names(flow) <- paste("med", "flow", nf, sep = ".")
 
@@ -88,6 +98,7 @@ agcchar <- function(x) {
         ),
         mean.airway = weighted.mean(a, d, na.rm = TRUE),
         mean.laparoscopic = weighted.mean(x$laparoscopic, d, na.rm = TRUE),
+        n,
         dur,
         flow,
         ncases = nrow(x)
@@ -104,6 +115,12 @@ agcs$weight <- 400
 agcs[is.na(agcs)] <- 0
 
 model_columns <- c(
+    "n.cases.lama.nonlap.tiva",
+    "n.cases.tube.nonlap.tiva",
+    "n.cases.tube.lap.tiva",
+    "n.cases.lama.nonlap.inha",
+    "n.cases.tube.nonlap.inha",
+    "n.cases.tube.lap.inha",
     "sum.dura.lama.nonlap.tiva",
     "sum.dura.tube.nonlap.tiva",
     "sum.dura.tube.lap.tiva",
@@ -215,6 +232,12 @@ table(keep)
 
 ```{r lm, echo = FALSE}
 mdl <- lm(weight ~ 0 +
+    n.cases.lama.nonlap.tiva +
+    n.cases.tube.nonlap.tiva +
+    n.cases.tube.lap.tiva +
+    n.cases.lama.nonlap.inha +
+    n.cases.tube.nonlap.inha +
+    n.cases.tube.lap.inha +
     sum.dura.lama.nonlap.tiva +
     sum.dura.tube.nonlap.tiva +
     sum.dura.tube.lap.tiva +
@@ -240,6 +263,12 @@ y <- agcs[keep, "weight"]
 
 X <- model.matrix(
 weight ~ 0 +
+    n.cases.lama.nonlap.tiva +
+    n.cases.tube.nonlap.tiva +
+    n.cases.tube.lap.tiva +
+    n.cases.lama.nonlap.inha +
+    n.cases.tube.nonlap.inha +
+    n.cases.tube.lap.inha +
     sum.dura.lama.nonlap.tiva +
     sum.dura.tube.nonlap.tiva +
     sum.dura.tube.lap.tiva +
