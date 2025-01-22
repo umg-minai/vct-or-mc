@@ -11,5 +11,5 @@ field_length(agc.id, n = 12)
 ) |
 (
     substr(agc.id, 2, 2) == "N" &
-    as.numeric(substr(agc.id, 7, 12)) < 12000
+    as.numeric(substr(agc.id, 7, 12)) < 14000
 )
