@@ -4,4 +4,5 @@ options:
 include:
   - rules/center.id.R
   - rules/or.id.R
+  - rules/water.trap.R
 ---

@@ -33,6 +33,10 @@ crf <- do.call(
     )
 )
 crf$or <- sprintf("%02.f-%02.f", crf$center.id, crf$or.id)
+
+crf <- merge(crf, setting, all = TRUE)
+
+crf$water.trap[is.na(crf$water.trap)] <- 0
 ```
 
 # Übersicht über CONTRAfluran-Filter
@@ -132,12 +136,14 @@ model_columns <- c(
     "med.flow.tube.lap.tiva",
     "med.flow.lama.nonlap.inha",
     "med.flow.tube.nonlap.inha",
-    "med.flow.tube.lap.inha"
+    "med.flow.tube.lap.inha",
+    "water.trap"
 )
 
 agcs$agc.id <- rownames(agcs)
 agcs$center <- crf[["center.id"]][match(agcs$agc.id, crf$agc.id)]
 agcs$or <- crf[["or"]][match(agcs$agc.id, crf$agc.id)]
+agcs$water.trap <- crf[["water.trap"]][match(agcs$agc.id, crf$agc.id)]
 
 knitr::kable(agcs, digits = 2)
 ```
@@ -249,7 +255,8 @@ mdl <- lm(weight ~ 0 +
     med.flow.tube.lap.tiva +
     med.flow.lama.nonlap.inha +
     med.flow.tube.nonlap.inha +
-    med.flow.tube.lap.inha,
+    med.flow.tube.lap.inha +
+    water.trap,
     data = agcs[keep, ]
 )
 
@@ -280,7 +287,8 @@ weight ~ 0 +
     med.flow.tube.lap.tiva +
     med.flow.lama.nonlap.inha +
     med.flow.tube.nonlap.inha +
-    med.flow.tube.lap.inha,
+    med.flow.tube.lap.inha +
+    water.trap,
     data = agcs[keep, ]
 )
 

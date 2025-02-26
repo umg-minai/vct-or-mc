@@ -31,5 +31,7 @@ The AGCs were closed with the "red cap" when the initial weight was measured.
 
 - center.id: id of the center.
 - or.id: id of the operating room.
+- water.trap: water trap between anaesthesia machine and AGC installed (1: TRUE, 0: FALSE)?
+- anaesthesia.machine: name of the used anaesthesia machine.
 - comments: free text comments.
 
