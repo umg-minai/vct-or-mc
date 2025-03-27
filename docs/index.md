@@ -4,6 +4,11 @@
 
 ### Fortschritt
 
+- Erfassung der Anästhesien und Sammlung der Aktivkohlefilter beendet.
+- Ausstehend:
+    - Desorption
+    - Datenauswertung
+
 [Übersicht über den Fortschritt der teilnehmenden OPs](progress.html)
 
 ### Geplanter Start und Laufzeit
