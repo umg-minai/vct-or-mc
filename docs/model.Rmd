@@ -37,6 +37,8 @@ crf$or <- sprintf("%02.f-%02.f", crf$center.id, crf$or.id)
 crf <- merge(crf, setting, all = TRUE)
 
 crf$water.trap[is.na(crf$water.trap)] <- 0
+
+weights <- read.csv(find_git_root_file("raw-data", "zeosys", "weights.csv"))
 ```
 
 # Übersicht über CONTRAfluran-Filter
@@ -113,8 +115,17 @@ agcs <- as.data.frame(
     t(do.call(cbind, tapply(crf, crf$agc.id, agcchar)))
 )
 
-## TODO: remove later and use true weight
-agcs$weight <- 400
+## remove later and use true weight
+#agcs$weight <- 400
+agcs$agc.id <- rownames(agcs)
+agcs <- merge(
+    agcs, weights[c("agc.id", "available", "weight1")],
+    by = "agc.id", all.x = TRUE
+)
+agcs$weight <- agcs$weight1
+
+## limit to available agcs
+agcs <- agcs[as.logical(agcs$available),]
 
 agcs[is.na(agcs)] <- 0
 
@@ -140,9 +151,10 @@ model_columns <- c(
     "water.trap"
 )
 
-agcs$agc.id <- rownames(agcs)
 agcs$center <- crf[["center.id"]][match(agcs$agc.id, crf$agc.id)]
 agcs$or <- crf[["or"]][match(agcs$agc.id, crf$agc.id)]
+agcs <- agcs[!agcs$or %in% c("09-01", "09-03"),]
+agcs <- agcs[agcs$ncases >= 10,]
 agcs$water.trap <- crf[["water.trap"]][match(agcs$agc.id, crf$agc.id)]
 
 knitr::kable(agcs, digits = 2)
@@ -153,7 +165,7 @@ knitr::kable(agcs, digits = 2)
 ```{r clustering, message = FALSE, warning = FALSE, fig.width = 14, fig.height = 9}
 a <- scale(agcs[model_columns])
 d <- dist(a, method = "euclidean")
-clsize <- 20
+clsize <- 80
 agcs$cluster.nn.min <-
     fixed_size_clustering_nearest_neighbor(d, size = clsize, method = "min")
 agcs$cluster.hc.wardD2 <-
@@ -162,6 +174,15 @@ agcs$cluster.km.rst.rng <-
     fixed_size_clustering_kmeans(a, size = clsize, method = "range")
 agcs$cluster.km.std <-
     kmeans(a, ceiling(nrow(a) / clsize))$cluster
+
+write.csv(
+    agcs,
+    file = find_git_root_file(
+        "export",
+        paste0(format(Sys.Date(), "%Y%m%d"), "_agcs_per_cluster.csv")
+    ),
+    row.names = FALSE
+)
 
 cols <- viridisLite::viridis(max(agcs$cluster.nn.min))
 
@@ -188,7 +209,7 @@ colored_bars(
         center = agcs$center,
         or.id = match(agcs$or, unique(agcs$or))
     ),
-    pvd, y_shift = -3.5
+    pvd, y_shift = -4.5
 )
 ```
 
@@ -232,7 +253,7 @@ Behalte nur Filter mit `r clsize` Filtern pro Gruppe.
 
 ```{r drop-smallest-cluster}
 keep <-
-    agcs$cluster.hc.wardD2 %in% which(table(agcs$cluster.hc.wardD2) == clsize)
+    agcs$cluster.nn.min %in% which(table(agcs$cluster.nn.min) == clsize)
 table(keep)
 ```
 
@@ -294,7 +315,8 @@ weight ~ 0 +
 
 ## TODO: replace y with measured weight and drop `jitter` call (just used to
 ## avoid error about constant y)
-Y <- jitter(y)
+#Y <- jitter(y)
+Y <- y
 
 ## TODO: increase nrepcv and nfolds for final calculations
 ## number of repeated cv for model estimation

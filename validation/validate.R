@@ -86,7 +86,7 @@ validate_all <- function(plot = FALSE, verbose = TRUE) {
     ## weights
     csvs <- list.files(
         find_git_root_file("raw-data", "weights"),
-        pattern = "*\\.csv",
+        pattern = "*\\.csv$",
         full.names = TRUE
     )
     yml <- find_git_root_file("validation", "weights.yml")
@@ -97,5 +97,17 @@ validate_all <- function(plot = FALSE, verbose = TRUE) {
             cat("\n\n## ", basename(tools::file_path_sans_ext(csv)),"\n\n")
             plot(weights)
         }
+    }
+
+    ## zeosys
+    zeosys <- validate(
+        csv = find_git_root_file("raw-data", "zeosys", "weights.csv"),
+        yml = find_git_root_file("validation", "zeosys.yml"),
+        verbose = verbose
+    )
+
+    if (plot) {
+        cat("\n\n## zeosys\n\n")
+        plot(settings)
     }
 }

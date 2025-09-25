@@ -35,3 +35,15 @@ The AGCs were closed with the "red cap" when the initial weight was measured.
 - anaesthesia.machine: name of the used anaesthesia machine.
 - comments: free text comments.
 
+## zeosys/weights.csv
+
+Weights of the anaesthetic gas canisters as reported by ZeoSys.
+
+- agc.id: id of the anaesthetic gas canister (AGC).
+- available: received at ZeoSys and available for the recapture process.
+- date.weight1: date of the first weight measurement at ZeoSys,
+    should be YYYY-MM-DD.
+- weight1: weight of the first measurement in gram.
+- date.weight2: date of the second weight measurement at ZeoSys,
+    should be YYYY-MM-DD.
+- weight2: weight of the second measurement in gram.

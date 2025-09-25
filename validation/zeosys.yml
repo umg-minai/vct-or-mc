@@ -1,0 +1,8 @@
+---
+options:
+  raise: none
+include:
+  - rules/agc.id.R
+  - rules/date.weights.R
+  - rules/final.weights.R
+---
