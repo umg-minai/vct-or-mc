@@ -3,6 +3,7 @@
     "r-ameld"
     "r-bibtex"
     "r-bookdown"
+    "r-consort"
     "r-dendextend"
     "r-dltr"
     "r-dofuture"
