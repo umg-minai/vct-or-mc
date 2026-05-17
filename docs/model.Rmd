@@ -119,10 +119,10 @@ agcs <- as.data.frame(
 #agcs$weight <- 400
 agcs$agc.id <- rownames(agcs)
 agcs <- merge(
-    agcs, weights[c("agc.id", "available", "weight1")],
+    agcs, weights[c("agc.id", "available", "weight2")],
     by = "agc.id", all.x = TRUE
 )
-agcs$weight <- agcs$weight1
+agcs$weight <- agcs$weight2
 
 ## limit to available agcs
 agcs <- agcs[as.logical(agcs$available),]
