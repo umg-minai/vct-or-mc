@@ -28,4 +28,204 @@ options(english.UK = FALSE)
 ```
 
 ```{r helper_functions, include = FALSE}
+is_docx_output <- function()
+    isTRUE(knitr::opts_knit$get("rmarkdown.pandoc.to") == "docx")
+
+ifelse_is_docx <- function(docx, others) {
+    if (is_docx_output())
+        docx
+    else
+        others
+}
+
+.cli_text <- function(...)cli::cli_format_method(cli::cli_text(...))
+```
+
+```{r import, include = FALSE}
+setting <- read.csv(find_git_root_file("raw-data", "setting.csv"))
+
+crf <- do.call(
+    rbind,
+    lapply(
+        list.files(
+            find_git_root_file("raw-data", "crfs"),
+            pattern = "*\\.csv",
+            full.names = TRUE
+            ),
+        function(x)read.csv(
+            x,
+            comment.char = "#", na.strings = c("NA", ""), strip.white = TRUE,
+            tryLogical = FALSE
+        )
+    )
+)
+crf$or <- sprintf("%02.f-%02.f", crf$center.id, crf$or.id)
+crf$start <- lubridate::ymd_hms(crf$start)
+crf$end <- lubridate::ymd_hms(crf$end)
+
+crf <- merge(crf, setting, all = TRUE)
+
+crf$water.trap[is.na(crf$water.trap)] <- 0
+
+weights <- read.csv(find_git_root_file("raw-data", "zeosys", "weights.csv"))
+
+agc_summary <- function(x) {
+    dur_min <- as.double((x$end - x$start), units = "mins")
+
+    cmbs <- expand.grid(
+        airway = c("L", "T"),
+        laparoscopic = 0:1,
+        balanced.anaesthesia = 0:1
+    )
+
+    sel_cmb <- function(x, cmb) {
+        x$airway == cmb[["airway"]] &
+        x$laparoscopic == cmb[["laparoscopic"]] &
+        x$balanced.anaesthesia == cmb[["balanced.anaesthesia"]]
+    }
+
+    n_cases <- apply(cmbs, MARGIN = 1L, function(cmb)
+        sum(sel_cmb(x, cmb), na.rm = TRUE)
+    )
+
+    sum_dur <- apply(cmbs, MARGIN = 1L, function(cmb)
+        sum(dur_min[sel_cmb(x, cmb)], na.rm = TRUE)
+    )
+
+    med_dur <- apply(cmbs, MARGIN = 1L, function(cmb)
+        median(dur_min[sel_cmb(x, cmb)], na.rm = TRUE)
+    )
+
+    med_flow <- apply(cmbs, MARGIN = 1L, function(cmb)
+        median(x$flow[sel_cmb(x, cmb)], na.rm = TRUE)
+    )
+
+    nms <- paste(
+        ifelse(cmbs[["airway"]] == "L", "lama", "tube"),
+        ifelse(cmbs[["laparoscopic"]], "lap", "nonlap"),
+        ifelse(cmbs[["balanced.anaesthesia"]], "inha", "tiva"),
+        sep = "."
+    )
+
+    names(n_cases) <- paste("n", "cases", nms, sep = ".")
+    names(med_dur) <- paste("med", "dur", nms, sep = ".")
+    names(sum_dur) <- paste("sum", "dur", nms, sep = ".")
+    names(med_flow) <- paste("med", "flow", nms, sep = ".")
+
+    c(
+        n.cases = nrow(x),
+        n_cases,
+        med.dur = median(dur_min, na.rm = TRUE),
+        med_dur,
+        sum.dur = sum(dur_min, na.rm = TRUE),
+        sum_dur,
+        med.flow = matrixStats::weightedMedian(x$flow, dur_min, na.rm = TRUE),
+        med_flow,
+        pct.tube =mean(x$airway == "T", na.rm = TRUE),
+        pct.lap = mean(x$laparoscopic, na.rm = TRUE),
+        pct.inha = mean(x$balanced.anaesthesia, na.rm = TRUE),
+        water.trap = x$water.trap[1L]
+    )
+}
+
+agcs <- as.data.frame(
+    do.call(rbind, lapply(split(crf, crf$agc.id), agc_summary))
+)
+agcs$agc.id <- rownames(agcs)
+rownames(agcs) <- NULL
+
+agcs <- merge(
+    agcs, weights[c("agc.id", "weight1", "weight2", "available")],
+    all.x = TRUE
+)
+
+agcs$center <- crf[["center.id"]][match(agcs$agc.id, crf$agc.id)]
+agcs$or <- crf[["or"]][match(agcs$agc.id, crf$agc.id)]
+
+## exclusion
+
+## exclude OR 09-01 and 09-03 due to poor documentation
+agcs$exclusion.reason[agcs$or %in% c("09-01", "09-03")] <-
+    "poor documentation"
+agcs$excluded <- !is.na(agcs$exclusion.reason)
+
+## exclude due to too few cases
+agcs$exclusion.reason[agcs$n.cases < 10 & !agcs$excluded] <-
+    "less than 10 cases"
+agcs$excluded <- !is.na(agcs$exclusion.reason)
+
+## some agcs were never delivered/found to/at ZeoSys
+agcs$exclusion.reason[!agcs$available & !agcs$excluded] <-
+    "lost"
+agcs$excluded <- !is.na(agcs$exclusion.reason)
+
+## some agcs were never delivered/found to/at ZeoSys
+agcs$exclusion.reason[is.na(agcs$weight2) & !agcs$excluded] <-
+    "outlier"
+agcs$excluded <- !is.na(agcs$exclusion.reason)
+
+# TODO: create table in supplement
+ors <- as.data.frame(
+    do.call(rbind, lapply(split(crf, crf$or), function(or)
+        c(
+          center.id = or$center.id[[1L]],
+          or.id = or$or.id[[1L]],
+          n.agcs = length(unique(or$agc.id)),
+          unlist(agc_summary(or))
+        )
+    ))
+)
+or_agcs <- as.matrix(table(agcs$or, agcs$excluded))
+colnames(or_agcs) <- paste("n.agcs", c("included", "excluded"), sep = ".")
+ors <- cbind(ors, or_agcs)
+
+## to reproduce clustering (which was done in docs/model.Rmd before)
+#a <- agcs[agcs$available == 1L &
+#          (is.na(agcs$exclusion.reason) | agcs$exclusion.reason == "outlier"),]
+#a[is.na(a)] <- 0
+#
+#model_columns <- c(
+#    "n.cases.lama.nonlap.tiva",
+#    "n.cases.tube.nonlap.tiva",
+#    "n.cases.tube.lap.tiva",
+#    "n.cases.lama.nonlap.inha",
+#    "n.cases.tube.nonlap.inha",
+#    "n.cases.tube.lap.inha",
+#    #"med.dur.lama.nonlap.tiva", ## no difference if med.dur columns are choosen
+#    #"med.dur.tube.nonlap.tiva", ## but sum.dur was used before
+#    #"med.dur.tube.lap.tiva",
+#    #"med.dur.lama.nonlap.inha",
+#    #"med.dur.tube.nonlap.inha",
+#    #"med.dur.tube.lap.inha",
+#    "sum.dur.lama.nonlap.tiva",
+#    "sum.dur.tube.nonlap.tiva",
+#    "sum.dur.tube.lap.tiva",
+#    "sum.dur.lama.nonlap.inha",
+#    "sum.dur.tube.nonlap.inha",
+#    "sum.dur.tube.lap.inha",
+#    "med.flow.lama.nonlap.tiva",
+#    "med.flow.tube.nonlap.tiva",
+#    "med.flow.tube.lap.tiva",
+#    "med.flow.lama.nonlap.inha",
+#    "med.flow.tube.nonlap.inha",
+#    "med.flow.tube.lap.inha",
+#    "water.trap"
+#)
+#d <- dist(scale(a[model_columns]), method = "euclidean")
+#clsize <- 80
+#a$cluster.nn.min <-
+#    fixed_size_clustering_nearest_neighbor(d, size = clsize, method = "min")
+```
+
+```{r summary, include = FALSE}
+n_center <- c(initial = length(unique(crf$center.id)), final = NA)
+n_ors <- c(initial = nrow(unique(crf[, c("center.id", "or.id")])), final = NA)
+n_agcs <- c(initial = length(unique(crf$agc.id)), final = NA)
+n_bottles <- c(
+    initial = nrow(unique(crf[, c("center.id", "or.id", "bottle.number")])),
+    final = NA
+)
+n_cases <- c(initial = nrow(crf), final = NA)
+
+study_period <- c(min(crf$start, na.rm = TRUE), max(crf$end, na.rm = TRUE))
 ```

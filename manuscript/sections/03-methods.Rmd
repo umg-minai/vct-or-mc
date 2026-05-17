@@ -4,7 +4,8 @@
 
 The study was approved by the ethics committee of the University Medicine Greifswald
 (reference number: `r rmarkdown::metadata[["ethics_committee"]][["reference_number"]]`;
-approval date: `r rmarkdown::metadata[["ethics_committee"]][["approval_date"]]`)
+approval date: `r rmarkdown::metadata[["ethics_committee"]][["approval_date"]]`).
+It was registred on April 26, 2024, at osf.io (5BMJ8).
 
 ## Setting
 

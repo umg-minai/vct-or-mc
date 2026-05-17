@@ -1,6 +1,6 @@
 ---
 title: >
-    Capture efficiency of CONTRAfluran absorbers for sevoflurane in a real-world scenario - a multicenter observational study
+    Capture efficiency of CONTRAfluran absorbers for sevoflurane in a real-world scenario - a multicentric binational observational study
 institute:
     - KAINS: Department of Anesthesiology and Intensive Care Medicine, University Hospital Greifswald, Ferdinand-Sauerbruch-Straße, D-17475 Greifswald, Germany.
     - SALEM: Department of Anesthesiology and Intensive Care Medicine, Hospital Salem, Zeppelinstraße 11 - 33, D-69121 Heidelberg, Germandy.

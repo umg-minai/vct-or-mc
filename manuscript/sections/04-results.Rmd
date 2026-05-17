@@ -1,6 +1,13 @@
 # Results
 
+from `r format(lubridate::floor_date(study_period[1L], "month"), "%B %Y")`
+to `r format(lubridate::floor_date(study_period[2L], "month"), "%B %Y")`
+
+initial:
+`r .cli_text('{n_center["initial"]} centers, {n_ors["initial"]} ORs, {n_bottles["initial"]} bottles of sevoflurane, {n_agcs["initial"]} filters, and {n_cases["initial"]} anaesthesia cases.')`
+
+final:
+`r .cli_text('{n_center["final"]} centers, {n_ors["final"]} ORs, {n_bottles["final"]} bottles of sevoflurane, {n_agcs["final"]} filters, and {n_cases["final"]} anaesthesia cases.')`
 
 ```{r table1, echo = FALSE, message = FALSE}
 ```
-

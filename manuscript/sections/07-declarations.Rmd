@@ -1,15 +1,5 @@
 # Declarations
 
-## Ethical approval
-
-Research involving human subjects complied with all relevant national regulations and institutional policies, as well as the tenets of the Helsinki Declaration (as revised in 2013), and was approved by the ethics committee of the University Medicine Greifswald
-(reference number: `r rmarkdown::metadata[["ethics_committee"]][["reference_number"]]`;
-approval date: `r rmarkdown::metadata[["ethics_committee"]][["approval_date"]]`)
-
-## Consent for publication
-
-Not applicable.
-
 ## Availability of data and materials
 
 TODO:
@@ -19,8 +9,6 @@ The datasets generated and/or analysed during the current study are available in
 ## Competing interests
 
 ```{r competing-interests, echo = FALSE, results = "asis"}
-.enum <- function(x)
-    paste0(paste0(head(x, -1L), collapse = ", "), " and ", tail(x, 1))
 .drop_author_title <- function(x)gsub(",.*$", "", x)
 .initials <- function(x)gsub("\\W*\\b(\\w)\\w*", "\\1", x)
 authors <- unlist(rmarkdown::metadata$author, recursive = FALSE)
@@ -64,7 +52,7 @@ actbs <- character(length(l))
 for (i in seq_along(l)) {
     nm <- nms[i]
     txt <- l[[i]]
-    actbs[i] <- paste0(nm, ": ", .enum(txt), collapse = "; ")
+    actbs[i] <- paste0(nm, ": ", .cli_text("{txt}"), collapse = "; ")
 }
 cat(
     paste0(actbs, collapse = "; "),

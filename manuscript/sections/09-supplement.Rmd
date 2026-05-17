@@ -6,6 +6,17 @@
 ```{r tableagc, echo = FALSE, message = FALSE, caption = "Details of anaesthetic gas canisters."}
 ```
 
+## Overview participating centers
+
+TODO: Reorder centerids 1:10 (instead of 1:12 with gaps), add number of AGCs per OR, add exclude/include flag, summarize ORs by center
+(included filter per center (e.g. 7 of 10, 0 of 6, ...))
+
+```{r tablecenter, echo = FALSE, message = FALSE, caption = "Details of participating centers. OR: operating room."}
+knitr::kable(
+    setting[c("center.id", "or.id", "anaesthesia.machine")],
+    col.names = c("Center", "OR", "Anaethesia machine")
+)
+```
 
 ## R session information
 
@@ -21,4 +32,3 @@ sessionInfo()
 ```{r gitcommithash, echo = FALSE}
 sprintf("Git commit revision: %s", system("git rev-parse HEAD", intern = TRUE))
 ```
-
