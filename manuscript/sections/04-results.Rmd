@@ -1,13 +1,405 @@
 # Results
 
-from `r format(lubridate::floor_date(study_period[1L], "month"), "%B %Y")`
-to `r format(lubridate::floor_date(study_period[2L], "month"), "%B %Y")`
 
-initial:
-`r .cli_text('{n_center["initial"]} centers, {n_ors["initial"]} ORs, {n_bottles["initial"]} bottles of sevoflurane, {n_agcs["initial"]} filters, and {n_cases["initial"]} anaesthesia cases.')`
+From
+`r format(lubridate::floor_date(study_period[1L], "month"), "%B %Y")`
+to
+`r format(lubridate::floor_date(study_period[2L], "month"), "%B %Y")`,
+a total of `r n_agcs["initial"]` canisters were deployed across
+`r n_ors["initial"]` operating rooms in `r n_center["initial"]` hospitals,
+encompassing `r n_cases["initial"]` anaesthesia cases
+and `r n_bottles["initial"]` sevoflurane bottles
+(Figure\ \@ref(fig:agc-flowchart)).
+Prior to submission to ZeoSys,
+`r n_excl_poor_doc + n_excl_few_cases + n_excl_lost` canisters were excluded:
+`r n_excl_poor_doc` due to insufficient case documentation in two operating rooms,
+`r n_excl_few_cases` due to fewer than ten anaesthesia cases recorded,
+and `r n_excl_lost` that could not be located at ZeoSys.
+Of the `r n_eligible` eligible canisters,
+a further `r n_excl_outlier` could not be included in the single batch of 80,
+having been identified as outliers by nearest-neighbour clustering.
+Accordingly, `r n_agcs["final"]` canisters from
+`r n_ors["final"]` operating rooms across `r n_center["final"]` hospitals
+were included in the final analysis,
+covering `r n_cases["final"]` anaesthesia cases.
+Table\ \@ref(tab:table-one) summarises their characteristics.
 
-final:
-`r .cli_text('{n_center["final"]} centers, {n_ors["final"]} ORs, {n_bottles["final"]} bottles of sevoflurane, {n_agcs["final"]} filters, and {n_cases["final"]} anaesthesia cases.')`
+Desorption of all analysed canisters was performed on
+`r format(zeosys_desorption_date, "%d %B %Y")`.
+ZeoSys recovered
+`r zeosys_sevo_weight_kg` kg (`r zeosys_sevo_volume_l` L)
+of sevoflurane from batch `r zeosys_batch`,
+with a purity exceeding `r zeosys_purity_pct`%.
+Sevoflurane attributed
+`r round(zeosys_yield * 100, 1)`%
+of the canisters’ weight gain.
+The remaining `r round((1 - zeosys_yield) * 100, 1)`%
+were water (and only traces of metabolic products like acetone, Compound A-E, etc.).
+The `r n_agcs["final"]` analysed canisters accounted for an estimated
+`r round(n_bottles["final"], 1)` bottles
+(`r round(sevo_final_kg, 1)` kg).
+Relative to this subset, the recovered `r round(zeosys_sevo_weight_kg, 1)` kg
+correspond to a recapture rate of `r round(recovery_pct_final, 1)`%.
+Pre-desorption weights were taken `r zeosys_storage_days` days before desorption,
+during which canisters lost a median of `r round(abs(zeosys_med_wdiff_g), 1)` g
+(`r round(zeosys_wdiff_pct_of_gain, 1)`% of the median weight gain),
+corresponding to a total storage loss of `r round(zeosys_total_wloss_g, 0)` g
+across all `r n_agcs["final"]` canisters.
+Figure\ \@ref(fig:weight-gain-distribution) shows the distribution of weight gain.
 
-```{r table1, echo = FALSE, message = FALSE}
+```{r agc-flowchart, echo = FALSE, message = FALSE, dev = ifelse_is_docx("tiff", "png"), fig.width = 8, fig.height = 5, fig.cap = "Flow diagram of anaesthetic gas canisters from study sites to analysis. AGC, anaesthetic gas canister; OR, operating room."}
+library("consort")
+
+count_ors <- function(ids) length(unique(agcs$or[agcs$agc.id %in% ids]))
+fmt       <- function(ids) paste0("n = ", length(ids), "; ", count_ors(ids), " ORs")
+excl      <- function(reason)
+    agcs$agc.id[!is.na(agcs$exclusion.reason) & agcs$exclusion.reason == reason]
+
+all_ids   <- agcs$agc.id
+excl1_ids <- excl("poor documentation")
+excl2_ids <- excl("less than 10 cases")
+excl3_ids <- excl("lost")
+excl4_ids <- excl("outlier")
+step1_ids <- agcs$agc.id[agcs$exclusion.reason %in% c("outlier") |
+                          is.na(agcs$exclusion.reason)]
+final_ids <- agcs$agc.id[is.na(agcs$exclusion.reason)]
+
+p <- add_box(txt = paste0("AGCs used\n", fmt(all_ids)))
+p <- add_side_box(p, side = "right", txt = paste0(
+    "Excluded (n = ", length(c(excl1_ids, excl2_ids, excl3_ids)), ")",
+    "\n- Poor documentation (n = ", length(excl1_ids), ")",
+    "\n- Less than 10 cases (n = ", length(excl2_ids), ")",
+    "\n- Not available at ZeoSys (n = ", length(excl3_ids), ")"
+))
+p <- add_box(p, txt = paste0("AGCs eligible\n", fmt(step1_ids)))
+p <- add_side_box(p, side = "right", txt = paste0(
+    "Excluded (n = ", length(excl4_ids), ")",
+    "\n- Not processed (n = ", length(excl4_ids), ")"
+))
+p <- add_box(p, txt = paste0("AGCs analysed\n", fmt(final_ids)))
+
+p <- add_label_box(p, txt = c("1" = "Study sites", "2" = "ZeoSys", "3" = "Analysis"))
+
+plot(p, grViz = !is_docx_output())
+```
+
+```{r table-one, echo = FALSE}
+t1_data <- agcs[is.na(agcs$exclusion.reason), ]
+
+## derived per-canister variables
+n_inha_cols       <- grep("^n\\.cases.*inha", names(t1_data), value = TRUE)
+n_tiva_cols       <- grep("^n\\.cases.*tiva", names(t1_data), value = TRUE)
+t1_data$pct.ba    <- rowSums(t1_data[, n_inha_cols, drop = FALSE]) /
+                     t1_data$n.cases * 100
+t1_data$pct.tiva2 <- rowSums(t1_data[, n_tiva_cols, drop = FALSE]) /
+                     t1_data$n.cases * 100
+t1_data$pct.tube2 <- t1_data$pct.tube * 100
+t1_data$pct.lap2  <- t1_data$pct.lap  * 100
+
+## formatting helpers
+med_iqr <- function(x, d = 1) {
+    x <- x[!is.na(x)]
+    if (!length(x)) return("—")
+    sprintf("%s [%s–%s]",
+            formatC(median(x),         digits = d, format = "f"),
+            formatC(quantile(x, 0.25), digits = d, format = "f"),
+            formatC(quantile(x, 0.75), digits = d, format = "f"))
+}
+n_pct <- function(x) {
+    n   <- sum(x == 1L, na.rm = TRUE)
+    tot <- sum(!is.na(x))
+    sprintf("%d (%d%%)", n, round(n / tot * 100))
+}
+
+## build one column per group
+centres  <- sort(unique(t1_data$center))
+grp_dfs  <- c(
+    list(Overall = t1_data),
+    setNames(lapply(centres, function(ctr) t1_data[t1_data$center == ctr, ]),
+             paste("Centre", centres))
+)
+
+make_col <- function(df) c(
+    paste0("n = ", nrow(df)),
+    med_iqr(df$n.cases,    d = 0),
+    med_iqr(df$pct.ba,     d = 0),
+    med_iqr(df$pct.tiva2,  d = 0),
+    med_iqr(df$sum.dur,    d = 0),
+    med_iqr(df$med.flow,   d = 1),
+    med_iqr(df$pct.tube2,  d = 0),
+    med_iqr(df$pct.lap2,   d = 0),
+    n_pct(df$water.trap),
+    med_iqr(df$weight.gain,                  d = 0),
+    med_iqr(df$proportional.recaptured.sevo, d = 1)
+)
+
+row_labels <- c(
+    "",
+    "Cases per canister",
+    "Balanced anaesthesia, %",
+    "TIVA, %",
+    "Total anaesthesia duration, min",
+    "Median fresh gas flow, l.min⁻¹",
+    "Tracheal tube, %",
+    "Laparoscopic surgery, %",
+    "Water trap, n (%)",
+    "Weight gain, g",
+    "Estimated recaptured sevoflurane, g"
+)
+
+t1_mat <- do.call(cbind, lapply(grp_dfs, make_col))
+t1_df  <- data.frame(Variable = row_labels, t1_mat,
+                     stringsAsFactors = FALSE, check.names = FALSE)
+
+knitr::kable(
+    t1_df,
+    col.names = c("", names(grp_dfs)),
+    row.names = FALSE,
+    caption   = paste0(
+        "Characteristics of the ", n_agcs["final"], " analysed canisters, ",
+        "overall and by centre. ",
+        "Continuous variables: Median [Q1–Q3]; water trap: n (%). ",
+        "BA, inhaled anaesthesia; TIVA, total intravenous anaesthesia."
+    )
+)
+```
+
+```{r weight-gain-distribution, echo = FALSE, dev = ifelse_is_docx("tiff", "png"), fig.width = 7, fig.height = 4.5, fig.cap = paste0('Weight gain (in vivo mass transfer, ΔW₀) for all ', n_agcs['final'], ' analysed canisters, sorted in ascending order. Each point represents one canister. Colour indicates the participating centre; filled circles denote canisters equipped with a water trap, open circles those without. The dashed horizontal line marks the median weight gain.')}
+wg_data  <- agcs[is.na(agcs$exclusion.reason), ]
+wg_data  <- wg_data[order(wg_data$weight.gain), ]
+
+ctr_lvls <- sort(unique(wg_data$center))
+n_ctr    <- length(ctr_lvls)
+ctr_pal  <- setNames(
+    palette.colors(n_ctr, palette = "Okabe-Ito")[seq_len(n_ctr)],
+    ctr_lvls
+)
+
+plot(
+    seq_len(nrow(wg_data)), wg_data$weight.gain,
+    pch  = ifelse(wg_data$water.trap == 1L, pt_pch, 1L),
+    col  = ctr_pal[as.character(wg_data$center)],
+    xlab = "Canister (ranked by weight gain)",
+    ylab = "Weight gain (g)",
+    las  = 1,
+    bty  = "l",
+    xaxt = "n"
+)
+abline(h = median(wg_data$weight.gain), lty = 2, col = col_ref)
+
+legend("topleft",
+       legend = paste("Centre", ctr_lvls),
+       col    = ctr_pal,
+       pch    = pt_pch,
+       bty    = "n",
+       cex    = leg_cex)
+legend("bottomright",
+       legend = c("Water trap", "No water trap"),
+       pch    = c(pt_pch, 1L),
+       col    = col_ref,
+       bty    = "n",
+       cex    = leg_cex)
+```
+
+```{r penalized-regression-setup, include = FALSE, cache = TRUE}
+set.seed(20260517)
+
+final_agcs <- agcs[!agcs$excluded, ]
+num_cols   <- vapply(final_agcs, is.numeric, logical(1))
+final_agcs[num_cols][is.na(final_agcs[num_cols])] <- 0
+
+X <- model.matrix(
+    proportional.recaptured.sevo
+        ~ 0 +
+        n.cases.lama.nonlap.tiva +
+        n.cases.tube.nonlap.tiva +
+        n.cases.tube.lap.tiva +
+        n.cases.lama.nonlap.inha +
+        n.cases.tube.nonlap.inha +
+        n.cases.tube.lap.inha +
+        sum.dur.lama.nonlap.tiva +
+        sum.dur.tube.nonlap.tiva +
+        sum.dur.tube.lap.tiva +
+        sum.dur.lama.nonlap.inha +
+        sum.dur.tube.nonlap.inha +
+        sum.dur.tube.lap.inha +
+        med.flow.lama.nonlap.tiva +
+        med.flow.tube.nonlap.tiva +
+        med.flow.tube.lap.tiva +
+        med.flow.lama.nonlap.inha +
+        med.flow.tube.nonlap.inha +
+        med.flow.tube.lap.inha +
+        water.trap,
+        data = final_agcs
+)
+Y <- final_agcs$proportional.recaptured.sevo
+
+## TODO: increase nrepcv and nfolds for final calculations
+## number of repeated cv for model estimation
+nrepcv <- 10
+## number of cv folds for model estimation
+nfolds <- 5
+
+fit <- rcv.glmnet(
+    X, Y,
+    alpha = 1, intercept = FALSE, nfolds = nfolds, nrepcv = nrepcv
+)
+```
+
+```{r penalized-regression-coef, echo = FALSE}
+knitr::kable(
+    as.matrix(coef(fit, s = "lambda.1se")),
+    col.names = "Coefficient",
+    digits = 4,
+    caption = "LASSO coefficients (lambda.1se) for the prediction of recaptured sevoflurane weight (g) from anaesthesia case characteristics."
+)
+```
+
+```{r stabsel-results, include = FALSE, cache = TRUE, dependson = "penalized-regression-setup"}
+library("stabs")
+set.seed(20260517)
+pi_thr <- 0.8
+
+## fitfun wrapping rcv.glmnet: stability selection on top of repeated CV
+rcv_glmnet_fitfun <- function(x, y, q, ...) {
+    fit <- ameld::rcv.glmnet(
+        x, y,
+        alpha     = 1,
+        intercept = FALSE,
+        nfolds    = nfolds,
+        nrepcv    = nrepcv,
+        pmax      = q,
+        trace.it  = FALSE
+    )
+    cf       <- as.matrix(coef(fit, s = "lambda.1se"))
+    cf       <- cf[rownames(cf) != "(Intercept)", , drop = FALSE]
+    selected <- cf[, 1] != 0
+    names(selected) <- colnames(x)
+    path <- as.matrix(fit$glmnet.fit$beta != 0)
+    list(selected = selected, path = path)
+}
+
+stab_fit <- stabsel(
+    x             = X,
+    y             = Y,
+    fitfun        = rcv_glmnet_fitfun,
+    cutoff        = pi_thr,
+    PFER          = pfer,
+    B             = 100,
+    sampling.type = "MB"
+)
+
+stab_df <- data.frame(
+    variable = names(stab_fit$max),
+    max.prob = round(stab_fit$max, 3),
+    selected = ifelse(names(stab_fit$max) %in% names(stab_fit$selected), "Yes", "No"),
+    stringsAsFactors = FALSE
+)
+stab_df <- stab_df[order(-stab_df$max.prob), ]
+rownames(stab_df) <- NULL
+
+stab_selected_vars <- names(stab_fit$selected)
+```
+
+```{r penalized-regression-prose, include = FALSE}
+coef_min <- as.matrix(coef(fit, s = "lambda.min"))
+coef_1se <- as.matrix(coef(fit, s = "lambda.1se"))
+
+nonzero_min <- rownames(coef_min)[coef_min[, 1] != 0]
+nonzero_1se <- rownames(coef_1se)[coef_1se[, 1] != 0]
+
+ncases_inha_min <- nonzero_min[grepl("n\\.cases.*inha", nonzero_min)]
+wt_coef_min     <- coef_min["water.trap", 1]
+```
+
+Of the `r ncol(X)` candidate predictors entered into the LASSO model,
+`r length(nonzero_min)` retained non-zero coefficients at lambda.min and
+`r length(nonzero_1se)` at the more parsimonious lambda.1se
+(Table\ \@ref(tab:penalized-regression-coef)).
+Predictors consistently selected were
+median fresh gas flow during inhaled anaesthesia cases,
+`r ifelse(length(ncases_inha_min) > 0, "the number of inhaled anaesthesia cases,", "")`
+and water trap use.
+`r ifelse(wt_coef_min > 0, "Water trap use was associated with higher recapture,", "Water trap use was associated with lower recapture,")`
+consistent with its protective role against moisture accumulation in the activated carbon.
+All predictors related exclusively to TIVA cases were reduced to zero by the penalisation,
+consistent with canister loading being primarily driven by inhaled anaesthesia exposure.
+Findings should be treated as exploratory at this sample size.
+
+```{r stabsel-prose, include = FALSE}
+stab_top <- head(stab_df[order(-stab_df$max.prob), ], 2)
+```
+
+To assess the robustness of predictor selection,
+we applied stability selection with subsampling
+(PFER ≤ `r pfer`; Online Supplementary File S1, Table\ \@ref(tab:stabsel-table)).
+`r english::Words(length(stab_selected_vars))` predictor
+`r ifelse(length(stab_selected_vars) == 1, "was", "were")` stably selected,
+the median fresh gas flow during inhaled anaesthesia cases performed
+with a tracheal tube and non-laparoscopic surgery
+(maximum selection probability `r format(round(stab_top$max.prob[1L], 2), nsmall = 2)`).
+The corresponding case count in the same subgroup approached,
+but did not cross, the effective selection probability threshold
+(`r format(round(stab_top$max.prob[2L], 2), nsmall = 2)`).
+All remaining predictors fell well below the threshold.
+The stability-selection finding therefore corroborates the broad LASSO signal
+that fresh gas flow under inhaled anaesthesia is the most robust candidate predictor
+of per-canister loading,
+while leaving the role of other predictors uncertain at the present sample size.
+Figure\ \@ref(fig:flow-recapture-scatter) illustrates the relationship between
+fresh gas flow during inhaled anaesthesia and estimated per-canister recapture.
+
+```{r flow-recapture-scatter, echo = FALSE, dev = ifelse_is_docx("tiff", "png"), fig.width = 6, fig.height = 4.5, fig.cap = paste0('Estimated recaptured sevoflurane per canister as a function of the duration-weighted median fresh gas flow during inhaled anaesthesia cases (n = ', sum(is.na(agcs$exclusion.reason)), ' canisters). Point size is proportional to the total number of inhaled anaesthesia cases. Blue: canisters with a water trap; red: without. The dashed line shows a univariate linear regression with 95% confidence band (shown for reference only; the primary analysis is the multivariate LASSO).')}
+fa <- agcs[is.na(agcs$exclusion.reason), ]
+
+flow_inha_cols <- grep("^med\\.flow.*inha", names(fa), value = TRUE)
+dur_inha_cols  <- grep("^sum\\.dur.*inha",  names(fa), value = TRUE)
+n_inha_cols    <- grep("^n\\.cases.*inha",  names(fa), value = TRUE)
+
+total_dur <- rowSums(fa[, dur_inha_cols, drop = FALSE])
+wt_flow   <- ifelse(
+    total_dur > 0,
+    rowSums(
+        as.matrix(fa[, flow_inha_cols, drop = FALSE]) *
+        as.matrix(fa[, dur_inha_cols,  drop = FALSE]),
+        na.rm = TRUE
+    ) / total_dur,
+    NA_real_
+)
+n_inha <- rowSums(fa[, n_inha_cols, drop = FALSE])
+mask   <- !is.na(wt_flow) & n_inha > 0L
+
+cex_pts  <- 0.5 + 2.5 * n_inha[mask] / max(n_inha[mask])
+col_pts  <- ifelse(fa$water.trap[mask] == 1L, col_primary, col_secondary)
+
+df_sc    <- data.frame(sevo = fa$proportional.recaptured.sevo[mask],
+                       flow = wt_flow[mask])
+fit_fs   <- lm(sevo ~ flow, data = df_sc)
+x_seq    <- seq(min(df_sc$flow), max(df_sc$flow), length.out = 200)
+pred_fs  <- predict(fit_fs, newdata = data.frame(flow = x_seq), interval = "confidence")
+
+plot(
+    df_sc$flow, df_sc$sevo,
+    cex  = cex_pts,
+    col  = adjustcolor(col_pts, alpha.f = pt_alpha),
+    pch  = pt_pch,
+    xlab = "Duration-weighted fresh gas flow, inhaled anaesthesia (l.min⁻¹)",
+    ylab = "Estimated recaptured sevoflurane (g)",
+    las  = 1,
+    bty  = "l"
+)
+polygon(
+    c(x_seq, rev(x_seq)),
+    c(pred_fs[, "lwr"], rev(pred_fs[, "upr"])),
+    col    = col_band(col_ref),
+    border = NA
+)
+lines(x_seq, pred_fs[, "fit"], col = col_ref, lwd = 2, lty = 2)
+
+legend("topleft",
+       legend = c("Water trap", "No water trap"),
+       col    = c(col_primary, col_secondary),
+       pch    = pt_pch,
+       bty    = "n",
+       cex    = leg_cex)
 ```

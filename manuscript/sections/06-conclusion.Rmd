@@ -1,2 +1,21 @@
 # Conclusion
 
+In this prospective, multicentre observational study across
+`r n_center["final"]` hospitals in Germany and Austria,
+passive CONTRAfluran canisters recaptured `r round(recovery_pct_final, 1)`%
+of the sevoflurane attributable to the `r n_agcs["final"]` analysed canisters
+under routine clinical conditions.
+This finding is consistent with previous single-centre evidence
+and extends it by demonstrating comparable recapture rates
+across diverse clinical settings, anaesthesia workstations, and case mixes.
+
+Exploratory penalised regression identified fresh gas flow
+and the number of inhaled anaesthesia cases
+as the main candidate predictors of per-canister recapture.
+Water trap use was independently associated with higher recapture.
+Stability selection corroborated only the dominant flow signal,
+while the role of the remaining predictors remained uncertain at this sample size.
+These findings indicate that the environmental return of vapour capture technology
+is not uniform across operating rooms,
+and that targeted deployment in settings with a high proportion of inhaled anaesthesia
+may optimise capture efficiency at the system level.

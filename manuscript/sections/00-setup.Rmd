@@ -3,28 +3,45 @@ Sys.setlocale("LC_ALL", "en_US.UTF-8")
 
 library("minair")
 
+is_docx_output <- function()
+    isTRUE(knitr::opts_knit$get("rmarkdown.pandoc.to") == "docx")
+
 knitr::opts_chunk$set(
     cache.path = find_git_root_file(
         "manuscript", "cache", knitr::opts_knit$get('rmarkdown.pandoc.to'), "/"
-    )
+    ),
+    warning = !is_docx_output()
 )
 ```
 
 ```{r package_bibliography, include = FALSE}
 knitr::write_bib(
     c(
-        "base",
-        "gtsummary"
+        "base"
     ),
     file = find_git_root_file("manuscript", "bibliography", "rpackages.bib")
 )
 ```
 
 ```{r libraries, include = FALSE}
+library("ameld")
 library("english")
 library("lubridate")
 
 options(english.UK = FALSE)
+
+## plot style constants
+col_primary   <- "#2166AC"
+col_secondary <- "#D6604D"
+col_light     <- "#D1E5F0"
+col_ref       <- "grey50"
+col_band      <- function(col = col_primary) adjustcolor(col, alpha.f = 0.15)
+pt_alpha      <- 0.7
+pt_pch        <- 16L
+leg_cex       <- 0.8
+
+## stability selection parameters
+pfer <- 1
 ```
 
 ```{r helper_functions, include = FALSE}
@@ -39,9 +56,28 @@ ifelse_is_docx <- function(docx, others) {
 }
 
 .cli_text <- function(...)cli::cli_format_method(cli::cli_text(...))
+
+.boxjitter <- function(lst, cols, ylab, ...) {
+    op <- par(mar = c(5, 4.5, 0.5, 0.5))
+    set.seed(20260528)
+    boxplot(
+        lst, col = cols, border = "grey30",
+        ylab = ylab, bty = "l", outline = FALSE, ...
+    )
+    stripchart(
+        lst, vertical = TRUE, method = "jitter", jitter = 0.1,
+        pch = pt_pch, col = adjustcolor(col_ref, alpha.f = pt_alpha),
+        cex = 0.8, add = TRUE
+    )
+    par(op)
+}
 ```
 
 ```{r import, include = FALSE}
+n_bottles_per_or      <- 10
+sevo_bottle_ml        <- 250
+sevo_density_g_per_ml <- 1.52
+sevo_g_per_bottle     <- sevo_bottle_ml * sevo_density_g_per_ml
 setting <- read.csv(find_git_root_file("raw-data", "setting.csv"))
 
 crf <- do.call(
@@ -68,6 +104,23 @@ crf <- merge(crf, setting, all = TRUE)
 crf$water.trap[is.na(crf$water.trap)] <- 0
 
 weights <- read.csv(find_git_root_file("raw-data", "zeosys", "weights.csv"))
+
+baseline_weights <- local({
+    cn <- read.csv(find_git_root_file("raw-data", "weights", "cn-agcs.csv"))
+    ch <- read.csv(find_git_root_file("raw-data", "weights", "vct-or-ch-agcs.csv"))
+    data.frame(
+        type   = c("CN", "CH"),
+        n      = c(nrow(cn), nrow(ch)),
+        median = c(
+            median(cn$initial.weight, na.rm = TRUE),
+            median(ch$initial.weight, na.rm = TRUE)
+        ),
+        iqr = c(
+            IQR(cn$initial.weight, na.rm = TRUE),
+            IQR(ch$initial.weight, na.rm = TRUE)
+        )
+    )
+})
 
 agc_summary <- function(x) {
     dur_min <- as.double((x$end - x$start), units = "mins")
@@ -139,8 +192,23 @@ agcs <- merge(
     all.x = TRUE
 )
 
+agcs$weight.diff <- agcs$weight2 - agcs$weight1
+agcs$weight.gain <- agcs$weight2 -
+    baseline_weights$median[
+        match(toupper(substr(agcs$agc.id, 1L, 2L)), baseline_weights$type)
+    ]
 agcs$center <- crf[["center.id"]][match(agcs$agc.id, crf$agc.id)]
 agcs$or <- crf[["or"]][match(agcs$agc.id, crf$agc.id)]
+
+## avg bottles per AGC: proportional share of 10 bottles per OR,
+## weighted by med.flow * sum.dur; computed over all AGCs so the
+## proportions within each OR are correct before subsetting to final
+agcs$avg.bottles <- ave(
+    agcs$med.flow * agcs$sum.dur,
+    agcs$or,
+    FUN = function(w) n_bottles_per_or * w / sum(w, na.rm = TRUE)
+)
+
 
 ## exclusion
 
@@ -159,12 +227,51 @@ agcs$exclusion.reason[!agcs$available & !agcs$excluded] <-
     "lost"
 agcs$excluded <- !is.na(agcs$exclusion.reason)
 
-## some agcs were never delivered/found to/at ZeoSys
+## ZeoSys can only process 80 AGCs per batch
+## We cluster similar filters by nearest neighbor and drop every AGC not in
+## the first cluster as outlier.
+## Unfortunately we can't analyse the "outlier" AGCs
+clustering_columns <- c(
+    "n.cases.lama.nonlap.tiva",
+    "n.cases.tube.nonlap.tiva",
+    "n.cases.tube.lap.tiva",
+    "n.cases.lama.nonlap.inha",
+    "n.cases.tube.nonlap.inha",
+    "n.cases.tube.lap.inha",
+    "sum.dur.lama.nonlap.tiva",
+    "sum.dur.tube.nonlap.tiva",
+    "sum.dur.tube.lap.tiva",
+    "sum.dur.lama.nonlap.inha",
+    "sum.dur.tube.nonlap.inha",
+    "sum.dur.tube.lap.inha",
+    "med.flow.lama.nonlap.tiva",
+    "med.flow.tube.nonlap.tiva",
+    "med.flow.tube.lap.tiva",
+    "med.flow.lama.nonlap.inha",
+    "med.flow.tube.nonlap.inha",
+    "med.flow.tube.lap.inha",
+    "water.trap"
+)
+clsize <- 80L
+clpool <- agcs$available & !agcs$excluded
+agcs_cluster <- agcs[clpool, clustering_columns]
+agcs_cluster[is.na(agcs_cluster)] <- 0
+d <- dist(scale(agcs_cluster), method = "euclidean")
+agcs$cluster[clpool] <-
+    fixed_size_clustering_nearest_neighbor(d, size = clsize, method = "min")
+
+## ZeoSys can only process 80 canisters, we exclude some based on the prior
+## cluster results
 agcs$exclusion.reason[is.na(agcs$weight2) & !agcs$excluded] <-
     "outlier"
 agcs$excluded <- !is.na(agcs$exclusion.reason)
 
-# TODO: create table in supplement
+## Test that all exclude "outlier" AGCs are not in the first cluster
+stopifnot(all(
+    agcs$cluster[
+        !is.na(agcs$exclusion.reason) & agcs$exclusion.reason == "outlier"] > 1L
+))
+
 ors <- as.data.frame(
     do.call(rbind, lapply(split(crf, crf$or), function(or)
         c(
@@ -178,54 +285,76 @@ ors <- as.data.frame(
 or_agcs <- as.matrix(table(agcs$or, agcs$excluded))
 colnames(or_agcs) <- paste("n.agcs", c("included", "excluded"), sep = ".")
 ors <- cbind(ors, or_agcs)
-
-## to reproduce clustering (which was done in docs/model.Rmd before)
-#a <- agcs[agcs$available == 1L &
-#          (is.na(agcs$exclusion.reason) | agcs$exclusion.reason == "outlier"),]
-#a[is.na(a)] <- 0
-#
-#model_columns <- c(
-#    "n.cases.lama.nonlap.tiva",
-#    "n.cases.tube.nonlap.tiva",
-#    "n.cases.tube.lap.tiva",
-#    "n.cases.lama.nonlap.inha",
-#    "n.cases.tube.nonlap.inha",
-#    "n.cases.tube.lap.inha",
-#    #"med.dur.lama.nonlap.tiva", ## no difference if med.dur columns are choosen
-#    #"med.dur.tube.nonlap.tiva", ## but sum.dur was used before
-#    #"med.dur.tube.lap.tiva",
-#    #"med.dur.lama.nonlap.inha",
-#    #"med.dur.tube.nonlap.inha",
-#    #"med.dur.tube.lap.inha",
-#    "sum.dur.lama.nonlap.tiva",
-#    "sum.dur.tube.nonlap.tiva",
-#    "sum.dur.tube.lap.tiva",
-#    "sum.dur.lama.nonlap.inha",
-#    "sum.dur.tube.nonlap.inha",
-#    "sum.dur.tube.lap.inha",
-#    "med.flow.lama.nonlap.tiva",
-#    "med.flow.tube.nonlap.tiva",
-#    "med.flow.tube.lap.tiva",
-#    "med.flow.lama.nonlap.inha",
-#    "med.flow.tube.nonlap.inha",
-#    "med.flow.tube.lap.inha",
-#    "water.trap"
-#)
-#d <- dist(scale(a[model_columns]), method = "euclidean")
-#clsize <- 80
-#a$cluster.nn.min <-
-#    fixed_size_clustering_nearest_neighbor(d, size = clsize, method = "min")
 ```
 
+
 ```{r summary, include = FALSE}
-n_center <- c(initial = length(unique(crf$center.id)), final = NA)
-n_ors <- c(initial = nrow(unique(crf[, c("center.id", "or.id")])), final = NA)
-n_agcs <- c(initial = length(unique(crf$agc.id)), final = NA)
+final_agc_ids <- agcs$agc.id[is.na(agcs$exclusion.reason)]
+final_crf     <- crf[crf$agc.id %in% final_agc_ids, ]
+
+n_center <- c(
+    initial = length(unique(crf$center.id)),
+    final   = length(unique(final_crf$center.id))
+)
+n_ors <- c(
+    initial = nrow(unique(crf[, c("center.id", "or.id")])),
+    final   = nrow(unique(final_crf[, c("center.id", "or.id")]))
+)
+n_agcs <- c(
+    initial = length(unique(crf$agc.id)),
+    final   = length(final_agc_ids)
+)
 n_bottles <- c(
     initial = nrow(unique(crf[, c("center.id", "or.id", "bottle.number")])),
-    final = NA
+    final   = round(sum(agcs$avg.bottles[is.na(agcs$exclusion.reason)], na.rm = TRUE), 1)
 )
-n_cases <- c(initial = nrow(crf), final = NA)
+n_cases <- c(
+    initial = nrow(crf),
+    final   = nrow(final_crf)
+)
 
 study_period <- c(min(crf$start, na.rm = TRUE), max(crf$end, na.rm = TRUE))
+```
+
+```{r zeosys-results, include = FALSE}
+## ZeoSys batch F0205A results (e-mail 2025-09-09)
+zeosys_batch          <- "F0205A"
+zeosys_input_kg       <- 113.7159   # kg loaded activated carbon
+zeosys_sevo_volume_l  <- 11.1       # L sevoflurane recovered
+zeosys_sevo_weight_kg <- 16.872     # kg sevoflurane recovered
+zeosys_purity_pct     <- 99.95      # % purity
+zeosys_yield          <- 0.52       # internal yield (fraction)
+
+## total sevoflurane used (all 260 bottles) and for the 80 final AGCs
+sevo_total_kg    <- n_bottles["initial"] * sevo_g_per_bottle / 1000
+sevo_final_kg    <- n_bottles["final"]   * sevo_g_per_bottle / 1000
+
+## recovery rates
+recovery_pct_final   <- zeosys_sevo_weight_kg / sevo_final_kg * 100
+recovery_pct_total   <- zeosys_sevo_weight_kg / sevo_total_kg * 100
+
+## exclusion counts for flowchart description
+n_excl_poor_doc  <- sum(!is.na(agcs$exclusion.reason) & agcs$exclusion.reason == "poor documentation")
+n_excl_few_cases <- sum(!is.na(agcs$exclusion.reason) & agcs$exclusion.reason == "less than 10 cases")
+n_excl_lost      <- sum(!is.na(agcs$exclusion.reason) & agcs$exclusion.reason == "lost")
+n_excl_outlier   <- sum(!is.na(agcs$exclusion.reason) & agcs$exclusion.reason == "outlier")
+n_eligible       <- sum(is.na(agcs$exclusion.reason) | agcs$exclusion.reason == "outlier")
+
+## time between weight measurements at ZeoSys
+zeosys_date_weight1    <- as.Date("2025-06-05")
+zeosys_date_weight2    <- as.Date("2025-08-01")
+zeosys_desorption_date <- as.Date("2025-08-07")
+zeosys_storage_days    <- as.integer(zeosys_date_weight2 - zeosys_date_weight1)
+
+## weight loss between weight1 and weight2 for final AGCs (weight.diff = weight2 - weight1)
+final_mask               <- is.na(agcs$exclusion.reason)
+final_wdiff              <- agcs$weight.diff[final_mask]
+zeosys_med_wdiff_g       <- median(final_wdiff, na.rm = TRUE)
+zeosys_mean_wdiff_g      <- mean(final_wdiff, na.rm = TRUE)
+zeosys_wdiff_pct_of_gain <- abs(zeosys_med_wdiff_g) /
+    median(agcs$weight.gain[final_mask], na.rm = TRUE) * 100
+zeosys_total_wloss_g     <- abs(sum(final_wdiff, na.rm = TRUE))
+
+agcs$proportional.recaptured.sevo <-
+    (agcs$weight.gain / sum(agcs$weight.gain, na.rm = TRUE)) * (zeosys_sevo_weight_kg * 1000)
 ```

@@ -1,9 +1,18 @@
 ---
 title: >
-    Capture efficiency of CONTRAfluran absorbers for sevoflurane in a real-world scenario - a multicentric binational observational study
+    Capture efficiency of CONTRAfluran absorbers for sevoflurane in a real-world multicentre observational study
+shorttitle: "CONTRAfluran capture efficiency: multicentre study"
 institute:
-    - KAINS: Department of Anesthesiology and Intensive Care Medicine, University Hospital Greifswald, Ferdinand-Sauerbruch-Straße, D-17475 Greifswald, Germany.
-    - SALEM: Department of Anesthesiology and Intensive Care Medicine, Hospital Salem, Zeppelinstraße 11 - 33, D-69121 Heidelberg, Germandy.
+    - KAINS: Department of Anesthesiology and Intensive Care Medicine, University Hospital Greifswald, Greifswald, Germany.
+    - ESSLINGEN: Anästhesiologie und operative Intensivmedizin, Klinikum Esslingen, Esslingen, Germany.
+    - FELDKIRCH: Abteilung für Anästhesie und Intensivbehandlung, LKH Feldkirch, Feldkirch, Austria.
+    - RWTH: Klinik für Anästhesiologie, Universitätsklinikum RWTH Aachen, Aachen, Germany.
+    - FULDA: "Abteilung für Anästhesie, Intensiv- und Schmerztherapie, Herz-Jesu-Krankenhaus Fulda, Fulda, Germany."
+    - MAINZ: Anästhesie, DRK Schmerz-Zentrum Mainz, Mainz, Germany.
+    - MHH: Klinik für Anästhesiologie und Intensivmedizin, Medizinische Hochschule Hannover, Hannover, Germany.
+    - VECHTA: "Fachabteilung für Anästhesie, operative Intensivmedizin und Rettungsmedizin, St. Marienhospital Vechta, Vechta, Germany."
+    - VILLACH: Abteilung für Anästhesie und Intensivmedizin, LKH Villach, Villach, Austria.
+    - SALEM: Department of Anesthesiology and Intensive Care Medicine, Hospital Salem, Heidelberg, Germany.
 author:
     # Contributorship roles (e.g. CRediT, https://credit.niso.org/)
     - 'Sebastian Gibb':
@@ -22,9 +31,65 @@ author:
             - validation
             - writing -- original draft
             - writing -- review and editing
+    - 'Angelika Androsch':
+        email: A.Androsch@klinikum-esslingen.de
+        institute: [ESSLINGEN]
+        correspondence: false
+        competing_interest: none
+        role:
+            - investigation
+    - 'Reinhard Germann':
+        email: reinhard.germann@lkhf.at
+        institute: [FELDKIRCH]
+        correspondence: false
+        competing_interest: none
+        role:
+            - investigation
+    - 'Linda Grüßer':
+        email: lgruesser@ukaachen.de
+        institute: [RWTH]
+        correspondence: false
+        competing_interest: none
+        role:
+            - investigation
+    - 'Rüdiger Hacker':
+        email: r.hacker@herz-jesu-krankenhaus.de
+        institute: [FULDA]
+        correspondence: false
+        competing_interest: none
+        role:
+            - investigation
+    - 'Eva Hofmann':
+        email: aveeva.hofmann@googlemail.com
+        institute: [MAINZ]
+        correspondence: false
+        competing_interest: none
+        role:
+            - investigation
     - 'Nadin Möller':
         email: nadin.moeller@med.uni-greifswald.de
         institute: [KAINS]
+        correspondence: false
+        competing_interest: none
+        role:
+            - investigation
+    - 'Katja Nickel':
+        email: nickel.katja@mh-hannover.de
+        institute: [MHH]
+        correspondence: false
+        competing_interest: none
+        role:
+            - investigation
+    - 'Marie-Luise Rübsam':
+        email: marie-luise.ruebsam@med.uni-greifswald.de
+        institute: [VECHTA]
+        correspondence: false
+        competing_interest: none
+        role:
+            - investigation
+    - 'Ernst Trampitsch':
+        email: ernst.trampitsch@kabeg.at
+        institute: [VILLACH]
         correspondence: false
         competing_interest: none
         role:
@@ -47,7 +112,7 @@ ethics_committee:
 bibliography:
     - bibliography/bibliography.bib
     - bibliography/rpackages.bib
-csl: pandoc/csl/anaesthesia.csl
+csl: pandoc/csl/bja.csl
 link-citations: yes
 linkcolor: blue
 output:

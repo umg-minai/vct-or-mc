@@ -5,18 +5,159 @@
 The study was approved by the ethics committee of the University Medicine Greifswald
 (reference number: `r rmarkdown::metadata[["ethics_committee"]][["reference_number"]]`;
 approval date: `r rmarkdown::metadata[["ethics_committee"]][["approval_date"]]`).
-It was registred on April 26, 2024, at osf.io (5BMJ8).
+It was registered on April 26, 2024, at osf.io (5BMJ8).
+
+## Definitions
+
+Following the taxonomy introduced by Gandhi et al. [@Gandhi2024],
+*capture efficiency* refers to the entire recapture process
+and is defined as the ratio of the total mass of sevoflurane
+recovered from the canisters to the total mass administered.
+*In vivo mass transfer* describes the increase in canister mass
+relative to the mass of volatile anaesthetic used during clinical cases.
+*Proportional capture efficiency* is the per-canister capture efficiency,
+derived by distributing the total recovered mass proportionally
+according to each canister's weight gain.
 
 ## Setting
 
+This prospective, multicentre, international observational study was conducted from
+`r format(lubridate::floor_date(study_period[1L], "month"), "%B %Y")`
+to
+`r format(lubridate::floor_date(study_period[2L], "month"), "%B %Y")`
+across `r n_center["initial"]` hospitals in Germany and Austria,
+encompassing `r n_ors["initial"]` operating rooms (ORs).
+
+In each participating OR,
+a CONTRAfluran activated carbon canister (ZeoSys Medical GmbH, Berlin, Germany)
+was installed passively at the exhaust port of the anaesthesia workstation,
+without connection to the anaesthesia gas scavenging system (AGSS),
+to capture sevoflurane exhaled during inhaled anaesthesia.
+Canisters were replaced when the red LED on the sensofluran unit indicated
+saturation.
+Before the first anaesthesia,
+the vaporizer was filled to the maximum from a non-study bottle to standardise
+the initial conditions.
+Each OR was supplied with `r n_bottles_per_or` bottles of sevoflurane
+(`r sevo_bottle_ml` mL, `r sevo_g_per_bottle` g each)
+for the duration of the study.
+The study ended once all `r n_bottles_per_or` sevoflurane bottles had been used.
+Sevoflurane was the only permitted volatile anaesthetic in the study ORs.
+All anaesthesia cases were managed at the discretion of the attending
+anaesthesiologist.
+
+Case-level data were collected prospectively by the attending anaesthesiologist
+using a structured paper-based case report form (CRF).
+For each anaesthesia case, the CRF recorded
+start and end times,
+anaesthetic technique (inhaled anaesthesia, total-intravenous anaesthesia, or regional anaesthesia),
+airway device (laryngeal mask or tracheal tube),
+surgery type (laparoscopic or non-laparoscopic),
+median fresh gas flow 15 minutes after induction,
+and the canister and sevoflurane bottle in use.
+No patient data were collected.
+At study completion, completed CRFs were returned to the study leadership
+as scanned copies by e-mail for central data entry.
+
 ## Outcome
+
+The primary outcome was the proportion of administered sevoflurane recaptured by the CONTRAfluran canister,
+defined as the ratio of the mass recovered by ZeoSys
+to the total mass administered across all study ORs.
+Recovered sevoflurane was quantified by ZeoSys.
+Administered sevoflurane was estimated from the number of
+`r sevo_bottle_ml` mL bottles consumed per OR,
+assuming a density of `r sevo_density_g_per_ml` g/mL
+(`r sevo_g_per_bottle` g per bottle).
+
+Secondary outcomes were the associations of the recapture rate with
+the duration of anaesthesia,
+fresh gas flow,
+type of airway device (laryngeal mask vs. tracheal tube),
+type of surgery (laparoscopic vs. non-laparoscopic),
+and presence of a water trap.
+
+## Consumption and weight measurement
+
+Participating centres obtained their CONTRAfluran canisters independently from ZeoSys
+and were supplied with different batches throughout the study period.
+Two canister types were in use across study sites:
+CN-type (n = `r baseline_weights$n[baseline_weights$type == "CN"]`)
+and CH-type (n = `r baseline_weights$n[baseline_weights$type == "CH"]`).
+Because not all participating centres had access to a calibrated scale,
+individual pre-use weights could not be obtained at every site.
+Given that the two types differ in their tare weight,
+type-specific baseline weights were established from a reference sample of unused canisters
+of each type.
+The median empty weight was
+`r round(baseline_weights$median[baseline_weights$type == "CN"], 1)` g
+(IQR `r round(baseline_weights$iqr[baseline_weights$type == "CN"], 1)` g)
+for CN-type and
+`r round(baseline_weights$median[baseline_weights$type == "CH"], 1)` g
+(IQR `r round(baseline_weights$iqr[baseline_weights$type == "CH"], 1)` g)
+for CH-type canisters,
+with the canister type determined from the first two characters of the canister identifier.
+Weight gain per canister, representing the in vivo mass transfer, was calculated
+as the difference between the post-processing weight recorded at ZeoSys
+and the median empty weight of the corresponding canister type.
+
+As exact per-case bottle consumption was not recorded,
+the number of bottles attributable to each canister within an OR was estimated
+by proportional allocation.
+The allocation weight was the product of median fresh gas flow and total anaesthesia duration.
+Each canister's estimated bottle share equalled its allocation weight
+divided by the OR's total allocation weight,
+multiplied by the OR's total bottle count.
+
+## Batch assignment for thermal desorption
+
+The study protocol originally specified batches of 20 canisters for desorption;
+ZeoSys Medical GmbH advised that routine batch processing requires a minimum of 80.
+Accordingly, from the `r sum(!is.na(agcs$cluster))` eligible canisters,
+a single batch of 80 was formed by nearest-neighbour clustering on scaled Euclidean distances
+(all `r length(clustering_columns)` variables scaled to zero mean and unit variance).
+The `r sum(!is.na(agcs$exclusion.reason) & agcs$exclusion.reason == "outlier")`
+canisters not assigned to the primary cluster
+were excluded as outliers.
+
+## Identification of predictors of capture efficiency
+
+To explore potential clinical predictors of per-canister recapture,
+we fitted a least absolute shrinkage and selection operator (LASSO) regression model
+[@Tibshirani1996]
+to the final set of `r n_agcs["final"]` canisters.
+Given the ratio of `r length(clustering_columns)` candidate predictors to `r n_agcs["final"]` observations,
+this analysis is exploratory and hypothesis-generating.
+The outcome was the estimated mass of sevoflurane recaptured per canister (g),
+derived by distributing the total recovered mass proportionally
+according to each canister's estimated weight gain.
+For each combination of airway device (laryngeal mask vs. tracheal tube),
+surgery type (laparoscopic vs. non-laparoscopic),
+and anaesthetic technique (inhaled anaesthesia vs. TIVA),
+three predictors were defined:
+the number of cases, the cumulative anaesthesia duration, and the median fresh gas flow,
+yielding `r length(clustering_columns) - 1L` predictors in total.
+An indicator for water trap use was added as a further predictor,
+giving `r length(clustering_columns)` predictors overall.
+No intercept was included, as the outcome must be zero in the absence of any cases.
+The regularisation parameter $\lambda$ was selected by repeated $k$-fold
+cross-validation (10 repetitions, 5 folds) using the *ameld* R package,
+which wraps *glmnet* [@Friedman2010].
+Results are reported at both the minimum cross-validation error (lambda.min)
+and the one-standard-error rule (lambda.1se).
+To assess the robustness of predictor selection,
+stability selection with subsampling
+[@MeinshausenBuehlmann2010]
+was applied with a per-family error rate (PFER) of at most `r pfer`
+using the *stabs* package [@Hofner2015].
+Within each subsample, the inner LASSO fit used repeated cross-validation
+with the same number of repetitions and folds as the primary analysis
+to stabilise the regularisation parameter selection
+(details and results in Online Supplementary File S1, Table\ \@ref(tab:stabsel-table)).
 
 ## Data processing and statistical analysis
 
 All data processing and statistical analyses were performed using R version
 `r paste0(sessionInfo()$R.version[c("major", "minor")], collapse = ".")`
 [@R-base].
-Summary tables were generated using the *gtsummary* package [@Sjoberg2021].
-
-TODO:
 All data and analysis can be found at https://github.com/umg-minai/vct-or-mc [@vctordata].
