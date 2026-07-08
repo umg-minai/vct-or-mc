@@ -1,9 +1,9 @@
 # Online Supplementary Material
 
+<!--
 ## Table of anaesthetic gas canisters
 
-
-```{r tableagc, echo = FALSE, message = FALSE, fig.cap = "Details of all anaesthetic gas canisters (AGCs). OR, operating room; n, number of anaesthesia cases; LM, laryngeal mask; TU, tracheal tube; l, laparoscopic; nl, non-laparoscopic; BA, inhaled anaesthesia; TV, TIVA (total intravenous anaesthesia); md, median duration (min); sd, sum duration (min); mf, median fresh gas flow (l.min⁻¹); WT, water trap; W1/W2, first/second weight measurement at ZeoSys (g); ΔW, W2 − W1 (g); ΔW₀, weight gain relative to canister type baseline (g); avg.bot, average sevoflurane bottles (weighted); excl., exclusion reason."}
+```{r tableagc, echo = FALSE, message = FALSE, fig.cap = "Details of all anaesthetic gas canisters (AGCs). OR, operating room; n, number of anaesthesia cases; LM, laryngeal mask; TU, tracheal tube; l, laparoscopic; nl, non-laparoscopic; BA, inhalational anaesthesia; TV, TIVA (total intravenous anaesthesia); md, median duration (min); sd, sum duration (min); mf, median fresh gas flow (l.min⁻¹); WT, water trap; W1/W2, first/second weight measurement at ZeoSys (g); ΔW, W2 − W1 (g); ΔW₀, weight gain relative to canister type baseline (g); avg.bot, average sevoflurane bottles (weighted); excl., exclusion reason."}
 tab <- agcs[order(agcs$or, agcs$agc.id), ]
 tab$exclusion.reason[is.na(tab$exclusion.reason)] <- ""
 
@@ -69,10 +69,12 @@ col_names <- c(
 
 knitr::kable(tab[cols], col.names = col_names, row.names = FALSE)
 ```
+-->
 
+<!--
 ## Model matrix of analysed canisters
 
-```{r tablemodel, echo = FALSE, message = FALSE, fig.cap = "Predictor variables used in the penalised regression model for all 80 analysed AGCs. AGC, anaesthetic gas canister; OR, operating room; LM, laryngeal mask; TU, tracheal tube; nl, non-laparoscopic; l, laparoscopic; BA, inhaled anaesthesia; TV, TIVA; n, number of cases; sd, sum duration (min); mf, median fresh gas flow (l.min⁻¹); WT, water trap."}
+```{r tablemodel, echo = FALSE, message = FALSE, fig.cap = "Predictor variables used in the penalised regression model for all 80 analysed AGCs. AGC, anaesthetic gas canister; OR, operating room; LM, laryngeal mask; TU, tracheal tube; nl, non-laparoscopic; l, laparoscopic; BA, inhalational anaesthesia; TV, TIVA; n, number of cases; sd, sum duration (min); mf, median fresh gas flow (l.min⁻¹); WT, water trap."}
 mod_tab <- agcs[is.na(agcs$exclusion.reason), c("agc.id", "or", clustering_columns, "proportional.recaptured.sevo")]
 mod_tab <- mod_tab[order(mod_tab$or, mod_tab$agc.id), ]
 
@@ -98,6 +100,7 @@ knitr::kable(
     na.string = "—"
 )
 ```
+-->
 
 ## Overview participating centers
 
@@ -146,7 +149,7 @@ knitr::kable(
 
 ## Case mix by canister
 
-```{r case-mix-plot, echo = FALSE, dev = ifelse_is_docx("tiff", "png"), fig.width = 8, fig.height = 3.5, fig.cap = paste0('Proportion of inhaled anaesthesia (blue) and TIVA (red) cases for each of the ', n_agcs['final'], ' analysed canisters, sorted in ascending order of the inhaled anaesthesia proportion. Each bar represents one canister.')}
+```{r case-mix-plot, echo = FALSE, dev = ifelse_is_docx("tiff", "png"), fig.width = 8, fig.height = 3.5, fig.cap = paste0('Proportion of inhalational anaesthesia (blue) and TIVA (red) cases for each of the ', n_agcs['final'], ' analysed canisters, sorted in ascending order of the inhalational anaesthesia proportion. Each bar represents one canister.')}
 fa_cm <- agcs[is.na(agcs$exclusion.reason), ]
 
 n_inha_cols <- grep("^n\\.cases.*inha", names(fa_cm), value = TRUE)
@@ -178,7 +181,7 @@ barplot(
 )
 mtext(
     paste0("Canister (n = ", ncol(bar_mat),
-           ", sorted by proportion of inhaled anaesthesia)"),
+           ", sorted by proportion of inhalational anaesthesia)"),
     side = 1, line = 2.5, cex = 0.9
 )
 par(op)
@@ -337,7 +340,7 @@ difference in weight gain between groups
 (W = `r round(wg_wt_test$statistic, 0)`,
 p `r ifelse(wg_wt_test$p.value < 0.001, "< 0.001", paste0("= ", format.pval(wg_wt_test$p.value, digits = 3, eps = 0.001)))`).
 
-```{r fig-add-02-anaesthesia-type, echo = FALSE, dev = ifelse_is_docx("tiff", "png"), fig.width = 6, fig.height = 5, fig.cap = paste0("Proportionally allocated recaptured sevoflurane by dominant anaesthesia type for all ", n_agcs['final'], " analysed canisters. Canisters are classified as inhaled-dominant if the proportion of inhaled anaesthesia cases is at least 50%.")}
+```{r fig-add-02-anaesthesia-type, echo = FALSE, dev = ifelse_is_docx("tiff", "png"), fig.width = 6, fig.height = 5, fig.cap = paste0("Proportionally allocated recaptured sevoflurane by dominant anaesthesia type for all ", n_agcs['final'], " analysed canisters. Canisters are classified as inhaled-dominant if the proportion of inhalational anaesthesia cases is at least 50%.")}
 .boxjitter(
     split(final_agcs$proportional.recaptured.sevo, final_agcs$ana.type),
     cols = c(col_primary, col_secondary),
@@ -511,7 +514,7 @@ legend("topleft",
 
 ## Predictor correlations
 
-```{r predictor-correlations, echo = FALSE, dev = ifelse_is_docx("tiff", "png"), fig.width = 7, fig.height = 6.5, fig.cap = paste0("Pairwise Pearson correlations among the ", length(clustering_columns), " predictor variables. Predictors with zero variance are excluded. Rows and columns are ordered by hierarchical clustering (correlation distance). Blue: positive correlation; red: negative correlation. Abbreviations: n, case count; dur, cumulative duration; flow, median fresh gas flow; LM, laryngeal mask; TU, tracheal tube; nl, non-laparoscopic; l, laparoscopic; BA, inhaled anaesthesia; TV, TIVA; WT, water trap.")}
+```{r predictor-correlations, echo = FALSE, dev = ifelse_is_docx("tiff", "png"), fig.width = 7, fig.height = 6.5, fig.cap = paste0("Pairwise Pearson correlations among the ", length(clustering_columns), " predictor variables. Predictors with zero variance are excluded. Rows and columns are ordered by hierarchical clustering (correlation distance). Blue: positive correlation; red: negative correlation. Abbreviations: n, case count; dur, cumulative duration; flow, median fresh gas flow; LM, laryngeal mask; TU, tracheal tube; nl, non-laparoscopic; l, laparoscopic; BA, inhalational anaesthesia; TV, TIVA; WT, water trap.")}
 ## remove zero-variance columns (e.g. subgroups with no cases across all ORs)
 X_var    <- X[, apply(X, 2, var) > 0, drop = FALSE]
 cor_mat  <- cor(X_var)
@@ -546,6 +549,7 @@ heatmap(
 )
 ```
 
+<!--
 ## Sensitivity analyses: alternative regression models
 
 Two alternative models were fitted alongside the original LASSO
@@ -655,7 +659,9 @@ legend("bottomright",
        cex    = leg_cex)
 par(op)
 ```
+-->
 
+<!--
 ## Intercept specification
 
 The primary LASSO model was fitted without an intercept (`intercept = FALSE`).
@@ -667,7 +673,7 @@ Forcing the regression through the origin reflects this physical constraint.
 However, the outcome variable (`proportional.recaptured.sevo`) is not a direct measurement
 of adsorption but a value derived by distributing the total batch yield
 proportionally across canisters according to their weight gain.
-Even a canister with minimal inhaled anaesthesia exposure
+Even a canister with minimal inhalational anaesthesia exposure
 will have a positive outcome as long as it shows any weight gain relative to others.
 In addition, all canisters adsorb some moisture regardless of volatile anaesthetic exposure,
 contributing a non-zero baseline weight gain.
@@ -725,6 +731,7 @@ knitr::kable(
     na.string = "—"
 )
 ```
+-->
 
 ## Stability selection
 
@@ -735,9 +742,9 @@ knitr::kable(
                   paste0("Selected (≥ ", round(stab_fit$cutoff, 3), ")")),
     caption = paste0(
         "Stability selection results with subsampling ",
-        "(Meinshausen & Bühlmann, 2010) using rcv.glmnet (10 CV repetitions, 5 folds) as inner fitter. ",
+        "(Meinshausen & Bühlmann, 2010) using rcv.glmnet (", nrepcv, " CV repetitions, ", nfolds, " folds) as inner fitter. ",
         "Maximum selection probability across the regularisation path ",
-        "(sampling.type = MB, B = ", stab_fit$B, ", PFER ≤ 1, nominal cutoff = ", pi_thr, "; ",
+        "(sampling.type = MB, B = ", stab_fit$B, ", PFER ≤ ", pfer, ", nominal cutoff = ", pi_thr, "; ",
         "effective cutoff = ", round(stab_fit$cutoff, 3), " after PFER adjustment). ",
         "Predictors exceeding the effective cutoff are considered stably selected."
     )
@@ -760,6 +767,7 @@ barplot(
 abline(v = stab_fit$cutoff, lty = 2)
 ```
 
+<!--
 ## Aggregated predictor model
 
 To address the small sample-to-predictor ratio of the original LASSO,
@@ -1101,6 +1109,7 @@ for (j in 1:2) {
 }
 par(op)
 ```
+-->
 
 ## R session information
 

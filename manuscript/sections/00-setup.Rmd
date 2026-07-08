@@ -42,6 +42,12 @@ leg_cex       <- 0.8
 
 ## stability selection parameters
 pfer <- 1
+
+## TODO: increase nrepcv and nfolds for final calculations
+## number of repeated cv for model estimation
+nrepcv <- 10
+## number of cv folds for model estimation
+nfolds <- 5
 ```
 
 ```{r helper_functions, include = FALSE}
@@ -312,6 +318,7 @@ n_cases <- c(
     initial = nrow(crf),
     final   = nrow(final_crf)
 )
+n_cases_balanced <- sum(final_crf$balanced.anaesthesia == 1, na.rm = TRUE)
 
 study_period <- c(min(crf$start, na.rm = TRUE), max(crf$end, na.rm = TRUE))
 ```

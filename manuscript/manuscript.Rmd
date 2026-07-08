@@ -6,7 +6,7 @@ institute:
     - KAINS: Department of Anesthesiology and Intensive Care Medicine, University Hospital Greifswald, Greifswald, Germany.
     - ESSLINGEN: Anästhesiologie und operative Intensivmedizin, Klinikum Esslingen, Esslingen, Germany.
     - FELDKIRCH: Abteilung für Anästhesie und Intensivbehandlung, LKH Feldkirch, Feldkirch, Austria.
-    - RWTH: Klinik für Anästhesiologie, Universitätsklinikum RWTH Aachen, Aachen, Germany.
+    - RWTH: Department of Anesthesiology, Medical Faculty RWTH Aachen, Aachen, Germany.
     - FULDA: "Abteilung für Anästhesie, Intensiv- und Schmerztherapie, Herz-Jesu-Krankenhaus Fulda, Fulda, Germany."
     - MAINZ: Anästhesie, DRK Schmerz-Zentrum Mainz, Mainz, Germany.
     - MHH: Klinik für Anästhesiologie und Intensivmedizin, Medizinische Hochschule Hannover, Hannover, Germany.
@@ -38,6 +38,7 @@ author:
         competing_interest: none
         role:
             - investigation
+            - writing -- review and editing
     - 'Reinhard Germann':
         email: reinhard.germann@lkhf.at
         institute: [FELDKIRCH]
@@ -45,6 +46,7 @@ author:
         competing_interest: none
         role:
             - investigation
+            - writing -- review and editing
     - 'Linda Grüßer':
         email: lgruesser@ukaachen.de
         institute: [RWTH]
@@ -52,6 +54,7 @@ author:
         competing_interest: none
         role:
             - investigation
+            - writing -- review and editing
     - 'Rüdiger Hacker':
         email: r.hacker@herz-jesu-krankenhaus.de
         institute: [FULDA]
@@ -59,6 +62,7 @@ author:
         competing_interest: none
         role:
             - investigation
+            - writing -- review and editing
     - 'Eva Hofmann':
         email: aveeva.hofmann@googlemail.com
         institute: [MAINZ]
@@ -66,6 +70,7 @@ author:
         competing_interest: none
         role:
             - investigation
+            - writing -- review and editing
     - 'Nadin Möller':
         email: nadin.moeller@med.uni-greifswald.de
         institute: [KAINS]
@@ -73,6 +78,7 @@ author:
         competing_interest: none
         role:
             - investigation
+            - writing -- review and editing
     - 'Katja Nickel':
         email: nickel.katja@mh-hannover.de
         institute: [MHH]
@@ -80,6 +86,7 @@ author:
         competing_interest: none
         role:
             - investigation
+            - writing -- review and editing
     - 'Marie-Luise Rübsam':
         email: marie-luise.ruebsam@med.uni-greifswald.de
         institute: [VECHTA]
@@ -87,6 +94,7 @@ author:
         competing_interest: none
         role:
             - investigation
+            - writing -- review and editing
     - 'Ernst Trampitsch':
         email: ernst.trampitsch@kabeg.at
         institute: [VILLACH]
@@ -94,6 +102,7 @@ author:
         competing_interest: none
         role:
             - investigation
+            - writing -- review and editing
     - 'Stephanie Snyder-Ramos':
         email: stephanie.snyder-ramos@stadtmission-hd.de
         institute: [SALEM]
