@@ -60,3 +60,24 @@ San Francisco, CA, USA) to assist with R code development,
 figure generation, and manuscript drafting and revision.
 After using this tool/service, the authors reviewed and edited the content
 as needed and take full responsibility for the content of the publication.
+
+## Appendix: VCT-OR-MC Study Group
+
+**Writing group** (authors, listed above):
+Sebastian Gibb,
+Falk von Dincklage,
+Angelika Androsch,
+Reinhard Germann,
+Linda Grüßer,
+Rüdiger Hacker,
+Eva Hofmann,
+Katja Nickel,
+Marie-Luise Rübsam,
+Ernst Trampitsch,
+Stephanie Snyder-Ramos.
+
+**Collaborators**:
+Stephan Knigge (University Hospital Greifswald, Greifswald, Germany),
+Christian Lisson (Hospital Salem, Heidelberg, Germany),
+Terence Krauß (Medizinische Hochschule Hannover, Hannover, Germany),
+Nadin Möller (University Hospital Greifswald, Greifswald, Germany).

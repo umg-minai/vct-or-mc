@@ -5,25 +5,11 @@ From
 `r format(lubridate::floor_date(study_period[1L], "month"), "%B %Y")`
 to
 `r format(lubridate::floor_date(study_period[2L], "month"), "%B %Y")`,
-a total of `r n_agcs["initial"]` canisters were deployed across
-`r n_ors["initial"]` operating rooms in `r n_center["initial"]` hospitals,
-encompassing `r n_cases["initial"]` anaesthesia cases
-and `r n_bottles["initial"]` sevoflurane bottles
-(Figure\ \@ref(fig:agc-flowchart)).
-Before submission to ZeoSys,
-`r n_excl_poor_doc + n_excl_few_cases + n_excl_lost` canisters were excluded:
-`r n_excl_poor_doc` due to insufficient case documentation in two operating rooms,
-`r n_excl_few_cases` due to fewer than ten anaesthesia cases recorded,
-and `r n_excl_lost` that could not be located at ZeoSys.
-Of the `r n_eligible` eligible canisters,
-a further `r n_excl_outlier` were identified as outliers
-by nearest-neighbour clustering
-and could not be included in the single batch of 80.
-Accordingly, `r n_agcs["final"]` canisters from
-`r n_ors["final"]` operating rooms across `r n_center["final"]` hospitals
-were included in the final analysis,
-covering `r n_cases_balanced` inhalational anaesthesia cases and `r n_cases["final"]` cases in total
-(Table\ \@ref(tab:table-one)).
+a total of `r n_agcs["initial"]` canisters were deployed
+of which
+`r n_agcs["final"]` were selected for desorption
+covering `r n_cases_balanced` inhalational anaesthesia cases
+(Figure\ \@ref(fig:agc-flowchart); Table\ \@ref(tab:table-one)).
 
 Desorption of all analysed canisters was performed on
 `r format(zeosys_desorption_date, "%d %B %Y")`.
@@ -75,10 +61,9 @@ p <- add_side_box(p, side = "right", txt = paste0(
 ))
 p <- add_box(p, txt = paste0("AGCs eligible\n", fmt(step1_ids)))
 p <- add_side_box(p, side = "right", txt = paste0(
-    "Excluded (n = ", length(excl4_ids), ")",
-    "\n- Not processed (n = ", length(excl4_ids), ")"
+    "- Not selected (n = ", length(excl4_ids), ")"
 ))
-p <- add_box(p, txt = paste0("AGCs analysed\n", fmt(final_ids)))
+p <- add_box(p, txt = paste0("AGCs selected for desorption\n", fmt(final_ids)))
 
 p <- add_label_box(p, txt = c("1" = "Study sites", "2" = "ZeoSys", "3" = "Analysis"))
 
@@ -206,7 +191,7 @@ legend("bottomright",
 set.seed(20260517)
 
 final_agcs <- agcs[!agcs$excluded, ]
-num_cols   <- vapply(final_agcs, is.numeric, logical(1))
+num_cols   <- vapply(final_agcs, is.numeric, NA)
 final_agcs[num_cols][is.na(final_agcs[num_cols])] <- 0
 
 X <- model.matrix(
@@ -238,15 +223,6 @@ Y <- final_agcs$proportional.recaptured.sevo
 fit <- rcv.glmnet(
     X, Y,
     alpha = 1, intercept = FALSE, nfolds = nfolds, nrepcv = nrepcv
-)
-```
-
-```{r penalized-regression-coef, echo = FALSE}
-knitr::kable(
-    as.matrix(coef(fit, s = "lambda.1se")),
-    col.names = "Coefficient",
-    digits = 4,
-    caption = "LASSO coefficients (lambda.1se) for the prediction of recaptured sevoflurane weight (g) from anaesthesia case characteristics."
 )
 ```
 
@@ -307,7 +283,8 @@ ncases_inha_min <- nonzero_min[grepl("n\\.cases.*inha", nonzero_min)]
 wt_coef_min     <- coef_min["water.trap", 1]
 ```
 
-Of the `r ncol(X)` candidate predictors entered into the LASSO model,
+Of the `r ncol(X)` candidate predictors entered into a LASSO model to predict
+the amount of recaptured sevoflurane,
 `r length(nonzero_min)` retained non-zero coefficients at lambda.min and
 `r length(nonzero_1se)` at the more parsimonious lambda.1se
 (Table\ \@ref(tab:penalized-regression-coef)).
@@ -336,3 +313,12 @@ The stability-selection finding therefore corroborates the broad LASSO signal:
 fresh gas flow under inhalational anaesthesia is the most robust candidate predictor
 of per-canister loading.
 The role of the other predictors remains uncertain at the present sample size.
+
+```{r penalized-regression-coef, echo = FALSE}
+knitr::kable(
+    as.matrix(cbind(coef(fit, s = "lambda.min"), coef(fit, s = "lambda.1se"))),
+    col.names = c("lambda.min", "lambda.1se"),
+    digits = 4,
+    caption = "LASSO coefficients (lambda.min and lambda.1se) for the prediction of recaptured sevoflurane weight (g) from anaesthesia case characteristics."
+)
+```

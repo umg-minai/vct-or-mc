@@ -8,7 +8,7 @@ approval date: `r rmarkdown::metadata[["ethics_committee"]][["approval_date"]]`)
 It was registered on April 26, 2024, at the Open Science Framework, osf.io (5BMJ8).
 We did not collect, store, share, or publish
 any directly or indirectly identifiable patient data.
-Informed consent and a data protection declaration were not required.
+Therefore, informed consent and a data protection declaration were not required.
 
 ## Definitions
 
@@ -47,7 +47,7 @@ It was not connected to the anaesthesia gas scavenging system (AGSS).
 Canisters were replaced when the red LED on the SENSOfluran unit indicated
 saturation.
 All anaesthesia cases were managed at the discretion of the attending
-anesthesist.
+anesthesiologist.
 
 Case-level data were collected prospectively by the attending anaesthesiologist
 using a structured paper-based case report form (CRF).
@@ -70,9 +70,8 @@ The primary outcome was the proportion of administered sevoflurane recaptured by
 It was defined as the ratio of the mass of sevoflurane recovered by ZeoSys
 to the total mass of sevoflurane administered across all study ORs.
 The sevoflurane used was estimated from the number of
-`r sevo_bottle_ml` mL bottles consumed per OR,
-assuming a density of `r sevo_density_g_per_ml` g/mL
-(`r sevo_g_per_bottle` g per bottle).
+`r sevo_bottle_ml` mL bottles consumed per OR (density of `r sevo_density_g_per_ml` g/mL,
+`r sevo_g_per_bottle` g per bottle).
 
 Secondary outcomes were the associations of the capture efficiency with
 the duration of anaesthesia,
@@ -89,13 +88,13 @@ the median unsaturated weight of the corresponding canister type and
 the post-processing weight recorded at ZeoSys.
 
 Participating centres obtained their CONTRAfluran canisters independently from ZeoSys.
-During the study period ZeoSys changed the canister design.
-In comparison to the older ones (batch number starting with CH) the recent
-canisters (batch number with CN) had a different lid with a 30 mm female instead of 20
+During the study period, ZeoSys changed the canister design.
+In comparison to the older ones (batch number starting with CH), the recent
+canisters (batch number with CN) had a different lid with a 30 mm female instead of a 20
 mm male connector to avoid connection errors with the airway system.
 
 To determine the unsaturated weight we used the median unsaturated weight of
-`r baseline_weights$n[baseline_weights$type == "CH"]` CH-canisters of a previous
+`r baseline_weights$n[baseline_weights$type == "CH"]` CH-canisters from a previous
 study [@Gibb2025] and weighed another
 `r baseline_weights$n[baseline_weights$type == "CN"]` CN-canisters.
 The median unsaturated weight was

@@ -3,7 +3,7 @@
 The anthropogenic climate crisis is a significant threat to global health [@vanDaalen2022].
 The health-care sector is responsible for an estimated 5–10% of greenhouse gas emissions [@Hu2021].
 Fluorinated volatile anaesthetics such as sevoflurane and desflurane are a relevant source of these emissions [@Andersen2012; @Hu2021].
-As per- and polyfluoroalkyl substances, they form persistent degradation products
+Furthermore, as per- and polyfluoroalkyl substances, they form persistent degradation products
 that accumulate in aquatic ecosystems,
 representing an environmental hazard beyond their global warming potential [@Kalmar2025b].
 
@@ -18,10 +18,12 @@ but did not quantify the capture efficiency of sevoflurane [@Mulier2024a].
 A preceding single-centre study found a 34% capture efficiency with CONTRAfluran
 across two operating rooms under routine conditions [@Gibb2025].
 
-Multicentre data could reduce site-specific bias
-and improve generalisability
+However, single-centre studies are highly dependent on site-specific bias, and therefore the actual capture efficiency that can be achieved on a larger scale remains unknown.
+
+Multicentre data could
+improve generalisability
 but remain lacking [@Gandhi2024].
-We therefore conducted a prospective, multicentre, international observational study
+We therefore conducted the first prospective, multicentre, international observational study
 across `r n_center["initial"]` hospitals in Germany and Austria
 to quantify the proportion of sevoflurane recaptured by CONTRAfluran under routine clinical conditions
 and to explore clinical predictors of per-canister capture efficiency.

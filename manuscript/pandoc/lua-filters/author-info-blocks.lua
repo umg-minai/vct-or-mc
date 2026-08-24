@@ -27,6 +27,9 @@ local default_marks = {
   equal_contributor = FORMAT == 'latex'
     and {pandoc.RawInline('latex', '$\\dagger{}$')}
     or {pandoc.Str '*'},
+  study_group = FORMAT == 'latex'
+    and {pandoc.RawInline('latex', '$\\ddagger{}$')}
+    or {pandoc.Str '†'},
 }
 
 local function intercalate(lists, elem)
@@ -132,6 +135,34 @@ local function create_correspondence_blocks(authors, mark)
   }
 end
 
+--- Append "for the <study group>" (marked) to a list of author inlines.
+local function append_study_group(authors_inlines, study_group, mark)
+  if not study_group then
+    return authors_inlines
+  end
+  local result = List:new(authors_inlines)
+  result:extend(List:new{pandoc.Str ',', pandoc.Space(), pandoc.Str 'for the', pandoc.Space()})
+  result:extend(study_group)
+  result:extend{pandoc.Superscript(mark 'study_group')}
+  return result
+end
+
+--- Generate a block element noting where the study group members are listed.
+local function create_study_group_block(study_group, mark)
+  if not study_group then
+    return nil
+  end
+  local note = List:new{
+    pandoc.Superscript(mark 'study_group'),
+    pandoc.Space(),
+    pandoc.Str 'The members of the',
+    pandoc.Space(),
+  }
+  note:extend(study_group)
+  note:extend(List:new{pandoc.Space(), pandoc.Str 'are listed in the Appendix.'})
+  return {pandoc.Para(note)}
+end
+
 --- Generate a list of inlines containing all authors.
 local function create_authors_inlines(authors, mark)
   local inlines_generator = author_inline_generator(mark)
@@ -159,6 +190,7 @@ return {
       body:extend(create_equal_contributors_block(doc.meta.author, mark) or {})
       body:extend(create_affiliations_blocks(doc.meta.institute) or {})
       body:extend(create_correspondence_blocks(doc.meta.author, mark) or {})
+      body:extend(create_study_group_block(doc.meta.study_group, mark) or {})
       body:extend(doc.blocks)
 
       -- Overwrite authors with formatted values. We use a single, formatted
@@ -166,7 +198,12 @@ return {
       -- provide a authors as a list.
       meta.author = FORMAT:match 'latex'
         and pandoc.MetaList(doc.meta.author):map(author_inline_generator(mark))
-        or pandoc.MetaInlines(create_authors_inlines(doc.meta.author, mark))
+        or pandoc.MetaInlines(append_study_group(
+             create_authors_inlines(doc.meta.author, mark),
+             doc.meta.study_group,
+             mark
+           ))
+      meta.study_group = nil
       -- Institute info is now baked into the affiliations block.
       meta.institute = nil
 

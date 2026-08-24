@@ -31,6 +31,13 @@ author:
             - validation
             - writing -- original draft
             - writing -- review and editing
+    - 'Falk von Dincklage':
+        email: falk.vondincklage@med.uni-greifswald.de
+        institute: [KAINS]
+        correspondence: false
+        competing_interest: none
+        role:
+            - writing -- review and editing
     - 'Angelika Androsch':
         email: A.Androsch@klinikum-esslingen.de
         institute: [ESSLINGEN]
@@ -71,14 +78,6 @@ author:
         role:
             - investigation
             - writing -- review and editing
-    - 'Nadin Möller':
-        email: nadin.moeller@med.uni-greifswald.de
-        institute: [KAINS]
-        correspondence: false
-        competing_interest: none
-        role:
-            - investigation
-            - writing -- review and editing
     - 'Katja Nickel':
         email: nickel.katja@mh-hannover.de
         institute: [MHH]
@@ -89,7 +88,9 @@ author:
             - writing -- review and editing
     - 'Marie-Luise Rübsam':
         email: marie-luise.ruebsam@med.uni-greifswald.de
-        institute: [VECHTA]
+        institute:
+            - [VECHTA]
+            - [KAINS]
         correspondence: false
         competing_interest: none
         role:
@@ -115,6 +116,7 @@ author:
             - project administration
             - resources
             - writing -- review and editing
+study_group: "VCT-OR-MC Study Group"
 ethics_committee:
     reference_number: BB 022/24
     approval_date: 5 March 2024
