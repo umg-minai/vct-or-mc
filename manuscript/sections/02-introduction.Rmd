@@ -7,7 +7,7 @@ Furthermore, as per- and polyfluoroalkyl substances, they form persistent degrad
 that accumulate in aquatic ecosystems,
 representing an environmental hazard beyond their global warming potential [@Kalmar2025b].
 
-Activated carbon canisters fitted passively at the exhaust port of the anaesthesia workstation
+Activated carbon canisters fitted passively at the exhaust port of the anaesthesia machine
 can adsorb exhaled volatile anaesthetics and reduce their atmospheric release [@Wenzel2024;@Gibb2024b].
 The CONTRAfluran^TM^ canister (ZeoSys Medical GmbH, Berlin, Germany)
 is the only system currently approved in Europe for pharmaceutical reuse of recaptured sevoflurane.
@@ -15,15 +15,16 @@ is the only system currently approved in Europe for pharmaceutical reuse of reca
 Published evidence on the capture efficiency of CONTRAfluran for sevoflurane is limited.
 Mulier et al. reported a canister weight gain of 45% during laparoscopic surgery
 but did not quantify the capture efficiency of sevoflurane [@Mulier2024a].
-A preceding single-centre study found a 34% capture efficiency with CONTRAfluran
+Our preceding single-centre study found a 34% capture efficiency with CONTRAfluran
 across two operating rooms under routine conditions [@Gibb2025].
 
-However, single-centre studies are highly dependent on site-specific bias, and therefore the actual capture efficiency that can be achieved on a larger scale remains unknown.
+However, single-centre studies are susceptible to site-specific bias
+and the capture efficiency achievable on a larger scale therefore remains unknown.
 
 Multicentre data could
 improve generalisability
 but remain lacking [@Gandhi2024].
 We therefore conducted the first prospective, multicentre, international observational study
-across `r n_center["initial"]` hospitals in Germany and Austria
+in Germany and Austria
 to quantify the proportion of sevoflurane recaptured by CONTRAfluran under routine clinical conditions
 and to explore clinical predictors of per-canister capture efficiency.

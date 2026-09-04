@@ -5,10 +5,8 @@ In this prospective, multicentre observational study across
 passive CONTRAfluran canisters recaptured `r round(recovery_pct_final, 1)`%
 of the sevoflurane attributable to the `r n_agcs["final"]` analysed canisters
 under routine clinical conditions.
-This finding is consistent with previous single-centre evidence
-and extends it by demonstrating comparable capture efficiencies
-across diverse clinical settings, anaesthesia workstations, and case mixes.
+This estimate is lower than the 34% reported in our previous single-centre study,
+but lies within the range observed between its two operating rooms [@Gibb2025].
 
 Exploratory penalised regression identified fresh gas flow
 as the main candidate predictor of per-canister recapture.
-Water trap use was associated with higher recapture.

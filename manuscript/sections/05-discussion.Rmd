@@ -1,46 +1,50 @@
 # Discussion
 
 In this prospective, multicentre observational study,
-we recaptured `r round(recovery_pct_final, 1)`% of the sevoflurane
-with `r n_agcs["final"]` CONTRAfluran canisters
-across `r n_center["final"]` hospitals in two European countries.
-This represents `r round(zeosys_sevo_weight_kg, 1)` kg of recovered sevoflurane
-from a total of `r round(sevo_final_kg, 1)` kg used
-in our study cohort of `r n_cases_inhalational` inhalational anaesthesia cases.
+`r n_agcs["final"]` CONTRAfluran canisters recaptured
+`r round(recovery_pct_final, 1)`% of the sevoflurane attributable to
+these canisters in `r n_ors["final"]` ORs in two European countries.
 
-These findings are considerably lower than the 34% capture efficiency
-reported in a previous single-centre study for CONTRAfluran and sevoflurane [@Gibb2025].
+These findings are lower than the 34% capture efficiency
+reported in our previous single-centre study for CONTRAfluran and sevoflurane [@Gibb2025].
+However, that estimate pooled data from two operating rooms that differed markedly
+(21.4% and 47.8%)
+and our multicentre estimate falls within that range.
 
 Of the `r n_eligible` eligible canisters we selected `r n_agcs["final"]` for the desorption process by
-nearest-neighbour clustering to generate a representative sample and avoid the
+nearest-neighbour clustering to obtain a homogeneous batch and avoid the
 selection of extreme cases.
-For example, two of the `r n_excl_outlier` excluded canisters showed unexpectedly low weight gain
-despite receiving the full allocation of `r n_bottles_per_or` sevoflurane bottles.
+Among the `r n_excl_outlier` excluded canisters, two
+were the only canisters used in their ORs
+and therefore received all `r n_bottles_per_or` sevoflurane bottles,
+yet their weight gain was no higher than that of canisters
+exposed to a fraction of that amount,
+and the SENSOfluran unit never indicated saturation.
+Post hoc observations in these two ORs may explain why their weight gain
+remained low despite the full bottle allocation.
 In one OR, a large proportion of procedures used the Da Vinci surgical robot,
 which may have limited sevoflurane exposure due to high gas exchange in the
 capnoperitoneum.
 In the other, extended TIVA phases may have allowed
 previously adsorbed sevoflurane to desorb from the activated carbon
 [@Kalmar2024c; @Wenzel2024].
+These are two different mechanisms:
+sevoflurane administered may never reach the canister and
+sevoflurane already adsorbed may leave it again.
+Both limit direct comparisons of capture efficiency across ORs.
 Retrospective review further revealed that the SENSOfluran indicator unit
-in this OR had not been recalibrated within the manufacturer's recommended
-service interval during the study period,
+in the second of these ORs had not been recalibrated within the manufacturer's
+recommended service interval during the study period,
 potentially rendering canister exchange timing unreliable.
-Both cases illustrate that absolute canister loading depends not only
-on the total amount of sevoflurane administered
-but also on the temporal distribution and proportion of inhalational anaesthesia.
-This limits direct comparisons of capture efficiency across ORs.
 Automatic bypass systems that disconnect the canister during TIVA phases
 could reduce desorption losses and should be evaluated.
-However, if we had included these canisters, the capture efficiency would have been even
-lower.
+Including these canisters would have lowered the reported capture efficiency.
 
 In the LASSO regression and the corresponding stability selection
-with `r length(clustering_columns)` candidate predictors,
+with `r length(model_columns)` candidate predictors,
 the median fresh gas flow during inhalational anaesthesia
 in intubated patients undergoing non-laparoscopic surgery
-was the only stable predictor of higher canister *in vivo* mass transfer.
-
+was the only stable predictor of higher per-canister recapture.
 The fresh gas flow is a proxy for total sevoflurane exposure
 and has previously been identified as a major determinant of exposure [@Shelton2022;@Gandhi2024;@Gibb2024b;@Gibb2025].
 Consequently, a higher fresh gas flow is associated with higher capture efficiency,
@@ -48,53 +52,86 @@ as a greater proportion of the anaesthetic is wasted and enters the canister.
 
 In our data, the use of a water trap between the anaesthesia machine and the
 CONTRAfluran canister
-was associated with higher recapture in the LASSO regression.
-The water trap may have a protective effect against moisture accumulation in the activated carbon.
-Coconut shell activated carbon shows a sharp decline in adsorption capacity
-once water uptake exceeds approximately 30% of the sorbent mass [@Abiko2010].
-In our canisters,
-approximately `r round((1 - zeosys_yield) * 100, 0)`% of the weight gain was water rather than sevoflurane.
-This suggests that moisture accumulation may have reduced the adsorption capacity.
+was associated with higher recapture in the LASSO regression but
+was not retained by stability selection.
+However, except for two canisters from a single centre,
+the installation of a water trap was centre-specific.
+The effect of the water trap can therefore not be separated
+from differences in anaesthetic management
+or from other unmeasured centre-level factors.
+The same applies to the anaesthesia machines,
+which were likewise centre-specific.
+If the association does reflect a direct effect,
+protection against moisture accumulation in the activated carbon
+is a plausible mechanism.
+Approximately `r round((1 - zeosys_yield) * 100, 0)`% of the weight gain of our canisters
+was water rather than sevoflurane.
+An increasing water content progressively reduces the adsorption capacity
+of coconut shell activated carbon for organic solvent vapours [@Abiko2010].
+Investigating the effect of a water trap requires a design
+in which its use varies within centres.
 
-The canisters were weighed twice at ZeoSys before desorption.
-During these `r zeosys_storage_days` days
-the `r n_agcs["final"]` canisters lost `r round(zeosys_total_wloss_g, 0)` g of weight.
-This corresponds to almost two thirds of a sevoflurane bottle.
+`r sum(!is.na(final_wdiff))` of the `r n_agcs["final"]` canisters
+were weighed twice at ZeoSys before desorption.
+During these `r zeosys_storage_days` days they lost
+`r round(zeosys_total_wloss_g, 0)` g of weight.
+This corresponds to almost two thirds of a sevoflurane bottle
+if the lost mass was entirely sevoflurane.
 The additional desorption during transport and storage
 before the first ZeoSys weighing was not quantified.
+The first weighing took place
+`r zeosys_days_studyend_to_weight1` days after the last study OR finished
+compared with the `r zeosys_storage_days` days between the two weighings.
 The true loss is therefore even higher.
-This spontaneous desorption during storage was described in a previous study [@Gibb2025].
+This spontaneous desorption during storage was described in our previous study [@Gibb2025].
 It highlights the need for short storage times and fast processing.
 
 ## Limitations
 
-The study protocol originally specified at least four batches of 20 canisters,
-but operational constraints at ZeoSys required batches of 80 canisters.
-This protocol deviation precludes between-batch comparisons of desorption yield
+The single desorption batch precludes between-batch comparisons of desorption yield
 and limits the primary outcome to a single-point estimate
 without an empirical measure of batch-to-batch variability.
-The sample size was determined by this operational minimum
+The sample size was determined by the minimum batch size
 and not by a formal power calculation.
 The study may therefore be underpowered
 to detect clinically meaningful differences in capture efficiency.
 
-Given the ratio of `r length(clustering_columns)` candidate predictors to `r n_agcs["final"]` observations,
-this analysis was exploratory and hypothesis-generating.
+Sevoflurane consumption was derived from the number of bottles issued per OR.
+Neither the vaporizer nor the bottles were weighed.
+The vaporizer was filled from a non-study bottle before the first case
+and that filling was administered without being counted.
+The study ended when the vaporizer was filled from the last study bottle.
+A comparable mass remained in the vaporizer and was counted but not administered.
+The refill volume of the installed Draeger Vapor 2000 and 3000 is 260 mL
+and close to the 250 mL of a single bottle.
+The two quantities cancel if the canister was disconnected at that moment.
+The vaporizer was full at the start
+so the mass remaining at the end can never exceed it.
+Sevoflurane consumption is therefore never overestimated
+and the reported capture efficiency is an upper bound.
+In the worst case the vaporizer was emptied
+before the last bottle had been completely poured in.
+Up to 11 bottles would then have been administered per OR.
+The refill strategy was not recorded.
+The capture efficiency would fall to `r round(recovery_pct_final * 10 / 11, 1)`%
+if this extreme case applied to every OR.
 
 A further source of uncertainty concerns the `r n_excl_lost` canisters
 that could not be located at ZeoSys before desorption.
 It is unclear whether these were lost during postal transit,
 received but not matched to the study inventory,
 or misplaced at some other point in the collection chain.
-For one third of them
-the courier's delivery receipt confirms arrival at ZeoSys.
+The courier's delivery receipt confirms arrival at ZeoSys
+for all canisters from the centre that did not contribute to the analysis.
 
 The fresh gas flow is the main predictor identified by our exploratory analysis.
-Due to the pragmatic approach, it
-was recorded as a single reading 15 minutes after induction,
-not as a continuous average over the case.
+Because of the pragmatic design, fresh gas flow
+was recorded as a single reading 15 minutes after induction
+and not as a continuous average over the case.
 Intraoperative flow adjustments are common in clinical practice,
 so the recorded value may not accurately represent the true exposure.
+Given the ratio of `r length(model_columns)` candidate predictors to `r n_agcs["final"]` observations,
+this analysis was exploratory and hypothesis-generating.
 
 Since individual saturation levels were not assessed,
 the relative contribution of incomplete canister loading
@@ -102,9 +139,9 @@ to the reported capture efficiency cannot be quantified.
 
 Finally, participation was voluntary,
 and the centres that joined may not represent the wider anaesthesiology community.
-Institutions committed to environmental sustainability tend to use low-flow anaesthesia,
-which would be associated with a lower capture efficiency.
-Although the study was conducted in two countries,
-Germany and Austria share similar healthcare systems,
-anaesthesia training, and clinical practice,
-which limits the generalisability of the findings.
+Institutions committed to environmental sustainability tend to use minimal-flow anaesthesia
+(median `r round(median(agcs$med.flow[is.na(agcs$exclusion.reason)], na.rm = TRUE), 1)` l.min⁻¹ in our cohort),
+which is associated with a lower capture efficiency.
+The study covered two countries,
+but Germany and Austria share similar healthcare systems,
+anaesthesia training, and clinical practice.

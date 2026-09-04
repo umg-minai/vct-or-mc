@@ -6,40 +6,41 @@ Volatile anaesthetics contribute to the environmental footprint of operating roo
 CONTRAfluran^TM^ (ZeoSys Medical GmbH, Berlin, Germany)
 passively captures sevoflurane at the anaesthesia machine exhaust port
 for thermal desorption and pharmaceutical reuse.
-The relative amount of sevoflurane that can be recaptured remains unclear, as single-centre studies have reported substantial variability.
-Therefore, we here conducted the first multi-centre study to identify the
+The relative amount of sevoflurane that can be recaptured remains unclear.
+The only study reporting a capture efficiency found
+markedly different values in its two operating rooms.
+We therefore conducted the first multicentre study to identify the
 real-world capture efficiency of the CONTRAfluran system.
 
 **Methods**:
 In this prospective, multicentre observational study, we analysed the capture
 efficiency for
-`r n_agcs["final"]` CONTRAfluran canisters that were deployed in
+`r n_agcs["final"]` of `r n_agcs["initial"]` CONTRAfluran canisters.
+These were used in
 `r n_ors["final"]` operating rooms across `r n_center["final"]` hospitals
 in Germany and Austria
 from `r format(lubridate::floor_date(study_period[1L], "month"), "%B %Y")`
 to `r format(lubridate::floor_date(study_period[2L], "month"), "%B %Y")`.
-Each operating room received `r n_bottles_per_or` sevoflurane bottles.
 Case-level data were recorded on paper case report forms.
 Predictors of per-canister recapture were explored
 with LASSO regression and stability selection.
 
 **Results**:
-The `r n_agcs["final"]` canisters from
-covered `r n_cases["final"]` inhalational anaesthesia cases.
-ZeoSys recovered `r round(zeosys_sevo_weight_kg, 1)` kg of sevoflurane
-at a purity above `r zeosys_purity_pct`%.
+The `r n_agcs["final"]` canisters
+were in place during `r n_cases["final"]` anaesthesia cases
+of which `r n_cases_inhalational` used inhalational anaesthesia.
+ZeoSys recovered `r round(zeosys_sevo_weight_kg, 1)` kg of sevoflurane.
 This corresponds to a capture efficiency of `r round(recovery_pct_final, 1)`%.
 In LASSO regression and stability selection,
-the median fresh gas flow during inhalational anaesthesia
+the fresh gas flow during inhalational anaesthesia
 was the only consistent predictor.
-Water trap use was associated with higher recapture.
 
 **Conclusions**:
 CONTRAfluran canisters recaptured approximately
 `r round(recovery_pct_final, 0)`%
-of administered sevoflurane under routine clinical conditions,
-which is considerably lower than
-prior single-centre findings.
+of administered sevoflurane under routine clinical conditions.
+This is lower than the 34% of our previous single-centre study
+but within the range observed between its two operating rooms.
 Fresh gas flow during inhalational anaesthesia
 was the main predictor of per-canister recapture.
 
