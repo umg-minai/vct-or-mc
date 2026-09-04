@@ -28,8 +28,8 @@ local default_marks = {
     and {pandoc.RawInline('latex', '$\\dagger{}$')}
     or {pandoc.Str '*'},
   study_group = FORMAT == 'latex'
-    and {pandoc.RawInline('latex', '$\\ddagger{}$')}
-    or {pandoc.Str '†'},
+    and {pandoc.RawInline('latex', '\\#')}
+    or {pandoc.Str '#'},
 }
 
 local function intercalate(lists, elem)
