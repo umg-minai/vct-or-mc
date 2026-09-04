@@ -101,6 +101,9 @@ crf <- do.call(
         )
     )
 )
+
+names(crf)[names(crf) == "balanced.anaesthesia"] <- "inhalational.anaesthesia"
+
 crf$or <- sprintf("%02.f-%02.f", crf$center.id, crf$or.id)
 crf$start <- lubridate::ymd_hms(crf$start)
 crf$end <- lubridate::ymd_hms(crf$end)
@@ -134,13 +137,13 @@ agc_summary <- function(x) {
     cmbs <- expand.grid(
         airway = c("L", "T"),
         laparoscopic = 0:1,
-        balanced.anaesthesia = 0:1
+        inhalational.anaesthesia = 0:1
     )
 
     sel_cmb <- function(x, cmb) {
         x$airway == cmb[["airway"]] &
         x$laparoscopic == cmb[["laparoscopic"]] &
-        x$balanced.anaesthesia == cmb[["balanced.anaesthesia"]]
+        x$inhalational.anaesthesia == cmb[["inhalational.anaesthesia"]]
     }
 
     n_cases <- apply(cmbs, MARGIN = 1L, function(cmb)
@@ -162,7 +165,7 @@ agc_summary <- function(x) {
     nms <- paste(
         ifelse(cmbs[["airway"]] == "L", "lama", "tube"),
         ifelse(cmbs[["laparoscopic"]], "lap", "nonlap"),
-        ifelse(cmbs[["balanced.anaesthesia"]], "inha", "tiva"),
+        ifelse(cmbs[["inhalational.anaesthesia"]], "inha", "tiva"),
         sep = "."
     )
 
@@ -182,7 +185,7 @@ agc_summary <- function(x) {
         med_flow,
         pct.tube =mean(x$airway == "T", na.rm = TRUE),
         pct.lap = mean(x$laparoscopic, na.rm = TRUE),
-        pct.inha = mean(x$balanced.anaesthesia, na.rm = TRUE),
+        pct.inha = mean(x$inhalational.anaesthesia, na.rm = TRUE),
         water.trap = x$water.trap[1L]
     )
 }
@@ -318,7 +321,7 @@ n_cases <- c(
     initial = nrow(crf),
     final   = nrow(final_crf)
 )
-n_cases_balanced <- sum(final_crf$balanced.anaesthesia == 1, na.rm = TRUE)
+n_cases_inhalational <- sum(final_crf$inhalational.anaesthesia == 1, na.rm = TRUE)
 
 study_period <- c(min(crf$start, na.rm = TRUE), max(crf$end, na.rm = TRUE))
 ```

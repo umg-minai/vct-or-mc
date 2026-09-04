@@ -6,7 +6,7 @@ with `r n_agcs["final"]` CONTRAfluran canisters
 across `r n_center["final"]` hospitals in two European countries.
 This represents `r round(zeosys_sevo_weight_kg, 1)` kg of recovered sevoflurane
 from a total of `r round(sevo_final_kg, 1)` kg used
-in our study cohort of `r n_cases_balanced` inhalational anaesthesia cases.
+in our study cohort of `r n_cases_inhalational` inhalational anaesthesia cases.
 
 These findings are considerably lower than the 34% capture efficiency
 reported in a previous single-centre study for CONTRAfluran and sevoflurane [@Gibb2025].

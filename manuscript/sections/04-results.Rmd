@@ -8,7 +8,7 @@ to
 a total of `r n_agcs["initial"]` canisters were deployed
 of which
 `r n_agcs["final"]` were selected for desorption
-covering `r n_cases_balanced` inhalational anaesthesia cases
+covering `r n_cases_inhalational` inhalational anaesthesia cases
 (Figure\ \@ref(fig:agc-flowchart); Table\ \@ref(tab:table-one)).
 
 Desorption of all analysed canisters was performed on
