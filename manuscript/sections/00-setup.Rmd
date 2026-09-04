@@ -25,15 +25,11 @@ knitr::write_bib(
 
 ```{r libraries, include = FALSE}
 library("ameld")
-library("english")
-library("lubridate")
 
-options(english.UK = FALSE)
-
-## plot style constants
-col_primary   <- "#2166AC"
-col_secondary <- "#D6604D"
-col_light     <- "#D1E5F0"
+## plot style constants (viridis palette)
+col_primary   <- grDevices::hcl.colors(100, "Viridis")[15] # dark purple
+col_secondary <- grDevices::hcl.colors(100, "Viridis")[70] # green
+col_light     <- adjustcolor(col_primary, alpha.f = 0.25)
 col_ref       <- "grey50"
 col_band      <- function(col = col_primary) adjustcolor(col, alpha.f = 0.15)
 pt_alpha      <- 0.7
@@ -41,19 +37,23 @@ pt_pch        <- 16L
 leg_cex       <- 0.8
 
 ## stability selection parameters
+## per-family error rate, selection probability cutoff, number of subsamples
 pfer <- 1
+pi_thr <- 0.8
+## nsub and nrepcv are reduced while the manuscript is still changing;
+## raise them to 1000 and 100 before submission
+nsub <- 200
 
-## TODO: increase nrepcv and nfolds for final calculations
+## per-family error rate of the sensitivity analysis
+pfer_sens <- 3
+
 ## number of repeated cv for model estimation
-nrepcv <- 10
+nrepcv <- 50
 ## number of cv folds for model estimation
-nfolds <- 5
+nfolds <- 10
 ```
 
 ```{r helper_functions, include = FALSE}
-is_docx_output <- function()
-    isTRUE(knitr::opts_knit$get("rmarkdown.pandoc.to") == "docx")
-
 ifelse_is_docx <- function(docx, others) {
     if (is_docx_output())
         docx
@@ -261,6 +261,24 @@ clustering_columns <- c(
     "med.flow.tube.lap.inha",
     "water.trap"
 )
+
+## candidate predictors for the LASSO model; the case counts are dropped
+## because they correlate almost perfectly with the cumulative durations of
+## the same stratum (r 0.90 to 0.98)
+model_columns <- grep("^n\\.cases\\.", clustering_columns,
+                      value = TRUE, invert = TRUE)
+
+## the Meinshausen-Buehlmann bound PFER <= q^2 / ((2 * pi_thr - 1) * p)
+## determines how many variables the inner fit may select per subsample
+q_stabsel <- function(pfer)
+    floor(sqrt(pfer * (2 * pi_thr - 1) * length(model_columns)))
+
+## every tuning parameter the cached model chunks depend on; listing them
+## in one place keeps their cache.extra complete when a value changes
+model_params <- list(nrepcv = nrepcv, nfolds = nfolds,
+                     nsub = nsub, pfer = pfer, pfer_sens = pfer_sens,
+                     pi_thr = pi_thr, model_columns = model_columns)
+
 clsize <- 80L
 clpool <- agcs$available & !agcs$excluded
 agcs_cluster <- agcs[clpool, clustering_columns]
@@ -329,23 +347,17 @@ study_period <- c(min(crf$start, na.rm = TRUE), max(crf$end, na.rm = TRUE))
 ```{r zeosys-results, include = FALSE}
 ## ZeoSys batch F0205A results (e-mail 2025-09-09)
 zeosys_batch          <- "F0205A"
-zeosys_input_kg       <- 113.7159   # kg loaded activated carbon
 zeosys_sevo_volume_l  <- 11.1       # L sevoflurane recovered
 zeosys_sevo_weight_kg <- 16.872     # kg sevoflurane recovered
-zeosys_purity_pct     <- 99.95      # % purity
 zeosys_yield          <- 0.52       # internal yield (fraction)
 
-## total sevoflurane used (all 260 bottles) and for the 80 final AGCs
-sevo_total_kg    <- n_bottles["initial"] * sevo_g_per_bottle / 1000
-sevo_final_kg    <- n_bottles["final"]   * sevo_g_per_bottle / 1000
+## total sevoflurane used for the 80 final AGCs
+sevo_final_kg    <- n_bottles["final"] * sevo_g_per_bottle / 1000
 
 ## recovery rates
 recovery_pct_final   <- zeosys_sevo_weight_kg / sevo_final_kg * 100
-recovery_pct_total   <- zeosys_sevo_weight_kg / sevo_total_kg * 100
 
 ## exclusion counts for flowchart description
-n_excl_poor_doc  <- sum(!is.na(agcs$exclusion.reason) & agcs$exclusion.reason == "poor documentation")
-n_excl_few_cases <- sum(!is.na(agcs$exclusion.reason) & agcs$exclusion.reason == "less than 10 cases")
 n_excl_lost      <- sum(!is.na(agcs$exclusion.reason) & agcs$exclusion.reason == "lost")
 n_excl_outlier   <- sum(!is.na(agcs$exclusion.reason) & agcs$exclusion.reason == "outlier")
 n_eligible       <- sum(is.na(agcs$exclusion.reason) | agcs$exclusion.reason == "outlier")
@@ -355,14 +367,19 @@ zeosys_date_weight1    <- as.Date("2025-06-05")
 zeosys_date_weight2    <- as.Date("2025-08-01")
 zeosys_desorption_date <- as.Date("2025-08-07")
 zeosys_storage_days    <- as.integer(zeosys_date_weight2 - zeosys_date_weight1)
+## unobserved desorption: last study case to the first weighing at ZeoSys
+zeosys_days_studyend_to_weight1 <-
+    as.integer(zeosys_date_weight1 - as.Date(study_period[2L]))
+zeosys_days_weight1_to_desorption <- as.integer(zeosys_desorption_date - zeosys_date_weight1)
+zeosys_days_weight2_to_desorption <- as.integer(zeosys_desorption_date - zeosys_date_weight2)
 
 ## weight loss between weight1 and weight2 for final AGCs (weight.diff = weight2 - weight1)
 final_mask               <- is.na(agcs$exclusion.reason)
 final_wdiff              <- agcs$weight.diff[final_mask]
 zeosys_med_wdiff_g       <- median(final_wdiff, na.rm = TRUE)
-zeosys_mean_wdiff_g      <- mean(final_wdiff, na.rm = TRUE)
+## same canister set in numerator and denominator: those weighed on both occasions
 zeosys_wdiff_pct_of_gain <- abs(zeosys_med_wdiff_g) /
-    median(agcs$weight.gain[final_mask], na.rm = TRUE) * 100
+    median(agcs$weight.gain[final_mask][!is.na(final_wdiff)], na.rm = TRUE) * 100
 zeosys_total_wloss_g     <- abs(sum(final_wdiff, na.rm = TRUE))
 
 agcs$proportional.recaptured.sevo <-
