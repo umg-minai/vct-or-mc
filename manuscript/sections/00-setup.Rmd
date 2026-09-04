@@ -154,10 +154,6 @@ agc_summary <- function(x) {
         sum(dur_min[sel_cmb(x, cmb)], na.rm = TRUE)
     )
 
-    med_dur <- apply(cmbs, MARGIN = 1L, function(cmb)
-        median(dur_min[sel_cmb(x, cmb)], na.rm = TRUE)
-    )
-
     med_flow <- apply(cmbs, MARGIN = 1L, function(cmb)
         median(x$flow[sel_cmb(x, cmb)], na.rm = TRUE)
     )
@@ -170,22 +166,18 @@ agc_summary <- function(x) {
     )
 
     names(n_cases) <- paste("n", "cases", nms, sep = ".")
-    names(med_dur) <- paste("med", "dur", nms, sep = ".")
     names(sum_dur) <- paste("sum", "dur", nms, sep = ".")
     names(med_flow) <- paste("med", "flow", nms, sep = ".")
 
     c(
         n.cases = nrow(x),
         n_cases,
-        med.dur = median(dur_min, na.rm = TRUE),
-        med_dur,
         sum.dur = sum(dur_min, na.rm = TRUE),
         sum_dur,
         med.flow = matrixStats::weightedMedian(x$flow, dur_min, na.rm = TRUE),
         med_flow,
         pct.tube =mean(x$airway == "T", na.rm = TRUE),
         pct.lap = mean(x$laparoscopic, na.rm = TRUE),
-        pct.inha = mean(x$inhalational.anaesthesia, na.rm = TRUE),
         water.trap = x$water.trap[1L]
     )
 }

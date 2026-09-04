@@ -1,115 +1,19 @@
 # Online Supplementary Material
 
-<!--
-## Table of anaesthetic gas canisters
+## Overview participating centres
 
-```{r tableagc, echo = FALSE, message = FALSE, fig.cap = "Details of all anaesthetic gas canisters (AGCs). OR, operating room; n, number of anaesthesia cases; LM, laryngeal mask; TU, tracheal tube; l, laparoscopic; nl, non-laparoscopic; BA, inhalational anaesthesia; TV, TIVA (total intravenous anaesthesia); md, median duration (min); sd, sum duration (min); mf, median fresh gas flow (l.min⁻¹); WT, water trap; W1/W2, first/second weight measurement at ZeoSys (g); ΔW, W2 − W1 (g); ΔW₀, weight gain relative to canister type baseline (g); avg.bot, average sevoflurane bottles (weighted); excl., exclusion reason."}
-tab <- agcs[order(agcs$or, agcs$agc.id), ]
-tab$exclusion.reason[is.na(tab$exclusion.reason)] <- ""
 
-## round continuous columns
-for (col in grep("^med\\.flow", names(tab), value = TRUE))
-    tab[[col]] <- round(tab[[col]], 2)
-for (col in c(grep("^(med|sum)\\.dur", names(tab), value = TRUE), "sum.dur"))
-    tab[[col]] <- round(tab[[col]], 0)
-tab$avg.bottles <- round(tab$avg.bottles, 2)
-tab$pct.tube    <- round(tab$pct.tube, 2)
-tab$pct.lap     <- round(tab$pct.lap, 2)
-tab$pct.inha    <- round(tab$pct.inha, 2)
-
-cols <- c(
-    "agc.id", "or", "center",
-    "n.cases",
-    "n.cases.lama.nonlap.tiva", "n.cases.tube.nonlap.tiva",
-    "n.cases.lama.lap.tiva",    "n.cases.tube.lap.tiva",
-    "n.cases.lama.nonlap.inha", "n.cases.tube.nonlap.inha",
-    "n.cases.lama.lap.inha",    "n.cases.tube.lap.inha",
-    "med.dur",
-    "med.dur.lama.nonlap.tiva", "med.dur.tube.nonlap.tiva",
-    "med.dur.lama.lap.tiva",    "med.dur.tube.lap.tiva",
-    "med.dur.lama.nonlap.inha", "med.dur.tube.nonlap.inha",
-    "med.dur.lama.lap.inha",    "med.dur.tube.lap.inha",
-    "sum.dur",
-    "sum.dur.lama.nonlap.tiva", "sum.dur.tube.nonlap.tiva",
-    "sum.dur.lama.lap.tiva",    "sum.dur.tube.lap.tiva",
-    "sum.dur.lama.nonlap.inha", "sum.dur.tube.nonlap.inha",
-    "sum.dur.lama.lap.inha",    "sum.dur.tube.lap.inha",
-    "med.flow",
-    "med.flow.lama.nonlap.tiva", "med.flow.tube.nonlap.tiva",
-    "med.flow.lama.lap.tiva",    "med.flow.tube.lap.tiva",
-    "med.flow.lama.nonlap.inha", "med.flow.tube.nonlap.inha",
-    "med.flow.lama.lap.inha",    "med.flow.tube.lap.inha",
-    "pct.tube", "pct.lap", "pct.inha",
-    "water.trap",
-    "weight1", "weight2", "weight.diff", "weight.gain",
-    "available", "avg.bottles",
-    "cluster", "exclusion.reason"
-)
-
-col_names <- c(
-    "AGC", "OR", "Center",
-    "n",
-    "n(LM,nl,TV)", "n(TU,nl,TV)", "n(LM,l,TV)", "n(TU,l,TV)",
-    "n(LM,nl,BA)", "n(TU,nl,BA)", "n(LM,l,BA)", "n(TU,l,BA)",
-    "md",
-    "md(LM,nl,TV)", "md(TU,nl,TV)", "md(LM,l,TV)", "md(TU,l,TV)",
-    "md(LM,nl,BA)", "md(TU,nl,BA)", "md(LM,l,BA)", "md(TU,l,BA)",
-    "sd",
-    "sd(LM,nl,TV)", "sd(TU,nl,TV)", "sd(LM,l,TV)", "sd(TU,l,TV)",
-    "sd(LM,nl,BA)", "sd(TU,nl,BA)", "sd(LM,l,BA)", "sd(TU,l,BA)",
-    "mf",
-    "mf(LM,nl,TV)", "mf(TU,nl,TV)", "mf(LM,l,TV)", "mf(TU,l,TV)",
-    "mf(LM,nl,BA)", "mf(TU,nl,BA)", "mf(LM,l,BA)", "mf(TU,l,BA)",
-    "%TU", "%lap", "%BA",
-    "WT",
-    "W1", "W2", "ΔW", "ΔW₀",
-    "avail.", "avg.bot.",
-    "cluster", "excl."
-)
-
-knitr::kable(tab[cols], col.names = col_names, row.names = FALSE)
-```
--->
-
-<!--
-## Model matrix of analysed canisters
-
-```{r tablemodel, echo = FALSE, message = FALSE, fig.cap = "Predictor variables used in the penalised regression model for all 80 analysed AGCs. AGC, anaesthetic gas canister; OR, operating room; LM, laryngeal mask; TU, tracheal tube; nl, non-laparoscopic; l, laparoscopic; BA, inhalational anaesthesia; TV, TIVA; n, number of cases; sd, sum duration (min); mf, median fresh gas flow (l.min⁻¹); WT, water trap."}
-mod_tab <- agcs[is.na(agcs$exclusion.reason), c("agc.id", "or", clustering_columns, "proportional.recaptured.sevo")]
-mod_tab <- mod_tab[order(mod_tab$or, mod_tab$agc.id), ]
-
-for (col in grep("^sum\\.dur", names(mod_tab), value = TRUE))
-    mod_tab[[col]] <- round(mod_tab[[col]], 0)
-for (col in grep("^med\\.flow", names(mod_tab), value = TRUE))
-    mod_tab[[col]] <- round(mod_tab[[col]], 2)
-mod_tab$proportional.recaptured.sevo <- round(mod_tab$proportional.recaptured.sevo, 2)
-
-knitr::kable(
-    mod_tab,
-    col.names = c(
-        "AGC", "OR",
-        "n(LM,nl,TV)", "n(TU,nl,TV)", "n(TU,l,TV)",
-        "n(LM,nl,BA)", "n(TU,nl,BA)", "n(TU,l,BA)",
-        "sd(LM,nl,TV)", "sd(TU,nl,TV)", "sd(TU,l,TV)",
-        "sd(LM,nl,BA)", "sd(TU,nl,BA)", "sd(TU,l,BA)",
-        "mf(LM,nl,TV)", "mf(TU,nl,TV)", "mf(TU,l,TV)",
-        "mf(LM,nl,BA)", "mf(TU,nl,BA)", "mf(TU,l,BA)",
-        "WT", "prop.sevo (g)"
-    ),
-    row.names = FALSE,
-    na.string = "—"
-)
-```
--->
-
-## Overview participating centers
-
-```{r tablecenter, echo = FALSE, message = FALSE, caption = "Details of participating centers. OR: operating room."}
+```{r tablecenter, echo = FALSE, message = FALSE}
 knitr::kable(
     setting[c("center.id", "or.id", "anaesthesia.machine", "water.trap")],
-    col.names = c("Center", "OR", "Anaesthesia machine", "Water trap")
+    col.names = c("Centre", "OR", "Anaesthesia machine", "Water trap"),
+    caption = paste0(
+        "Details of participating centres. OR: operating room. ",
+        "Centre identifiers were assigned at recruitment and are not consecutive."
+    )
 )
 ```
+
 
 ```{r table-center-or, echo = FALSE, message = FALSE}
 or_tbl <- do.call(rbind, lapply(
@@ -121,7 +25,7 @@ or_tbl <- do.call(rbind, lapply(
             or           = x$or[1L],
             n.agcs.total = nrow(x),
             n.agcs.final = nrow(fin),
-            n.cases      = if (nrow(fin) > 0L) sum(fin$n.cases) else 0L,
+            n.cases      = if (nrow(fin) > 0L) sum(fin$n.cases) else NA_real_,
             n.bottles    = if (nrow(fin) > 0L) round(sum(fin$avg.bottles), 1) else NA_real_,
             water.trap   = ifelse(x$water.trap[1L] == 1, "Yes", "No"),
             stringsAsFactors = FALSE
@@ -133,13 +37,13 @@ rownames(or_tbl) <- NULL
 
 knitr::kable(
     or_tbl,
-    col.names = c("Center", "OR", "AGCs deployed", "AGCs analysed",
-                  "Cases", "Bottles (est.)", "Water trap"),
+    col.names = c("Centre", "OR", "AGCs deployed", "AGCs analysed",
+                  "Cases analysed", "Bottles (est.)", "Water trap"),
     caption = paste0(
         "Canisters deployed and analysed by centre and operating room. ",
         "AGCs deployed: all canisters used during the study period; ",
         "AGCs analysed: canisters included in the final analysis (batch ", zeosys_batch, "); ",
-        "Cases: anaesthesia cases recorded for analysed canisters; ",
+        "Cases analysed: anaesthesia cases recorded for analysed canisters; ",
         "Bottles (est.): sevoflurane bottles attributed to analysed canisters by proportional allocation."
     ),
     row.names = FALSE,
@@ -149,7 +53,7 @@ knitr::kable(
 
 ## Case mix by canister
 
-```{r case-mix-plot, echo = FALSE, dev = ifelse_is_docx("tiff", "png"), fig.width = 8, fig.height = 3.5, fig.cap = paste0('Proportion of inhalational anaesthesia (blue) and TIVA (red) cases for each of the ', n_agcs['final'], ' analysed canisters, sorted in ascending order of the inhalational anaesthesia proportion. Each bar represents one canister.')}
+```{r case-mix-plot, echo = FALSE, dev = ifelse_is_docx("tiff", "png"), fig.width = 8, fig.height = 3.5, fig.cap = paste0('Proportion of inhalational anaesthesia (purple) and TIVA (green) cases for each of the ', n_agcs['final'], ' analysed canisters, sorted in ascending order of the inhalational anaesthesia proportion. Each bar represents one canister.')}
 fa_cm <- agcs[is.na(agcs$exclusion.reason), ]
 
 n_inha_cols <- grep("^n\\.cases.*inha", names(fa_cm), value = TRUE)
@@ -167,7 +71,7 @@ bar_mat <- rbind(
     n_tiva[ord] / n_tot[ord] * 100
 )
 
-op <- par(mar = c(3.5, 4.5, 0.5, 0.5))
+op <- par(mar = c(3.5, 4.5, 2, 0.5))
 barplot(
     bar_mat,
     beside    = FALSE,
@@ -184,60 +88,63 @@ mtext(
            ", sorted by proportion of inhalational anaesthesia)"),
     side = 1, line = 2.5, cex = 0.9
 )
-par(op)
-legend("bottomleft",
-       legend = c("Balanced anaesthesia", "TIVA"),
+legend("topleft", inset = c(0, -0.16), xpd = TRUE, horiz = TRUE,
+       legend = c("Inhalational anaesthesia", "TIVA"),
        fill   = c(col_primary, col_secondary),
        border = NA,
        bty    = "n",
        cex    = leg_cex)
+par(op)
 ```
 
 ## Weight gain by centre
 
-```{r centre-weight-gain-boxplot, echo = FALSE, dev = ifelse_is_docx("tiff", "png"), fig.width = 6, fig.height = 4.5, fig.cap = paste0('Weight gain by participating centre for all ', n_agcs['final'], ' analysed canisters. Boxes show the median and interquartile range; whiskers extend to 1.5 × IQR. Individual data points are overlaid (jittered).')}
-wg_box   <- agcs[is.na(agcs$exclusion.reason), ]
-ctr_lvls <- sort(unique(wg_box$center))
+```{r weight-gain-distribution-by-centre, echo = FALSE, dev = ifelse_is_docx("tiff", "png"), fig.width = 7, fig.height = 4.5, fig.cap = paste0('Weight gain (in vivo mass transfer, ΔW₀) for all ', n_agcs['final'], ' analysed canisters, grouped by participating centre and, within each centre, ranked by weight gain in ascending order. Each bar represents one canister; colour and the number below the axis indicate the centre. Black borders denote canisters equipped with a water trap, grey borders those without. The dashed horizontal line marks the overall median weight gain.')}
+wg_data_ctr <- agcs[is.na(agcs$exclusion.reason), ]
+
+ctr_lvls <- sort(unique(wg_data_ctr$center))
 n_ctr    <- length(ctr_lvls)
 ctr_pal  <- setNames(
-    palette.colors(n_ctr, palette = "Okabe-Ito")[seq_len(n_ctr)],
+    grDevices::hcl.colors(n_ctr, palette = "Viridis"),
     ctr_lvls
 )
 
-wg_list        <- lapply(ctr_lvls,
-                         function(ctr) wg_box$weight.gain[wg_box$center == ctr])
-names(wg_list) <- paste("Centre", ctr_lvls)
+wg_data_ctr$center <- factor(wg_data_ctr$center, levels = ctr_lvls)
+ctr_order <- rev(order(tapply(wg_data_ctr$weight.gain, wg_data_ctr$center, median)))
+wg_data_ctr$center <- factor(wg_data_ctr$center, levels = ctr_lvls[ctr_order])
+wg_data_ctr <- wg_data_ctr[order(wg_data_ctr$center, wg_data_ctr$weight.gain), ]
 
-op <- par(mar = c(6, 4.5, 0.5, 0.5))
-boxplot(
-    wg_list,
-    col     = ctr_pal[as.character(ctr_lvls)],
-    border  = "grey30",
-    xlab    = "",
-    ylab    = "Weight gain (g)",
-    las     = 2,
-    bty     = "l",
-    outline = FALSE
+new_group   <- c(FALSE, diff(as.numeric(factor(wg_data_ctr$center))) != 0)
+space_vec   <- ifelse(new_group, 1, 0.15)
+
+op <- par(mar = c(4, 4.5, 3.5, 0.5))
+bar_pos_ctr <- barplot(
+    wg_data_ctr$weight.gain,
+    col       = ctr_pal[as.integer(wg_data_ctr$center)],
+    border    = ifelse(wg_data_ctr$water.trap == 1L, "black", "grey70"),
+    space     = space_vec,
+    xlab      = "Canister (grouped by centre, ranked by weight gain within centre)",
+    ylab      = "Weight gain (g)",
+    ylim      = c(0, max(wg_data_ctr$weight.gain) * 1.15),
+    las       = 1,
+    axisnames = FALSE
 )
-for (i in seq_along(ctr_lvls)) {
-    stripchart(
-        wg_list[[i]],
-        at       = i,
-        add      = TRUE,
-        vertical = TRUE,
-        method   = "jitter",
-        jitter   = 0.12,
-        pch      = pt_pch,
-        col      = adjustcolor(col_ref, alpha.f = 0.5),
-        cex      = 0.7
-    )
-}
+grp_mid <- tapply(bar_pos_ctr[, 1], wg_data_ctr$center, mean)
+mtext(names(grp_mid), side = 1, at = grp_mid, line = 0.3, cex = 0.6)
+abline(h = median(wg_data_ctr$weight.gain), lty = 2, col = col_ref)
+
+legend("topleft", inset = c(0, -0.16), xpd = TRUE, horiz = TRUE,
+       legend = c("Water trap", "No water trap"),
+       fill   = "white",
+       border = c("black", "grey70"),
+       bty    = "n",
+       cex    = leg_cex)
 par(op)
 ```
 
 ## Weight gain by anaesthesia machine
 
-```{r machine-weight-gain-boxplot, echo = FALSE, dev = ifelse_is_docx("tiff", "png"), fig.width = 8, fig.height = 5.5, fig.cap = paste0('Weight gain by anaesthesia machine for all ', n_agcs['final'], ' analysed canisters. Boxes show the median and interquartile range; whiskers extend to 1.5 × IQR. Individual data points are overlaid; filled circles indicate canisters with a water trap, open circles those without.')}
+```{r machine-weight-gain-boxplot, echo = FALSE, dev = ifelse_is_docx("tiff", "png"), fig.width = 8, fig.height = 6, fig.cap = paste0('Weight gain by anaesthesia machine for all ', n_agcs['final'], ' analysed canisters. Boxes show the median and interquartile range; whiskers extend to 1.5 × IQR. Individual data points are overlaid (jittered); diamonds denote canisters equipped with a water trap, circles those without.')}
 wg_mach <- agcs[is.na(agcs$exclusion.reason), ]
 setting$or_key <- sprintf("%02.f-%02.f", setting$center.id, setting$or.id)
 wg_mach$anaesthesia.machine <- setting$anaesthesia.machine[
@@ -251,62 +158,66 @@ wg_mach_list <- setNames(
     machine_order)
 
 set.seed(20260517)
-op <- par(mar = c(9, 4.5, 0.5, 0.5))
+op <- par(mar = c(8, 4.5, 2, 0.5))
 boxplot(
     wg_mach_list,
-    col     = "grey90",
-    border  = "grey30",
-    xlab    = "",
-    ylab    = "Weight gain (g)",
-    las     = 2,
-    bty     = "l",
-    outline = FALSE
+    col        = adjustcolor("grey90", alpha.f = 0.5),
+    border     = "grey30",
+    xlab       = "",
+    ylab       = "Weight gain (g)",
+    ## outline = FALSE would size the axis from box and whiskers only
+    ## and silently clip the overlaid raw points below them
+    ylim       = grDevices::extendrange(wg_mach$weight.gain, f = 0.04),
+    xaxt       = "n",
+    frame.plot = TRUE,
+    outline    = FALSE
+)
+## machine names are long; 45 degrees needs far less vertical space than las = 2
+axis(1L, at = seq_along(machine_order), labels = FALSE)
+text(
+    x      = seq_along(machine_order),
+    y      = par("usr")[3L] - 0.03 * diff(par("usr")[3:4]),
+    labels = machine_order,
+    srt    = 45, adj = 1, xpd = NA, cex = 0.9
 )
 for (i in seq_along(machine_order)) {
     idx      <- which(wg_mach$anaesthesia.machine == machine_order[i])
     y_vals   <- wg_mach$weight.gain[idx]
+    wt_vals  <- wg_mach$water.trap[idx]
     x_vals   <- jitter(rep(i, length(idx)), amount = 0.12)
-    pch_vals <- ifelse(wg_mach$water.trap[idx] == 1L, pt_pch, 1L)
-    points(x_vals, y_vals,
-           pch = pch_vals,
-           col = adjustcolor(col_ref, alpha.f = 0.6),
+    points(x_vals[wt_vals == 0L], y_vals[wt_vals == 0L],
+           pch = 21L, col = col_ref,
+           bg  = adjustcolor(col_ref, alpha.f = 0.8),
+           cex = 0.8)
+    points(x_vals[wt_vals == 1L], y_vals[wt_vals == 1L],
+           pch = 23L, col = col_ref,
+           bg  = adjustcolor(col_ref, alpha.f = 0.8),
            cex = 0.8)
 }
-par(op)
-legend("topleft",
+legend("topleft", inset = c(0, -0.09), xpd = TRUE, horiz = TRUE,
        legend = c("Water trap", "No water trap"),
-       pch    = c(pt_pch, 1L),
+       pch    = c(23L, 21L),
        col    = col_ref,
+       pt.bg  = adjustcolor(col_ref, alpha.f = 0.8),
        bty    = "n",
        cex    = leg_cex)
+par(op)
 ```
 
-## Recaptured sevoflurane by clinical characteristics
+## Weight gain by water trap use
 
 ```{r supp-boxplot-setup, include = FALSE}
-final_agcs$ana.type <- factor(
-    ifelse(final_agcs$pct.inha >= 0.5, "Inhaled", "TIVA"),
-    levels = c("Inhaled", "TIVA")
-)
-final_agcs$airway.type <- factor(
-    ifelse(final_agcs$pct.tube >= 0.5, "Tracheal tube", "Laryngeal mask"),
-    levels = c("Laryngeal mask", "Tracheal tube")
-)
-final_agcs$surgery.type <- factor(
-    ifelse(final_agcs$pct.lap >= 0.5, "Laparoscopic", "Non-laparoscopic"),
-    levels = c("Non-laparoscopic", "Laparoscopic")
-)
 final_agcs$wt.label <- factor(
     ifelse(final_agcs$water.trap == 1L, "With water trap", "Without water trap"),
     levels = c("Without water trap", "With water trap")
 )
 ```
 
-```{r fig-add-01-water-trap, echo = FALSE, dev = ifelse_is_docx("tiff", "png"), fig.width = 6, fig.height = 5, fig.cap = paste0("Proportionally allocated recaptured sevoflurane by water trap use for all ", n_agcs['final'], " analysed canisters.")}
+```{r fig-add-01-water-trap, echo = FALSE, dev = ifelse_is_docx("tiff", "png"), fig.width = 6, fig.height = 5, fig.cap = paste0("Weight gain by water trap use for all ", n_agcs['final'], " analysed canisters.")}
 .boxjitter(
-    split(final_agcs$proportional.recaptured.sevo, final_agcs$wt.label),
+    split(final_agcs$weight.gain, final_agcs$wt.label),
     cols = c(col_secondary, col_primary),
-    ylab = "Recaptured sevoflurane (g)"
+    ylab = "Weight gain (g)"
 )
 ```
 
@@ -339,64 +250,8 @@ There was `r if (wg_wt_test$p.value < 0.05) "a statistically significant" else "
 difference in weight gain between groups
 (W = `r round(wg_wt_test$statistic, 0)`,
 p `r ifelse(wg_wt_test$p.value < 0.001, "< 0.001", paste0("= ", format.pval(wg_wt_test$p.value, digits = 3, eps = 0.001)))`).
-
-```{r fig-add-02-anaesthesia-type, echo = FALSE, dev = ifelse_is_docx("tiff", "png"), fig.width = 6, fig.height = 5, fig.cap = paste0("Proportionally allocated recaptured sevoflurane by dominant anaesthesia type for all ", n_agcs['final'], " analysed canisters. Canisters are classified as inhaled-dominant if the proportion of inhalational anaesthesia cases is at least 50%.")}
-.boxjitter(
-    split(final_agcs$proportional.recaptured.sevo, final_agcs$ana.type),
-    cols = c(col_primary, col_secondary),
-    ylab = "Recaptured sevoflurane (g)"
-)
-```
-
-```{r fig-add-03-airway, echo = FALSE, dev = ifelse_is_docx("tiff", "png"), fig.width = 6, fig.height = 5, fig.cap = paste0("Proportionally allocated recaptured sevoflurane by dominant airway device for all ", n_agcs['final'], " analysed canisters.")}
-.boxjitter(
-    split(final_agcs$proportional.recaptured.sevo, final_agcs$airway.type),
-    cols = c(col_primary, col_secondary),
-    ylab = "Recaptured sevoflurane (g)"
-)
-```
-
-```{r fig-add-04-surgery, echo = FALSE, dev = ifelse_is_docx("tiff", "png"), fig.width = 6, fig.height = 5, fig.cap = paste0("Proportionally allocated recaptured sevoflurane by dominant surgery type for all ", n_agcs['final'], " analysed canisters.")}
-.boxjitter(
-    split(final_agcs$proportional.recaptured.sevo, final_agcs$surgery.type),
-    cols = c(col_primary, col_secondary),
-    ylab = "Recaptured sevoflurane (g)"
-)
-```
-
-## Effect of water trap on weight difference
-
-```{r watertrap-test, echo = FALSE, message = FALSE}
-wt_data <- agcs[is.na(agcs$exclusion.reason) & !is.na(agcs$weight.diff), ]
-wt_data$water.trap <- factor(wt_data$water.trap, levels = c(0, 1),
-                             labels = c("No", "Yes"))
-
-wt_summary <- do.call(rbind, lapply(split(wt_data$weight.diff, wt_data$water.trap),
-    function(x) data.frame(
-        n      = length(x),
-        median = round(median(x, na.rm = TRUE), 1),
-        IQR    = round(IQR(x, na.rm = TRUE), 1)
-    )
-))
-wt_summary <- cbind(water.trap = rownames(wt_summary), wt_summary)
-rownames(wt_summary) <- NULL
-
-knitr::kable(
-    wt_summary,
-    col.names = c("Water trap", "n", "Median ΔW (g)", "IQR (g)"),
-    caption   = "Weight difference (ΔW = W2 − W1) by water trap presence."
-)
-
-wt_test <- wilcox.test(weight.diff ~ water.trap, data = wt_data,
-                       exact = FALSE)
-```
-
-Weight difference was compared between canisters with and without a water trap
-using a two-sided Wilcoxon rank-sum test.
-There was `r if (wt_test$p.value < 0.05) "a statistically significant" else "no statistically significant"`
-difference in ΔW between canisters with and without a water trap
-(W = `r round(wt_test$statistic, 0)`,
-p `r ifelse(wt_test$p.value < 0.001, "< 0.001", paste0("= ", round(wt_test$p.value, 3)))`).
+Only one centre used both configurations
+so this comparison also reflects centre-level differences.
 
 ## Weight loss during storage
 
@@ -408,17 +263,6 @@ fit_wl  <- lm(weight.loss ~ weight.gain, data = wl_data)
 wl_cf   <- coef(fit_wl)
 wl_ci   <- confint(fit_wl)
 wl_smry <- summary(fit_wl)
-
-## long-format for time-based regression (day 0 = first weighing)
-wl_long <- rbind(
-    data.frame(agc.id = wl_data$agc.id, day = 0L,                 weight = wl_data$weight1),
-    data.frame(agc.id = wl_data$agc.id, day = zeosys_storage_days, weight = wl_data$weight2)
-)
-
-fit_wl_time  <- lm(weight ~ day, data = wl_long)
-wl_time_cf   <- coef(fit_wl_time)
-wl_time_ci   <- confint(fit_wl_time)
-wl_time_smry <- summary(fit_wl_time)
 ```
 
 ```{r weight-loss-storage-plot, echo = FALSE, dev = ifelse_is_docx("tiff", "png"), fig.width = 6, fig.height = 4.5, fig.cap = paste0("Weight loss between the first and second ZeoSys weighing as a function of weight gain for all analysed canisters (n = ", nrow(wl_data), "). The line shows the fitted linear regression; the shaded band is the 95% confidence interval.")}
@@ -455,68 +299,23 @@ and the intercept was
 (95% CI `r round(wl_ci["(Intercept)", 1], 2)` to `r round(wl_ci["(Intercept)", 2], 2)`);
 R² = `r round(wl_smry$r.squared, 2)`.
 
-
-## Linear regression
-
-```{r linear-regression, echo = FALSE, message = FALSE}
-fit_lm <- lm(
-    proportional.recaptured.sevo ~ 0 + .,
-    data = as.data.frame(cbind(
-        proportional.recaptured.sevo = Y,
-        X
-    ))
-)
-
-knitr::kable(
-    as.data.frame(summary(fit_lm)$coefficients),
-    digits = 4,
-    caption = paste0(
-        "Linear regression coefficients (OLS, no intercept) for the prediction of ",
-        "recaptured sevoflurane (g) from anaesthesia case characteristics. ",
-        "R² = ", round(summary(fit_lm)$r.squared, 3), ", ",
-        "adj. R² = ", round(summary(fit_lm)$adj.r.squared, 3), "."
-    )
-)
-```
-
-## Penalised regression diagnostics
-
-```{r penalized-regression-plot, echo = FALSE, dev = ifelse_is_docx("tiff", "png"), fig.width = 6, fig.height = 4, fig.cap = "Cross-validation curve for the penalised regression model (LASSO, alpha = 1). Dotted vertical lines indicate lambda.min and lambda.1se."}
-plot(fit)
-```
-
-```{r penalized-regression-path, echo = FALSE, dev = ifelse_is_docx("tiff", "png"), fig.width = 6, fig.height = 4, fig.cap = "Regularisation path of the LASSO model. Each line represents one predictor."}
-plot(fit, "path")
-```
-
-```{r pred-vs-obs, echo = FALSE, dev = ifelse_is_docx("tiff", "png"), fig.width = 5, fig.height = 5, fig.cap = "Predicted versus estimated recaptured sevoflurane per canister for the primary LASSO model at lambda.1se. The predicted value is the LASSO fitted value; the y-axis shows the proportionally allocated outcome (not a direct measurement). The dashed line is the identity line (perfect prediction)."}
-pred_lasso <- as.numeric(predict(fit, newx = X, s = "lambda.1se"))
-r2_pvo     <- round(cor(pred_lasso, Y)^2, 2)
-lim        <- range(c(Y, pred_lasso))
-
-plot(
-    pred_lasso, Y,
-    xlim = lim,
-    ylim = lim,
-    pch  = pt_pch,
-    col  = adjustcolor(col_primary, alpha.f = pt_alpha),
-    xlab = "Predicted recaptured sevoflurane (g)",
-    ylab = "Estimated recaptured sevoflurane (g)",
-    las  = 1,
-    bty  = "l"
-)
-abline(0, 1, lty = 2, col = col_ref)
-legend("topleft",
-       legend = bquote(R^2 == .(r2_pvo)),
-       bty    = "n",
-       cex    = leg_cex)
-```
-
 ## Predictor correlations
 
-```{r predictor-correlations, echo = FALSE, dev = ifelse_is_docx("tiff", "png"), fig.width = 7, fig.height = 6.5, fig.cap = paste0("Pairwise Pearson correlations among the ", length(clustering_columns), " predictor variables. Predictors with zero variance are excluded. Rows and columns are ordered by hierarchical clustering (correlation distance). Blue: positive correlation; red: negative correlation. Abbreviations: n, case count; dur, cumulative duration; flow, median fresh gas flow; LM, laryngeal mask; TU, tracheal tube; nl, non-laparoscopic; l, laparoscopic; BA, inhalational anaesthesia; TV, TIVA; WT, water trap.")}
+```{r predictor-correlation-prose, include = FALSE}
+## correlation of case count and cumulative duration within each stratum
+strata <- sub("^n\\.cases\\.", "",
+              grep("^n\\.cases\\.", colnames(X_all), value = TRUE))
+ncases_dur_r <- vapply(strata, function(st)
+    cor(X_all[, paste0("n.cases.", st)], X_all[, paste0("sum.dur.", st)]), NA_real_)
+```
+
+Within each stratum the case count and the cumulative case duration
+measured almost the same quantity
+(r `r sprintf("%.2f", min(ncases_dur_r))` to `r sprintf("%.2f", max(ncases_dur_r))`).
+
+```{r predictor-correlations, echo = FALSE, dev = ifelse_is_docx("tiff", "png"), fig.width = 7, fig.height = 6.5, fig.cap = paste0("Pairwise Pearson correlations among the ", length(clustering_columns), " candidate variables considered for the LASSO model. Predictors with zero variance are excluded. Rows and columns are ordered by hierarchical clustering (correlation distance). Purple: positive correlation; green: negative correlation. Abbreviations: n, case count; dur, cumulative duration; flow, median fresh gas flow; LM, laryngeal mask; TU, tracheal tube; nl, non-laparoscopic; l, laparoscopic; IA, inhalational anaesthesia; TV, TIVA.")}
 ## remove zero-variance columns (e.g. subgroups with no cases across all ORs)
-X_var    <- X[, apply(X, 2, var) > 0, drop = FALSE]
+X_var    <- X_all[, apply(X_all, 2, var) > 0, drop = FALSE]
 cor_mat  <- cor(X_var)
 
 ## shorten variable names for display
@@ -527,7 +326,7 @@ sn <- sub("^med\\.flow\\.", "flow.", sn)
 sn <- gsub("\\.nonlap",     ".nl",   sn)
 sn <- gsub("\\.lap$",       ".l",    sn)
 sn <- gsub("\\.lap\\.",     ".l.",   sn)
-sn <- gsub("\\.inha$",      ".BA",   sn)
+sn <- gsub("\\.inha$",      ".IA",   sn)
 sn <- gsub("\\.tiva$",      ".TV",   sn)
 sn <- gsub("lama",          "LM",    sn)
 sn <- gsub("tube",          "TU",    sn)
@@ -549,189 +348,20 @@ heatmap(
 )
 ```
 
-<!--
-## Sensitivity analyses: alternative regression models
+## Penalised regression diagnostics
 
-Two alternative models were fitted alongside the original LASSO
-to assess robustness of the coefficient estimates under different
-assumptions about correlated predictors.
-The same predictor set and outcome (`proportional.recaptured.sevo`) were used.
-
-```{r alt-models-setup, include = FALSE, cache = TRUE, dependson = "penalized-regression-setup"}
-set.seed(20260517)
-
-## Option 1: Elastic Net (alpha = 0.5)
-fit_en <- rcv.glmnet(
-    X, Y,
-    alpha = 0.5, intercept = FALSE, nfolds = nfolds, nrepcv = nrepcv
-)
-
-## Option 2: Ridge (alpha = 0) — distributes weight among correlated predictors
-fit_ridge <- rcv.glmnet(
-    X, Y,
-    alpha = 0, intercept = FALSE, nfolds = nfolds, nrepcv = nrepcv
-)
-```
-
-```{r alt-models-coef, echo = FALSE, message = FALSE}
-## collect coefficients at lambda.min and lambda.1se for all models
-coef_table <- function(fit, s = "lambda.min")
-    as.numeric(as.matrix(coef(fit, s = s)))
-
-models <- list(
-    "LASSO (original)"        = fit,
-    "Elastic Net (alpha=0.5)" = fit_en,
-    "Ridge (alpha=0)"         = fit_ridge
-)
-vars_orig <- rownames(coef(fit, s = "lambda.min"))
-
-tab_min <- sapply(models, coef_table, s = "lambda.min")
-tab_1se <- sapply(models, coef_table, s = "lambda.1se")
-rownames(tab_min) <- rownames(tab_1se) <- vars_orig
-
+```{r penalized-regression-coef, echo = FALSE, warning = FALSE}
 knitr::kable(
-    cbind(tab_min, tab_1se),
+    as.matrix(cbind(coef(fit, s = "lambda.min"), coef(fit, s = "lambda.1se"))),
+    col.names = c("s, lambda.min", "s, lambda.1se"),
     digits = 4,
-    col.names = rep(c("LASSO", "Elastic Net", "Ridge"), 2),
-    caption = paste0(
-        "Comparison of LASSO (alpha=1), Elastic Net (alpha=0.5), and Ridge (alpha=0) ",
-        "coefficients using the original ", length(clustering_columns), "-predictor model matrix. ",
-        "Left: lambda.min; right: lambda.1se."
-    )
+    caption = "LASSO coefficients (for penalization rule 's', lambda.min and lambda.1se) for the prediction of canister weight gain (g) from anaesthesia case characteristics."
 )
 ```
 
-```{r alt-models-forest, echo = FALSE, dev = ifelse_is_docx("tiff", "png"), fig.width = 7, fig.height = 5, fig.cap = "Coefficient comparison across LASSO, Elastic Net, and Ridge regression at lambda.min. Each row is one predictor; dots show the coefficient estimate for each model. Predictors penalised to zero by LASSO but retained by Ridge illustrate the effect of correlated predictor groups."}
-## use lambda.min coefficients (more predictors visible)
-cf <- tab_min[rownames(tab_min) != "(Intercept)", , drop = FALSE]
-
-## shorten predictor names
-sn <- rownames(cf)
-sn <- sub("^n\\.cases\\.",  "n.",    sn)
-sn <- sub("^sum\\.dur\\.",  "dur.",  sn)
-sn <- sub("^med\\.flow\\.", "flow.", sn)
-sn <- gsub("\\.nonlap",     ".nl",   sn)
-sn <- gsub("\\.lap$",       ".l",    sn)
-sn <- gsub("\\.lap\\.",     ".l.",   sn)
-sn <- gsub("\\.inha$",      ".BA",   sn)
-sn <- gsub("\\.tiva$",      ".TV",   sn)
-sn <- gsub("lama",          "LM",    sn)
-sn <- gsub("tube",          "TU",    sn)
-
-n_pred   <- nrow(cf)
-y_pos    <- rev(seq_len(n_pred))
-x_range  <- range(cf, na.rm = TRUE)
-x_pad    <- diff(x_range) * 0.05
-
-mod_cols <- c(col_primary, col_secondary, col_light)
-mod_pch  <- c(pt_pch, 17L, 15L)
-offsets  <- c(-0.15, 0, 0.15)
-
-op <- par(mar = c(4, 10, 0.5, 0.5))
-plot(
-    NULL,
-    xlim = c(x_range[1] - x_pad, x_range[2] + x_pad),
-    ylim = c(0.5, n_pred + 0.5),
-    xlab = "Coefficient",
-    ylab = "",
-    yaxt = "n",
-    las  = 1,
-    bty  = "l"
-)
-axis(2, at = y_pos, labels = sn, las = 1, cex.axis = 0.7)
-abline(v = 0, lty = 2, col = col_ref)
-abline(h = y_pos, col = "grey90", lty = 1)
-
-for (m in seq_len(ncol(cf))) {
-    points(
-        cf[, m], y_pos + offsets[m],
-        pch = mod_pch[m],
-        col = mod_cols[m],
-        cex = 1.1
-    )
-}
-
-legend("bottomright",
-       legend = c("LASSO", "Elastic Net", "Ridge"),
-       col    = mod_cols,
-       pch    = mod_pch,
-       bty    = "n",
-       cex    = leg_cex)
-par(op)
+```{r penalized-regression-plot, echo = FALSE, dev = ifelse_is_docx("tiff", "png"), fig.width = 6, fig.height = 4, fig.cap = "Cross-validation curve for the penalised regression model (LASSO, alpha = 1). Dotted vertical lines indicate lambda.min and lambda.1se.", warning = FALSE}
+plot(fit)
 ```
--->
-
-<!--
-## Intercept specification
-
-The primary LASSO model was fitted without an intercept (`intercept = FALSE`).
-The rationale is straightforward:
-a canister with zero anaesthesia exposure adsorbs no sevoflurane,
-so the predicted recapture must be zero when all predictors are zero.
-Forcing the regression through the origin reflects this physical constraint.
-
-However, the outcome variable (`proportional.recaptured.sevo`) is not a direct measurement
-of adsorption but a value derived by distributing the total batch yield
-proportionally across canisters according to their weight gain.
-Even a canister with minimal inhalational anaesthesia exposure
-will have a positive outcome as long as it shows any weight gain relative to others.
-In addition, all canisters adsorb some moisture regardless of volatile anaesthetic exposure,
-contributing a non-zero baseline weight gain.
-Statistically, constraining the intercept to zero biases all slope estimates
-if the true conditional mean does not pass through the origin,
-and standard R² values are no longer directly comparable to intercept models.
-
-The table below compares LASSO coefficients with and without an intercept
-at both regularisation thresholds.
-
-```{r intercept-setup, include = FALSE, cache = TRUE, dependson = "penalized-regression-setup"}
-set.seed(20260517)
-fit_int <- rcv.glmnet(
-    X, Y,
-    alpha = 1, intercept = TRUE, nfolds = nfolds, nrepcv = nrepcv
-)
-```
-
-```{r intercept-coef, echo = FALSE, message = FALSE}
-coef_noint <- cbind(
-    as.matrix(coef(fit,     s = "lambda.min")),
-    as.matrix(coef(fit,     s = "lambda.1se"))
-)
-coef_int <- cbind(
-    as.matrix(coef(fit_int, s = "lambda.min")),
-    as.matrix(coef(fit_int, s = "lambda.1se"))
-)
-
-## align rows: no-intercept model has no (Intercept) row
-vars_int <- rownames(coef_int)
-coef_noint_aligned <- matrix(
-    NA_real_, nrow = nrow(coef_int), ncol = 2,
-    dimnames = list(vars_int, c("lambda.min", "lambda.1se"))
-)
-coef_noint_aligned["(Intercept)", ] <- 0
-coef_noint_aligned[rownames(coef_noint), ] <- coef_noint
-
-tab_intercept <- cbind(coef_noint_aligned, coef_int)
-colnames(tab_intercept) <- c(
-    "no intercept (min)", "no intercept (1se)",
-    "with intercept (min)", "with intercept (1se)"
-)
-
-knitr::kable(
-    tab_intercept,
-    digits  = 4,
-    caption = paste0(
-        "LASSO coefficients (alpha = 1) with and without intercept. ",
-        "The no-intercept model (primary analysis) forces predictions through the origin, ",
-        "reflecting the physical constraint that zero anaesthesia exposure yields zero recapture. ",
-        "The intercept model relaxes this constraint and allows for a non-zero baseline, ",
-        "accounting for moisture adsorption and the proportional allocation of batch yield. ",
-        "Intercept row shows 0 for the no-intercept model."
-    ),
-    na.string = "—"
-)
-```
--->
 
 ## Stability selection
 
@@ -744,7 +374,7 @@ knitr::kable(
         "Stability selection results with subsampling ",
         "(Meinshausen & Bühlmann, 2010) using rcv.glmnet (", nrepcv, " CV repetitions, ", nfolds, " folds) as inner fitter. ",
         "Maximum selection probability across the regularisation path ",
-        "(sampling.type = MB, B = ", stab_fit$B, ", PFER ≤ ", pfer, ", nominal cutoff = ", pi_thr, "; ",
+        "(sampling.type = MB, B = ", stab_fit$B, ", PFER ≤ ", pfer, ", q = ", stab_fit$q, ", nominal cutoff = ", pi_thr, "; ",
         "effective cutoff = ", round(stab_fit$cutoff, 3), " after PFER adjustment). ",
         "Predictors exceeding the effective cutoff are considered stably selected."
     )
@@ -767,352 +397,194 @@ barplot(
 abline(v = stab_fit$cutoff, lty = 2)
 ```
 
-<!--
-## Aggregated predictor model
+## Sensitivity to the per-family error rate
 
-To address the small sample-to-predictor ratio of the original LASSO,
-we fitted an ordinary least squares (OLS) regression model
-using seven pre-specified aggregate predictors
-constructed from the original `r length(clustering_columns)` case-characteristic variables.
-For each canister,
-inhalation predictors were derived by summing case counts and cumulative durations
-across all inhalation anaesthesia subgroups
-(laryngeal mask/tracheal tube, laparoscopic/non-laparoscopic),
-and by computing the duration-weighted mean fresh gas flow over those subgroups.
-TIVA predictors were derived analogously.
-Water trap use was included as a binary indicator.
-No intercept was fitted, consistent with the primary LASSO model.
+```{r stabsel-pfer-setup, include = FALSE, cache = TRUE, dependson = "stabsel-results", cache.extra = list(X, Y, model_params)}
+set.seed(20260517)
 
-```{r agg-model-setup, include = FALSE}
-dur_inha_cols  <- grep("^sum\\.dur.*inha",  names(final_agcs), value = TRUE)
-dur_tiva_cols  <- grep("^sum\\.dur.*tiva",  names(final_agcs), value = TRUE)
-flow_inha_cols <- grep("^med\\.flow.*inha", names(final_agcs), value = TRUE)
-flow_tiva_cols <- grep("^med\\.flow.*tiva", names(final_agcs), value = TRUE)
-n_inha_cols    <- grep("^n\\.cases.*inha",  names(final_agcs), value = TRUE)
-n_tiva_cols    <- grep("^n\\.cases.*tiva",  names(final_agcs), value = TRUE)
-
-wa <- function(flow_cols, dur_cols, dat) {
-    ## duration-weighted mean flow; 0 if no duration
-    flows <- dat[, flow_cols, drop = FALSE]
-    durs  <- dat[, dur_cols,  drop = FALSE]
-    total_dur <- rowSums(durs)
-    ifelse(total_dur > 0,
-           rowSums(flows * durs) / total_dur,
-           0)
-}
-
-agg <- data.frame(
-    n.cases.inha  = rowSums(final_agcs[, n_inha_cols]),
-    sum.dur.inha  = rowSums(final_agcs[, dur_inha_cols]),
-    med.flow.inha = wa(flow_inha_cols, dur_inha_cols, final_agcs),
-    n.cases.tiva  = rowSums(final_agcs[, n_tiva_cols]),
-    sum.dur.tiva  = rowSums(final_agcs[, dur_tiva_cols]),
-    med.flow.tiva = wa(flow_tiva_cols, dur_tiva_cols, final_agcs),
-    water.trap    = final_agcs$water.trap,
-    outcome       = final_agcs$proportional.recaptured.sevo
+stab_fit_pfer <- stabsel(
+    x             = X,
+    y             = Y,
+    fitfun        = rcv_glmnet_fitfun,
+    cutoff        = pi_thr,
+    PFER          = pfer_sens,
+    B             = nsub,
+    sampling.type = "MB"
 )
 
-fit_lm_agg <- lm(outcome ~ 0 + ., data = agg)
-ci_agg     <- confint(fit_lm_agg)
-coef_agg   <- summary(fit_lm_agg)$coefficients
+stopifnot(stab_fit_pfer$q == q_stabsel(pfer_sens))
 
-agg_tab <- data.frame(
-    Predictor = rownames(coef_agg),
-    Estimate  = round(coef_agg[, "Estimate"],   3),
-    CI.low    = round(ci_agg[, 1],              3),
-    CI.high   = round(ci_agg[, 2],              3),
-    SE        = round(coef_agg[, "Std. Error"], 3),
-    p         = coef_agg[, "Pr(>|t|)"]
+## both settings side by side, ordered by the primary analysis
+stab_df_pfer <- data.frame(
+    variable = stab_df$variable,
+    primary  = stab_df$max.prob,
+    relaxed  = round(stab_fit_pfer$max[stab_df$variable], 2),
+    stringsAsFactors = FALSE
 )
-agg_tab$p.fmt <- ifelse(
-    agg_tab$p < 0.001, "< 0.001",
-    ifelse(agg_tab$p < 0.01,  paste0("= ", round(agg_tab$p, 3)),
-    paste0("= ", round(agg_tab$p, 2)))
-)
+rownames(stab_df_pfer) <- NULL
+
+## among the predictors the primary analysis separates at all, the relaxed
+## setting must keep their order; the ties at zero carry no information
+nz <- stab_df_pfer$primary > 0
+stopifnot(!is.unsorted(rev(stab_df_pfer$relaxed[nz])))
 ```
 
-```{r agg-model-table, echo = FALSE}
+```{r stabsel-pfer-prose, include = FALSE}
+sel_p <- names(stab_fit$selected)
+sel_r <- names(stab_fit_pfer$selected)
+name_or_none <- function(x)
+    if (length(x)) paste(x, collapse = ", ") else "no predictor"
+
+sens_selected <- if (identical(sel_p, sel_r)) {
+    paste0("The same ",
+           if (length(sel_p) == 1L) "predictor was" else "predictors were",
+           " stably selected under both settings (", name_or_none(sel_p), ").")
+} else {
+    paste0("Stably selected under the primary setting was ", name_or_none(sel_p),
+           " and under the relaxed one ", name_or_none(sel_r), ".")
+}
+```
+
+The number of variables the inner LASSO may select within each subsample
+follows from the per-family error rate and the selection probability cutoff.
+Relaxing the per-family error rate from `r pfer` to `r pfer_sens`
+raises that number from `r stab_fit$q` to `r stab_fit_pfer$q`
+and raises the selection probabilities throughout.
+The `r sum(nz)` predictors that the primary analysis separates keep their order.
+The remaining `r sum(!nz)` are indistinguishable under the primary setting
+and separate only under the relaxed one.
+`r sens_selected`
+
+```{r stabsel-pfer-table, echo = FALSE}
 knitr::kable(
-    agg_tab[, c("Predictor", "Estimate", "CI.low", "CI.high", "SE", "p.fmt")],
-    col.names = c("Predictor", "Estimate (g)", "95% CI lower", "95% CI upper", "SE", "p"),
-    caption   = paste0(
-        "OLS regression with seven aggregated predictors (no intercept). ",
-        "Outcome: estimated recaptured sevoflurane per canister (g). ",
-        "R² = ", round(summary(fit_lm_agg)$r.squared, 3), ", ",
-        "adj. R² = ", round(summary(fit_lm_agg)$adj.r.squared, 3), ". ",
-        "95% confidence intervals from the t-distribution."
-    ),
-    row.names = FALSE
-)
-```
-
-## Weight gain by TIVA proportion
-
-```{r fig-tiva-weight-gain-sorted, echo = FALSE, dev = ifelse_is_docx("tiff", "png"), fig.width = 8, fig.height = 5, fig.cap = paste0("Weight gain for all ", n_agcs['final'], " analysed canisters sorted from highest to lowest TIVA proportion. Filled blue circles indicate canisters with a water trap; open red circles those without. The dashed line shows the fitted linear regression.")}
-fa_sorted  <- final_agcs[order(final_agcs$pct.inha), ]
-x_rank     <- seq_len(nrow(fa_sorted))
-pch_vals   <- ifelse(fa_sorted$water.trap == 1L, pt_pch, 1L)
-col_vals   <- ifelse(
-    fa_sorted$water.trap == 1L,
-    adjustcolor(col_primary,   alpha.f = pt_alpha),
-    adjustcolor(col_secondary, alpha.f = pt_alpha)
-)
-fit_sorted <- lm(fa_sorted$weight.gain ~ x_rank)
-
-op <- par(mar = c(4.5, 4.5, 0.5, 0.5))
-plot(
-    x_rank, fa_sorted$weight.gain,
-    pch  = pch_vals,
-    col  = col_vals,
-    xlab = sprintf(
-        "Canister (n = %d, sorted by TIVA proportion high to low)",
-        nrow(fa_sorted)
-    ),
-    ylab = "Weight gain (g)",
-    bty  = "l", las = 1
-)
-abline(fit_sorted, col = col_ref, lwd = 1.5, lty = 2)
-legend(
-    "topleft",
-    legend = c("Water trap", "No water trap"),
-    pch    = c(pt_pch, 1L),
-    col    = c(col_primary, col_secondary),
-    bty    = "n", cex = leg_cex
-)
-par(op)
-```
-
-## Weight gain: lowest versus highest TIVA proportion
-
-```{r add-tiva-comparison-setup, include = FALSE}
-tiva_sorted <- final_agcs[order(final_agcs$pct.inha), ]
-
-.tiva_grps <- function(n) {
-    hi <- head(tiva_sorted, n)
-    lo <- tail(tiva_sorted, n)
-    wt <- wilcox.test(lo$weight.gain, hi$weight.gain, exact = FALSE)
-    list(
-        hi          = hi,
-        lo          = lo,
-        n           = n,
-        wtest       = wt,
-        med_lo      = median(lo$weight.gain, na.rm = TRUE),
-        med_hi      = median(hi$weight.gain, na.rm = TRUE),
-        pct_tiva_lo = round(median(1 - lo$pct.inha) * 100, 0),
-        pct_tiva_hi = round(median(1 - hi$pct.inha) * 100, 0)
-    )
-}
-
-tg20 <- .tiva_grps(20L)
-tg40 <- .tiva_grps(40L)
-
-n_comp          <- tg20$n
-grp_lo_tiva     <- tg20$lo
-grp_hi_tiva     <- tg20$hi
-tiva_wtest      <- tg20$wtest
-tiva_med_lo     <- tg20$med_lo
-tiva_med_hi     <- tg20$med_hi
-tiva_med_pct_lo <- tg20$pct_tiva_lo
-tiva_med_pct_hi <- tg20$pct_tiva_hi
-```
-
-The `r n_comp` canisters with the lowest TIVA proportion
-(median TIVA fraction `r tiva_med_pct_lo`%)
-had a median weight gain of `r round(tiva_med_lo, 0)` g,
-compared with `r round(tiva_med_hi, 0)` g
-in the `r n_comp` canisters with the highest TIVA proportion
-(median TIVA fraction `r tiva_med_pct_hi`%;
-Wilcoxon rank-sum test: p `r format.pval(tiva_wtest$p.value, digits = 2)`).
-
-```{r fig-add-12-tiva-comparison, echo = FALSE, dev = ifelse_is_docx("tiff", "png"), fig.width = 6, fig.height = 5, fig.cap = paste0("Weight gain for the ", n_comp, " canisters with the lowest versus highest TIVA proportion.")}
-grp_labels <- setNames(
-    list(grp_lo_tiva$weight.gain, grp_hi_tiva$weight.gain),
-    c(
-        sprintf("Lowest TIVA\n(n = %d)", n_comp),
-        sprintf("Highest TIVA\n(n = %d)", n_comp)
+    stab_df_pfer,
+    col.names = c("Predictor",
+                  paste0("PFER \u2264 ", pfer, " (q = ", stab_fit$q, ")"),
+                  paste0("PFER \u2264 ", pfer_sens, " (q = ", stab_fit_pfer$q, ")")),
+    caption = paste0(
+        "Maximum selection probability per predictor under the primary ",
+        "per-family error rate and under a relaxed one. ",
+        "All other settings are identical to Table \\@ref(tab:stabsel-table) ",
+        "(sampling.type = MB, B = ", stab_fit$B, ", cutoff = ", pi_thr, "). ",
+        "Rows are ordered by the primary analysis."
     )
 )
-.boxjitter(
-    grp_labels,
-    cols = c(col_primary, col_secondary),
-    ylab = "Weight gain (g)"
-)
-mtext(
-    paste0("Wilcoxon p = ", format.pval(tiva_wtest$p.value, digits = 2)),
-    side = 3, line = -1.5, adj = 0.97, cex = 0.85
-)
 ```
 
-## Weight gain: TIVA proportion and water trap combined
+```{r stabsel-pfer-plot, echo = FALSE, dev = ifelse_is_docx("tiff", "png"), fig.width = 6, fig.height = 5, fig.cap = paste0("Maximum selection probability per predictor under the primary per-family error rate of ", pfer, " (dark) and under a relaxed one of ", pfer_sens, " (light). Vertical dashed line indicates the cutoff of ", pi_thr, ".")}
+par(mar = c(4, 12, 2, 1))
+barplot(
+    rbind(rev(stab_df_pfer$relaxed), rev(stab_df_pfer$primary)),
+    names.arg = rev(stab_df_pfer$variable),
+    beside    = TRUE,
+    horiz     = TRUE,
+    las       = 1,
+    xlab      = "Maximum selection probability",
+    xlim      = c(0, 1),
+    col       = c(col_light, col_primary),
+    border    = NA,
+    cex.names = 0.7
+)
+abline(v = stab_fit$cutoff, lty = 2)
+legend("bottomright",
+       legend = c(paste0("PFER \u2264 ", pfer), paste0("PFER \u2264 ", pfer_sens)),
+       fill   = c(col_primary, col_light),
+       border = NA,
+       bty    = "n",
+       cex    = leg_cex)
+```
 
-```{r add-tiva-wt-setup, include = FALSE}
-tiva_wt <- rbind(
-    data.frame(
-        weight.gain = grp_lo_tiva$weight.gain,
-        water.trap  = grp_lo_tiva$water.trap,
-        tiva.group  = "Lowest TIVA"
-    ),
-    data.frame(
-        weight.gain = grp_hi_tiva$weight.gain,
-        water.trap  = grp_hi_tiva$water.trap,
-        tiva.group  = "Highest TIVA"
+## Stability selection including study centre
+
+As a sensitivity analysis,
+study centre was added to the predictor set as a categorical variable
+(one-hot encoded, `r n_center["final"]` centres, without a reference level given the
+absence of an intercept in the underlying LASSO model)
+and stability selection was repeated with otherwise identical settings.
+
+```{r stabsel-centre-setup, include = FALSE, cache = TRUE, dependson = "penalized-regression-setup", cache.extra = list(X, Y, model_params)}
+set.seed(20260517)
+
+final_agcs_ctr <- final_agcs
+final_agcs_ctr$center <- factor(final_agcs_ctr$center)
+
+X_ctr <- model.matrix(
+    reformulate(c(model_columns, "center"),
+                response = "weight.gain", intercept = FALSE),
+    data = final_agcs_ctr
+)
+
+stab_fit_ctr <- stabsel(
+    x             = X_ctr,
+    y             = Y,
+    fitfun        = rcv_glmnet_fitfun,
+    cutoff        = pi_thr,
+    PFER          = pfer,
+    B             = nsub,
+    sampling.type = "MB"
+)
+
+stab_df_ctr <- data.frame(
+    variable = names(stab_fit_ctr$max),
+    max.prob = round(stab_fit_ctr$max, 2),
+    selected = ifelse(names(stab_fit_ctr$max) %in% names(stab_fit_ctr$selected), "Yes", "No"),
+    stringsAsFactors = FALSE
+)
+stab_df_ctr <- stab_df_ctr[order(-stab_df_ctr$max.prob), ]
+rownames(stab_df_ctr) <- NULL
+```
+
+```{r stabsel-centre-table, echo = FALSE}
+knitr::kable(
+    stab_df_ctr,
+    col.names = c("Predictor", "Max. selection probability",
+                  paste0("Selected (≥ ", round(stab_fit_ctr$cutoff, 3), ")")),
+    caption = paste0(
+        "Stability selection results including study centre (", n_center["final"], " centres) as an ",
+        "additional categorical predictor, using rcv.glmnet (", nrepcv, " CV repetitions, ", nfolds, " folds) as inner fitter. ",
+        "Maximum selection probability across the regularisation path ",
+        "(sampling.type = MB, B = ", stab_fit_ctr$B, ", PFER ≤ ", pfer, ", q = ", stab_fit_ctr$q, ", nominal cutoff = ", pi_thr, "; ",
+        "effective cutoff = ", round(stab_fit_ctr$cutoff, 3), " after PFER adjustment). ",
+        "Predictors exceeding the effective cutoff are considered stably selected."
     )
 )
-tiva_wt$tiva.group <- factor(
-    tiva_wt$tiva.group, levels = c("Lowest TIVA", "Highest TIVA")
-)
-tiva_wt$wt.label <- factor(
-    ifelse(tiva_wt$water.trap == 1L, "With water trap", "Without water trap"),
-    levels = c("Without water trap", "With water trap")
-)
 ```
 
-```{r fig-add-13-tiva-watertrap, echo = FALSE, dev = ifelse_is_docx("tiff", "png"), fig.width = 7, fig.height = 5.5, fig.cap = paste0("Weight gain for the ", n_comp, " canisters with the lowest and highest TIVA proportion, each split by water trap use.")}
-at_pos    <- c(1, 2, 3.5, 4.5)
-grp_order <- list(
-    tiva_wt[tiva_wt$tiva.group == "Lowest TIVA"  & tiva_wt$water.trap == 0L, "weight.gain"],
-    tiva_wt[tiva_wt$tiva.group == "Lowest TIVA"  & tiva_wt$water.trap == 1L, "weight.gain"],
-    tiva_wt[tiva_wt$tiva.group == "Highest TIVA" & tiva_wt$water.trap == 0L, "weight.gain"],
-    tiva_wt[tiva_wt$tiva.group == "Highest TIVA" & tiva_wt$water.trap == 1L, "weight.gain"]
+```{r stabsel-centre-plot, echo = FALSE, dev = ifelse_is_docx("tiff", "png"), fig.width = 6, fig.height = 7, fig.cap = "Maximum selection probability per predictor from stability selection including study centre as an additional predictor. Vertical dashed line indicates the effective cutoff."}
+par(mar = c(4, 12, 2, 1))
+barplot(
+    rev(stab_df_ctr$max.prob),
+    names.arg = rev(stab_df_ctr$variable),
+    horiz     = TRUE,
+    las       = 1,
+    xlab      = "Maximum selection probability",
+    xlim      = c(0, 1),
+    col       = ifelse(rev(stab_df_ctr$selected) == "Yes", col_primary, col_light),
+    border    = NA,
+    cex.names = 0.6
 )
-ns <- sapply(grp_order, length)
-
-set.seed(20260528)
-op <- par(mar = c(6.5, 4.5, 1.5, 0.5))
-boxplot(
-    grp_order, at = at_pos, xlim = c(0.5, 5),
-    col    = c(col_secondary, col_primary, col_secondary, col_primary),
-    border = "grey30",
-    ylab   = "Weight gain (g)", xaxt = "n",
-    bty    = "l", outline = FALSE
-)
-for (i in seq_along(grp_order))
-    stripchart(
-        grp_order[i], at = at_pos[i], add = TRUE,
-        vertical = TRUE, method = "jitter", jitter = 0.1,
-        pch = pt_pch, col = adjustcolor(col_ref, alpha.f = pt_alpha), cex = 0.8
-    )
-axis(1, at = at_pos,
-     labels = paste0(c("No WT", "Water trap", "No WT", "Water trap"),
-                     "\n(n = ", ns, ")"),
-     tick = FALSE, line = 0.5, cex.axis = 0.85)
-mtext("Lowest TIVA",  side = 1, at = 1.5, line = 4.5, cex = 0.95, font = 2)
-mtext("Highest TIVA", side = 1, at = 4.0, line = 4.5, cex = 0.95, font = 2)
-abline(v = 2.75, lty = 2, col = "grey60")
-for (j in 1:2) {
-    idx <- if (j == 1L) c(1L, 2L) else c(3L, 4L)
-    if (length(grp_order[[idx[1L]]]) >= 2L && length(grp_order[[idx[2L]]]) >= 2L) {
-        p_val <- wilcox.test(
-            grp_order[[idx[1L]]], grp_order[[idx[2L]]], exact = FALSE
-        )$p.value
-        mtext(
-            paste0("p = ", format.pval(p_val, digits = 2)),
-            side = 3, at = mean(at_pos[idx]), line = 0, cex = 0.8
-        )
-    }
-}
-par(op)
+abline(v = stab_fit_ctr$cutoff, lty = 2)
 ```
-
-## Weight gain: lowest versus highest TIVA proportion (n = 40)
-
-The `r tg40$n` canisters with the lowest TIVA proportion
-(median TIVA fraction `r tg40$pct_tiva_lo`%)
-had a median weight gain of `r round(tg40$med_lo, 0)` g,
-compared with `r round(tg40$med_hi, 0)` g
-in the `r tg40$n` canisters with the highest TIVA proportion
-(median TIVA fraction `r tg40$pct_tiva_hi`%;
-Wilcoxon rank-sum test: p `r format.pval(tg40$wtest$p.value, digits = 2)`).
-
-```{r fig-add-14-tiva-comparison-40, echo = FALSE, dev = ifelse_is_docx("tiff", "png"), fig.width = 6, fig.height = 5, fig.cap = paste0("Weight gain for the ", tg40$n, " canisters with the lowest versus highest TIVA proportion.")}
-grp_labels_40 <- setNames(
-    list(tg40$lo$weight.gain, tg40$hi$weight.gain),
-    c(
-        sprintf("Lowest TIVA\n(n = %d)", tg40$n),
-        sprintf("Highest TIVA\n(n = %d)", tg40$n)
-    )
-)
-.boxjitter(
-    grp_labels_40,
-    cols = c(col_primary, col_secondary),
-    ylab = "Weight gain (g)"
-)
-mtext(
-    paste0("Wilcoxon p = ", format.pval(tg40$wtest$p.value, digits = 2)),
-    side = 3, line = -1.5, adj = 0.97, cex = 0.85
-)
-```
-
-## Weight gain: TIVA proportion and water trap combined (n = 40)
-
-```{r add-tiva-wt-setup-40, include = FALSE}
-tiva_wt_40 <- rbind(
-    data.frame(
-        weight.gain = tg40$lo$weight.gain,
-        water.trap  = tg40$lo$water.trap,
-        tiva.group  = "Lowest TIVA"
-    ),
-    data.frame(
-        weight.gain = tg40$hi$weight.gain,
-        water.trap  = tg40$hi$water.trap,
-        tiva.group  = "Highest TIVA"
-    )
-)
-tiva_wt_40$tiva.group <- factor(
-    tiva_wt_40$tiva.group, levels = c("Lowest TIVA", "Highest TIVA")
-)
-```
-
-```{r fig-add-15-tiva-watertrap-40, echo = FALSE, dev = ifelse_is_docx("tiff", "png"), fig.width = 7, fig.height = 5.5, fig.cap = paste0("Weight gain for the ", tg40$n, " canisters with the lowest and highest TIVA proportion, each split by water trap use.")}
-at_pos    <- c(1, 2, 3.5, 4.5)
-grp_order <- list(
-    tiva_wt_40[tiva_wt_40$tiva.group == "Lowest TIVA"  & tiva_wt_40$water.trap == 0L, "weight.gain"],
-    tiva_wt_40[tiva_wt_40$tiva.group == "Lowest TIVA"  & tiva_wt_40$water.trap == 1L, "weight.gain"],
-    tiva_wt_40[tiva_wt_40$tiva.group == "Highest TIVA" & tiva_wt_40$water.trap == 0L, "weight.gain"],
-    tiva_wt_40[tiva_wt_40$tiva.group == "Highest TIVA" & tiva_wt_40$water.trap == 1L, "weight.gain"]
-)
-ns <- sapply(grp_order, length)
-
-set.seed(20260528)
-op <- par(mar = c(6.5, 4.5, 1.5, 0.5))
-boxplot(
-    grp_order, at = at_pos, xlim = c(0.5, 5),
-    col    = c(col_secondary, col_primary, col_secondary, col_primary),
-    border = "grey30",
-    ylab   = "Weight gain (g)", xaxt = "n",
-    bty    = "l", outline = FALSE
-)
-for (i in seq_along(grp_order))
-    stripchart(
-        grp_order[i], at = at_pos[i], add = TRUE,
-        vertical = TRUE, method = "jitter", jitter = 0.1,
-        pch = pt_pch, col = adjustcolor(col_ref, alpha.f = pt_alpha), cex = 0.8
-    )
-axis(1, at = at_pos,
-     labels = paste0(c("No WT", "Water trap", "No WT", "Water trap"),
-                     "\n(n = ", ns, ")"),
-     tick = FALSE, line = 0.5, cex.axis = 0.85)
-mtext("Lowest TIVA",  side = 1, at = 1.5, line = 4.5, cex = 0.95, font = 2)
-mtext("Highest TIVA", side = 1, at = 4.0, line = 4.5, cex = 0.95, font = 2)
-abline(v = 2.75, lty = 2, col = "grey60")
-for (j in 1:2) {
-    idx <- if (j == 1L) c(1L, 2L) else c(3L, 4L)
-    if (length(grp_order[[idx[1L]]]) >= 2L && length(grp_order[[idx[2L]]]) >= 2L) {
-        p_val <- wilcox.test(
-            grp_order[[idx[1L]]], grp_order[[idx[2L]]], exact = FALSE
-        )$p.value
-        mtext(
-            paste0("p = ", format.pval(p_val, digits = 2)),
-            side = 3, at = mean(at_pos[idx]), line = 0, cex = 0.8
-        )
-    }
-}
-par(op)
-```
--->
 
 ## R session information
 
+
+```{r sessioninfo-packages, include = FALSE}
+## Chunks with cache = TRUE do not attach their packages when they are restored
+## from the cache, so the listing below would depend on whether the cache was
+## warm. knitr records the packages of cached chunks in __packages; attaching
+## them here makes the session information independent of the cache state.
+## Packages already attached keep their position in the search path, so a cold
+## run and a cached run produce the same listing.
+local({
+    f <- paste0(knitr::opts_chunk$get("cache.path"), "__packages")
+    if (file.exists(f))
+        for (p in readLines(f))
+            suppressPackageStartupMessages(
+                require(p, character.only = TRUE, quietly = TRUE)
+            )
+})
+```
 
 ```{r sessioninfo}
 sessionInfo()
