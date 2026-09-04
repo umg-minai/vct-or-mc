@@ -5,6 +5,8 @@ RAWDATA:=raw-data
 
 CRF=$(wildcard $(RAWDATA)/crfs/*.csv)
 SETTING=$(RAWDATA)/setting.csv
+WEIGHTS=$(RAWDATA)/zeosys/weights.csv $(wildcard $(RAWDATA)/weights/*.csv)
+DATA=$(CRF) $(SETTING) $(WEIGHTS)
 
 MANUSCRIPT:=manuscript
 SECTIONDIR:=manuscript/sections
@@ -29,11 +31,11 @@ manuscript: $(OUTPUTDIR)/$(MANUSCRIPT).html
 $(OUTPUTDIR):
 	@mkdir -p $(OUTPUTDIR)
 
-$(OUTPUTDIR)/$(MANUSCRIPT).html: manuscript/$(MANUSCRIPT).Rmd $(RMD) $(BIB) guix/manifest.scm | $(OUTPUTDIR)
+$(OUTPUTDIR)/$(MANUSCRIPT).html: manuscript/$(MANUSCRIPT).Rmd $(RMD) $(BIB) $(DATA) guix/manifest.scm | $(OUTPUTDIR)
 	${GUIXTM} -- \
 		Rscript -e "rmarkdown::render('$<', output_dir = '$(OUTPUTDIR)')"
 
-$(OUTPUTDIR)/$(MANUSCRIPT).docx: manuscript/$(MANUSCRIPT).Rmd $(RMD) $(BIB) guix/manifest.scm | $(OUTPUTDIR)
+$(OUTPUTDIR)/$(MANUSCRIPT).docx: manuscript/$(MANUSCRIPT).Rmd $(RMD) $(BIB) $(DATA) guix/manifest.scm | $(OUTPUTDIR)
 	${GUIXTM} -- \
 		Rscript -e "rmarkdown::render('$<', output_format = 'bookdown::word_document2', output_dir = '$(OUTPUTDIR)')"
 
