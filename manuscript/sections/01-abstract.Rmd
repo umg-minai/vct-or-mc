@@ -21,19 +21,13 @@ These were used in
 in Germany and Austria
 from `r format(lubridate::floor_date(study_period[1L], "month"), "%B %Y")`
 to `r format(lubridate::floor_date(study_period[2L], "month"), "%B %Y")`.
-Case-level data were recorded on paper case report forms.
-Predictors of per-canister recapture were explored
-with LASSO regression and stability selection.
 
 **Results**:
 The `r n_agcs["final"]` canisters
 were in place during `r n_cases["final"]` anaesthesia cases
 of which `r n_cases_inhalational` used inhalational anaesthesia.
 ZeoSys recovered `r round(zeosys_sevo_weight_kg, 1)` kg of sevoflurane.
-This corresponds to a capture efficiency of `r round(recovery_pct_final, 1)`%.
-In LASSO regression and stability selection,
-the fresh gas flow during inhalational anaesthesia
-was the only consistent predictor.
+This corresponds to an estimated capture efficiency of `r round(recovery_pct_final, 1)`%.
 
 **Conclusions**:
 CONTRAfluran canisters recaptured approximately
@@ -41,8 +35,6 @@ CONTRAfluran canisters recaptured approximately
 of administered sevoflurane under routine clinical conditions.
 This is lower than the 34% of our previous single-centre study
 but within the range observed between its two operating rooms.
-Fresh gas flow during inhalational anaesthesia
-was the main predictor of per-canister recapture.
 
 **Keywords**:
 inhalational anaesthesia; sevoflurane; vapour capture technology; capture efficiency

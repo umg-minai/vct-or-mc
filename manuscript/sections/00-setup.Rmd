@@ -23,9 +23,7 @@ knitr::write_bib(
 )
 ```
 
-```{r libraries, include = FALSE}
-library("ameld")
-
+```{r plot_style, include = FALSE}
 ## plot style constants (viridis palette)
 col_primary   <- grDevices::hcl.colors(100, "Viridis")[15] # dark purple
 col_secondary <- grDevices::hcl.colors(100, "Viridis")[70] # green
@@ -35,22 +33,6 @@ col_band      <- function(col = col_primary) adjustcolor(col, alpha.f = 0.15)
 pt_alpha      <- 0.7
 pt_pch        <- 16L
 leg_cex       <- 0.8
-
-## stability selection parameters
-## per-family error rate, selection probability cutoff, number of subsamples
-pfer <- 1
-pi_thr <- 0.8
-## nsub and nrepcv are reduced while the manuscript is still changing;
-## raise them to 1000 and 100 before submission
-nsub <- 200
-
-## per-family error rate of the sensitivity analysis
-pfer_sens <- 3
-
-## number of repeated cv for model estimation
-nrepcv <- 50
-## number of cv folds for model estimation
-nfolds <- 10
 ```
 
 ```{r helper_functions, include = FALSE}
@@ -254,23 +236,6 @@ clustering_columns <- c(
     "water.trap"
 )
 
-## candidate predictors for the LASSO model; the case counts are dropped
-## because they correlate almost perfectly with the cumulative durations of
-## the same stratum (r 0.90 to 0.98)
-model_columns <- grep("^n\\.cases\\.", clustering_columns,
-                      value = TRUE, invert = TRUE)
-
-## the Meinshausen-Buehlmann bound PFER <= q^2 / ((2 * pi_thr - 1) * p)
-## determines how many variables the inner fit may select per subsample
-q_stabsel <- function(pfer)
-    floor(sqrt(pfer * (2 * pi_thr - 1) * length(model_columns)))
-
-## every tuning parameter the cached model chunks depend on; listing them
-## in one place keeps their cache.extra complete when a value changes
-model_params <- list(nrepcv = nrepcv, nfolds = nfolds,
-                     nsub = nsub, pfer = pfer, pfer_sens = pfer_sens,
-                     pi_thr = pi_thr, model_columns = model_columns)
-
 clsize <- 80L
 clpool <- agcs$available & !agcs$excluded
 agcs_cluster <- agcs[clpool, clustering_columns]
@@ -376,4 +341,10 @@ zeosys_total_wloss_g     <- abs(sum(final_wdiff, na.rm = TRUE))
 
 agcs$proportional.recaptured.sevo <-
     (agcs$weight.gain / sum(agcs$weight.gain, na.rm = TRUE)) * (zeosys_sevo_weight_kg * 1000)
+```
+
+```{r final-agcs, include = FALSE}
+final_agcs <- agcs[!agcs$excluded, ]
+num_cols   <- vapply(final_agcs, is.numeric, NA)
+final_agcs[num_cols][is.na(final_agcs[num_cols])] <- 0
 ```

@@ -78,13 +78,6 @@ to the total mass of sevoflurane administered across all study ORs.
 The sevoflurane used was estimated from the number of
 `r sevo_bottle_ml` mL bottles consumed per OR.
 
-Secondary outcomes were the associations of the capture efficiency with
-the duration of anaesthesia,
-fresh gas flow,
-type of airway device (laryngeal mask vs. tracheal tube),
-type of surgery (laparoscopic vs. non-laparoscopic),
-and presence of a water trap.
-
 ## Weight measurement and consumption estimation
 
 Weight gain per canister represents the *in vivo* mass transfer.
@@ -157,45 +150,6 @@ The batch size and the clustering method both deviated from the study protocol.
 Only case-related variables recorded during the study
 and no weight or desorption data entered this assignment.
 The remaining `r n_excl_outlier` canisters were excluded.
-
-## Identification of predictors of per-canister weight gain
-
-To explore potential clinical predictors of per-canister recapture,
-we fitted a least absolute shrinkage and selection operator (LASSO) regression model
-[@Tibshirani1996]
-to the final set of `r n_agcs["final"]` canisters.
-
-The variables used for the batch assignment served as candidate predictors,
-except the `r length(clustering_columns) - length(model_columns)` case counts,
-which correlated almost perfectly with the cumulative case duration of the same
-stratum (r 0.90 to 0.98) and were therefore dropped,
-leaving `r length(model_columns)` candidate predictors.
-The outcome was the weight gain per canister (g),
-which was measured directly and required no allocation step.
-Because the recovered sevoflurane was allocated in proportion to weight gain,
-a model of either outcome differs only by a constant factor.
-No intercept was included, as the outcome must be zero in the absence of any cases.
-The regularisation parameter $\lambda$ was selected by repeated $k$-fold
-cross-validation (`r nrepcv` repetitions, `r nfolds` folds) using the *ameld* R package [@ameld],
-which wraps *glmnet* [@Friedman2010].
-Results are reported at both the minimum cross-validation error (lambda.min)
-and the one-standard-error rule (lambda.1se).
-To assess the robustness of predictor selection,
-stability selection with subsampling
-[@MeinshausenBuehlmann2010]
-was applied with `r nsub` subsamples of half the data,
-a selection probability cutoff of `r pi_thr`,
-and a per-family error rate (PFER) of at most `r pfer`
-using the *stabs* package [@Hofner2015].
-Within each subsample, the inner LASSO fit used repeated cross-validation
-with the same number of repetitions and folds as the primary analysis
-to stabilise the regularisation parameter selection.
-The per-family error rate and the cutoff together determine
-how many variables the inner fit may select within each subsample.
-For `r length(model_columns)` candidate predictors this bound gives `r q_stabsel(pfer)`.
-Because the selection probabilities depend on that number,
-stability selection was repeated with a per-family error rate of at most `r pfer_sens`
-(Online Supplementary File S1, Table\ \@ref(tab:stabsel-pfer-table)).
 
 All data processing and statistical analyses were performed using R version
 `r paste0(sessionInfo()$R.version[c("major", "minor")], collapse = ".")`

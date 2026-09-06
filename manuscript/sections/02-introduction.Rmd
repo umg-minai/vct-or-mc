@@ -26,5 +26,4 @@ improve generalisability
 but remain lacking [@Gandhi2024].
 We therefore conducted the first prospective, multicentre, international observational study
 in Germany and Austria
-to quantify the proportion of sevoflurane recaptured by CONTRAfluran under routine clinical conditions
-and to explore clinical predictors of per-canister capture efficiency.
+to quantify the proportion of sevoflurane recaptured by CONTRAfluran under routine clinical conditions.

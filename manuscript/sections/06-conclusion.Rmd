@@ -7,6 +7,3 @@ of the sevoflurane attributable to the `r n_agcs["final"]` analysed canisters
 under routine clinical conditions.
 This estimate is lower than the 34% reported in our previous single-centre study,
 but lies within the range observed between its two operating rooms [@Gibb2025].
-
-Exploratory penalised regression identified fresh gas flow
-as the main candidate predictor of per-canister recapture.

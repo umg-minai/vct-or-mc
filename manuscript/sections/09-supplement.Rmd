@@ -299,27 +299,26 @@ and the intercept was
 (95% CI `r round(wl_ci["(Intercept)", 1], 2)` to `r round(wl_ci["(Intercept)", 2], 2)`);
 R² = `r round(wl_smry$r.squared, 2)`.
 
-## Predictor correlations
+## Correlations among the recorded case characteristics
 
 ```{r predictor-correlation-prose, include = FALSE}
 ## correlation of case count and cumulative duration within each stratum
 strata <- sub("^n\\.cases\\.", "",
-              grep("^n\\.cases\\.", colnames(X_all), value = TRUE))
+              grep("^n\\.cases\\.", clustering_columns, value = TRUE))
 ncases_dur_r <- vapply(strata, function(st)
-    cor(X_all[, paste0("n.cases.", st)], X_all[, paste0("sum.dur.", st)]), NA_real_)
+    cor(final_agcs[[paste0("n.cases.", st)]],
+        final_agcs[[paste0("sum.dur.", st)]]), NA_real_)
 ```
 
 Within each stratum the case count and the cumulative case duration
 measured almost the same quantity
 (r `r sprintf("%.2f", min(ncases_dur_r))` to `r sprintf("%.2f", max(ncases_dur_r))`).
 
-```{r predictor-correlations, echo = FALSE, dev = ifelse_is_docx("tiff", "png"), fig.width = 7, fig.height = 6.5, fig.cap = paste0("Pairwise Pearson correlations among the ", length(clustering_columns), " candidate variables considered for the LASSO model. Predictors with zero variance are excluded. Rows and columns are ordered by hierarchical clustering (correlation distance). Purple: positive correlation; green: negative correlation. Abbreviations: n, case count; dur, cumulative duration; flow, median fresh gas flow; LM, laryngeal mask; TU, tracheal tube; nl, non-laparoscopic; l, laparoscopic; IA, inhalational anaesthesia; TV, TIVA.")}
-## remove zero-variance columns (e.g. subgroups with no cases across all ORs)
-X_var    <- X_all[, apply(X_all, 2, var) > 0, drop = FALSE]
-cor_mat  <- cor(X_var)
+```{r predictor-correlations, echo = FALSE, dev = ifelse_is_docx("tiff", "png"), fig.width = 7, fig.height = 6.5, fig.cap = paste0("Pairwise Pearson correlations among the ", length(clustering_columns), " recorded case characteristics. Rows and columns are ordered by hierarchical clustering (correlation distance). Purple: positive correlation; green: negative correlation. Abbreviations: n, case count; dur, cumulative duration; flow, median fresh gas flow; LM, laryngeal mask; TU, tracheal tube; nl, non-laparoscopic; l, laparoscopic; IA, inhalational anaesthesia; TV, TIVA.")}
+cor_mat <- cor(final_agcs[, clustering_columns])
 
 ## shorten variable names for display
-sn <- colnames(X_var)
+sn <- colnames(cor_mat)
 sn <- sub("^n\\.cases\\.",  "n.",    sn)
 sn <- sub("^sum\\.dur\\.",  "dur.",  sn)
 sn <- sub("^med\\.flow\\.", "flow.", sn)
@@ -348,243 +347,7 @@ heatmap(
 )
 ```
 
-## Penalised regression diagnostics
-
-```{r penalized-regression-coef, echo = FALSE, warning = FALSE}
-knitr::kable(
-    as.matrix(cbind(coef(fit, s = "lambda.min"), coef(fit, s = "lambda.1se"))),
-    col.names = c("s, lambda.min", "s, lambda.1se"),
-    digits = 4,
-    caption = "LASSO coefficients (for penalization rule 's', lambda.min and lambda.1se) for the prediction of canister weight gain (g) from anaesthesia case characteristics."
-)
-```
-
-```{r penalized-regression-plot, echo = FALSE, dev = ifelse_is_docx("tiff", "png"), fig.width = 6, fig.height = 4, fig.cap = "Cross-validation curve for the penalised regression model (LASSO, alpha = 1). Dotted vertical lines indicate lambda.min and lambda.1se.", warning = FALSE}
-plot(fit)
-```
-
-## Stability selection
-
-```{r stabsel-table, echo = FALSE}
-knitr::kable(
-    stab_df,
-    col.names = c("Predictor", "Max. selection probability",
-                  paste0("Selected (≥ ", round(stab_fit$cutoff, 3), ")")),
-    caption = paste0(
-        "Stability selection results with subsampling ",
-        "(Meinshausen & Bühlmann, 2010) using rcv.glmnet (", nrepcv, " CV repetitions, ", nfolds, " folds) as inner fitter. ",
-        "Maximum selection probability across the regularisation path ",
-        "(sampling.type = MB, B = ", stab_fit$B, ", PFER ≤ ", pfer, ", q = ", stab_fit$q, ", nominal cutoff = ", pi_thr, "; ",
-        "effective cutoff = ", round(stab_fit$cutoff, 3), " after PFER adjustment). ",
-        "Predictors exceeding the effective cutoff are considered stably selected."
-    )
-)
-```
-
-```{r stabsel-plot, echo = FALSE, dev = ifelse_is_docx("tiff", "png"), fig.width = 6, fig.height = 5, fig.cap = "Maximum selection probability per predictor from stability selection. Vertical dashed line indicates the cutoff of 0.8."}
-par(mar = c(4, 12, 2, 1))
-barplot(
-    rev(stab_df$max.prob),
-    names.arg = rev(stab_df$variable),
-    horiz     = TRUE,
-    las       = 1,
-    xlab      = "Maximum selection probability",
-    xlim      = c(0, 1),
-    col       = ifelse(rev(stab_df$selected) == "Yes", col_primary, col_light),
-    border    = NA,
-    cex.names = 0.7
-)
-abline(v = stab_fit$cutoff, lty = 2)
-```
-
-## Sensitivity to the per-family error rate
-
-```{r stabsel-pfer-setup, include = FALSE, cache = TRUE, dependson = "stabsel-results", cache.extra = list(X, Y, model_params)}
-set.seed(20260517)
-
-stab_fit_pfer <- stabsel(
-    x             = X,
-    y             = Y,
-    fitfun        = rcv_glmnet_fitfun,
-    cutoff        = pi_thr,
-    PFER          = pfer_sens,
-    B             = nsub,
-    sampling.type = "MB"
-)
-
-stopifnot(stab_fit_pfer$q == q_stabsel(pfer_sens))
-
-## both settings side by side, ordered by the primary analysis
-stab_df_pfer <- data.frame(
-    variable = stab_df$variable,
-    primary  = stab_df$max.prob,
-    relaxed  = round(stab_fit_pfer$max[stab_df$variable], 2),
-    stringsAsFactors = FALSE
-)
-rownames(stab_df_pfer) <- NULL
-
-## among the predictors the primary analysis separates at all, the relaxed
-## setting must keep their order; the ties at zero carry no information
-nz <- stab_df_pfer$primary > 0
-stopifnot(!is.unsorted(rev(stab_df_pfer$relaxed[nz])))
-```
-
-```{r stabsel-pfer-prose, include = FALSE}
-sel_p <- names(stab_fit$selected)
-sel_r <- names(stab_fit_pfer$selected)
-name_or_none <- function(x)
-    if (length(x)) paste(x, collapse = ", ") else "no predictor"
-
-sens_selected <- if (identical(sel_p, sel_r)) {
-    paste0("The same ",
-           if (length(sel_p) == 1L) "predictor was" else "predictors were",
-           " stably selected under both settings (", name_or_none(sel_p), ").")
-} else {
-    paste0("Stably selected under the primary setting was ", name_or_none(sel_p),
-           " and under the relaxed one ", name_or_none(sel_r), ".")
-}
-```
-
-The number of variables the inner LASSO may select within each subsample
-follows from the per-family error rate and the selection probability cutoff.
-Relaxing the per-family error rate from `r pfer` to `r pfer_sens`
-raises that number from `r stab_fit$q` to `r stab_fit_pfer$q`
-and raises the selection probabilities throughout.
-The `r sum(nz)` predictors that the primary analysis separates keep their order.
-The remaining `r sum(!nz)` are indistinguishable under the primary setting
-and separate only under the relaxed one.
-`r sens_selected`
-
-```{r stabsel-pfer-table, echo = FALSE}
-knitr::kable(
-    stab_df_pfer,
-    col.names = c("Predictor",
-                  paste0("PFER \u2264 ", pfer, " (q = ", stab_fit$q, ")"),
-                  paste0("PFER \u2264 ", pfer_sens, " (q = ", stab_fit_pfer$q, ")")),
-    caption = paste0(
-        "Maximum selection probability per predictor under the primary ",
-        "per-family error rate and under a relaxed one. ",
-        "All other settings are identical to Table \\@ref(tab:stabsel-table) ",
-        "(sampling.type = MB, B = ", stab_fit$B, ", cutoff = ", pi_thr, "). ",
-        "Rows are ordered by the primary analysis."
-    )
-)
-```
-
-```{r stabsel-pfer-plot, echo = FALSE, dev = ifelse_is_docx("tiff", "png"), fig.width = 6, fig.height = 5, fig.cap = paste0("Maximum selection probability per predictor under the primary per-family error rate of ", pfer, " (dark) and under a relaxed one of ", pfer_sens, " (light). Vertical dashed line indicates the cutoff of ", pi_thr, ".")}
-par(mar = c(4, 12, 2, 1))
-barplot(
-    rbind(rev(stab_df_pfer$relaxed), rev(stab_df_pfer$primary)),
-    names.arg = rev(stab_df_pfer$variable),
-    beside    = TRUE,
-    horiz     = TRUE,
-    las       = 1,
-    xlab      = "Maximum selection probability",
-    xlim      = c(0, 1),
-    col       = c(col_light, col_primary),
-    border    = NA,
-    cex.names = 0.7
-)
-abline(v = stab_fit$cutoff, lty = 2)
-legend("bottomright",
-       legend = c(paste0("PFER \u2264 ", pfer), paste0("PFER \u2264 ", pfer_sens)),
-       fill   = c(col_primary, col_light),
-       border = NA,
-       bty    = "n",
-       cex    = leg_cex)
-```
-
-## Stability selection including study centre
-
-As a sensitivity analysis,
-study centre was added to the predictor set as a categorical variable
-(one-hot encoded, `r n_center["final"]` centres, without a reference level given the
-absence of an intercept in the underlying LASSO model)
-and stability selection was repeated with otherwise identical settings.
-
-```{r stabsel-centre-setup, include = FALSE, cache = TRUE, dependson = "penalized-regression-setup", cache.extra = list(X, Y, model_params)}
-set.seed(20260517)
-
-final_agcs_ctr <- final_agcs
-final_agcs_ctr$center <- factor(final_agcs_ctr$center)
-
-X_ctr <- model.matrix(
-    reformulate(c(model_columns, "center"),
-                response = "weight.gain", intercept = FALSE),
-    data = final_agcs_ctr
-)
-
-stab_fit_ctr <- stabsel(
-    x             = X_ctr,
-    y             = Y,
-    fitfun        = rcv_glmnet_fitfun,
-    cutoff        = pi_thr,
-    PFER          = pfer,
-    B             = nsub,
-    sampling.type = "MB"
-)
-
-stab_df_ctr <- data.frame(
-    variable = names(stab_fit_ctr$max),
-    max.prob = round(stab_fit_ctr$max, 2),
-    selected = ifelse(names(stab_fit_ctr$max) %in% names(stab_fit_ctr$selected), "Yes", "No"),
-    stringsAsFactors = FALSE
-)
-stab_df_ctr <- stab_df_ctr[order(-stab_df_ctr$max.prob), ]
-rownames(stab_df_ctr) <- NULL
-```
-
-```{r stabsel-centre-table, echo = FALSE}
-knitr::kable(
-    stab_df_ctr,
-    col.names = c("Predictor", "Max. selection probability",
-                  paste0("Selected (≥ ", round(stab_fit_ctr$cutoff, 3), ")")),
-    caption = paste0(
-        "Stability selection results including study centre (", n_center["final"], " centres) as an ",
-        "additional categorical predictor, using rcv.glmnet (", nrepcv, " CV repetitions, ", nfolds, " folds) as inner fitter. ",
-        "Maximum selection probability across the regularisation path ",
-        "(sampling.type = MB, B = ", stab_fit_ctr$B, ", PFER ≤ ", pfer, ", q = ", stab_fit_ctr$q, ", nominal cutoff = ", pi_thr, "; ",
-        "effective cutoff = ", round(stab_fit_ctr$cutoff, 3), " after PFER adjustment). ",
-        "Predictors exceeding the effective cutoff are considered stably selected."
-    )
-)
-```
-
-```{r stabsel-centre-plot, echo = FALSE, dev = ifelse_is_docx("tiff", "png"), fig.width = 6, fig.height = 7, fig.cap = "Maximum selection probability per predictor from stability selection including study centre as an additional predictor. Vertical dashed line indicates the effective cutoff."}
-par(mar = c(4, 12, 2, 1))
-barplot(
-    rev(stab_df_ctr$max.prob),
-    names.arg = rev(stab_df_ctr$variable),
-    horiz     = TRUE,
-    las       = 1,
-    xlab      = "Maximum selection probability",
-    xlim      = c(0, 1),
-    col       = ifelse(rev(stab_df_ctr$selected) == "Yes", col_primary, col_light),
-    border    = NA,
-    cex.names = 0.6
-)
-abline(v = stab_fit_ctr$cutoff, lty = 2)
-```
-
 ## R session information
-
-
-```{r sessioninfo-packages, include = FALSE}
-## Chunks with cache = TRUE do not attach their packages when they are restored
-## from the cache, so the listing below would depend on whether the cache was
-## warm. knitr records the packages of cached chunks in __packages; attaching
-## them here makes the session information independent of the cache state.
-## Packages already attached keep their position in the search path, so a cold
-## run and a cached run produce the same listing.
-local({
-    f <- paste0(knitr::opts_chunk$get("cache.path"), "__packages")
-    if (file.exists(f))
-        for (p in readLines(f))
-            suppressPackageStartupMessages(
-                require(p, character.only = TRUE, quietly = TRUE)
-            )
-})
-```
 
 ```{r sessioninfo}
 sessionInfo()
