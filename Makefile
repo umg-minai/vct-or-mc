@@ -43,7 +43,7 @@ $(DISTDIR):
 	@mkdir -p $(DISTDIR)
 
 dist: $(OUTPUTDIR)/$(MANUSCRIPT).docx | $(DISTDIR)
-	@cp $< $(DISTDIR)/"$(DATE)_$(GITHEAD)_$(MANUSCRIPT).docx"
+	@cp $< $(DISTDIR)/"vct-or-mc_$(MANUSCRIPT)_$(DATE)_$(GITHEAD).docx"
 
 progress: docs/progress.html docs/validate.html
 
