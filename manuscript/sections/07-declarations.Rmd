@@ -42,6 +42,7 @@ The authors declare the use of generative AI in the research and writing process
 - Visualization
 - Proofreading and editing
 - Translation
+- Reformatting
 
 The GAI tool used was: Claude Opus 5 (Claude Code Version 2.1.246; Anthropic, San Francisco, CA, USA).
 Responsibility for the final manuscript lies entirely with the authors.
