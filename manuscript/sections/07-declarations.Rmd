@@ -49,26 +49,25 @@ Responsibility for the final manuscript lies entirely with the authors.
 GAI tools are not listed as authors and do not bear responsibility for the final outcomes.
 Declaration submitted by: Sebastian Gibb
 
+```{r study-group, include = FALSE}
+front_matter <- rmarkdown::yaml_front_matter(
+    find_git_root_file("manuscript", "manuscript.Rmd")
+)
+author_names <- vapply(front_matter$author, function(a) names(a)[1L],
+                       NA_character_)
+affiliation  <- sub("\\.$", "", unlist(front_matter$institute))
+```
+
 ## VCT-OR-MC Study Group
 
 **Writing group** (authors, listed above):
-Sebastian Gibb,
-Falk von Dincklage,
-Angelika Androsch,
-Reinhard Germann,
-Linda Grüßer,
-Rüdiger Hacker,
-Eva Hofmann,
-Katja Nickel,
-Marie-Luise Rübsam,
-Ernst Trampitsch,
-Stephanie Snyder-Ramos.
+`r paste0(author_names, collapse = ", ")`.
 
 **Collaborators**:
-Stephan Knigge (University Hospital Greifswald, Greifswald, Germany),
-Christian Lisson (Hospital Salem, Heidelberg, Germany),
-Terence Krauß (Medizinische Hochschule Hannover, Hannover, Germany),
-Nadin Möller (University Hospital Greifswald, Greifswald, Germany).
+Stephan Knigge (`r affiliation[["KAINS"]]`),
+Terence Krauß (`r affiliation[["MHH"]]`),
+Christian Lisson (`r affiliation[["SALEM"]]`),
+Nadin Möller (`r affiliation[["KAINS"]]`).
 
 ## Acknowledgements
 

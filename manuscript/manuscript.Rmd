@@ -9,7 +9,7 @@ institute:
     - RWTH: Department of Anesthesiology, Medical Faculty RWTH Aachen, Aachen, Germany.
     - FULDA: "Abteilung für Anästhesie, Intensiv- und Schmerztherapie, Herz-Jesu-Krankenhaus Fulda, Fulda, Germany."
     - MAINZ: Anästhesie, DRK Schmerz-Zentrum Mainz, Mainz, Germany.
-    - MHH: Klinik für Anästhesiologie und Intensivmedizin, Medizinische Hochschule Hannover, Hannover, Germany.
+    - MHH: Department of Anesthesiology and Intensive Care Medicine, Hannover Medical School, Hannover, Germany.
     - VECHTA: "Fachabteilung für Anästhesie, operative Intensivmedizin und Rettungsmedizin, St. Marienhospital Vechta, Vechta, Germany."
     - VILLACH: Abteilung für Anästhesie und Intensivmedizin, LKH Villach, Villach, Austria.
     - SALEM: Department of Anesthesiology and Intensive Care Medicine, Hospital Salem, Heidelberg, Germany.
