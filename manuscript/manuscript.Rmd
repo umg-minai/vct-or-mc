@@ -123,7 +123,7 @@ ethics_committee:
 bibliography:
     - bibliography/bibliography.bib
     - bibliography/rpackages.bib
-csl: pandoc/csl/bja.csl
+csl: pandoc/csl/anaesthesia.csl
 link-citations: yes
 linkcolor: blue
 output:

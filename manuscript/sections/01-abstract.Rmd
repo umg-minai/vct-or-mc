@@ -1,7 +1,7 @@
 # Summary
 
 
-**Background**:
+**Introduction**:
 Volatile anaesthetics contribute to the environmental footprint of operating rooms.
 CONTRAfluran^TM^ (ZeoSys Medical GmbH, Luckenwalde, Germany)
 passively captures sevoflurane at the anaesthesia machine exhaust port
@@ -29,7 +29,7 @@ of which `r n_cases_inhalational` used inhalational anaesthesia.
 ZeoSys recovered `r round(zeosys_sevo_weight_kg, 1)` kg of sevoflurane.
 This corresponds to an estimated capture efficiency of `r round(recovery_pct_final, 1)`%.
 
-**Conclusions**:
+**Discussion**:
 CONTRAfluran canisters recaptured approximately
 `r round(recovery_pct_final, 0)`%
 of administered sevoflurane under routine clinical conditions.
