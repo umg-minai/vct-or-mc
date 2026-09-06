@@ -9,7 +9,7 @@ representing an environmental hazard beyond their global warming potential [@Kal
 
 Activated carbon canisters fitted passively at the exhaust port of the anaesthesia machine
 can adsorb exhaled volatile anaesthetics and reduce their atmospheric release [@Wenzel2024;@Gibb2024b].
-The CONTRAfluran^TM^ canister (ZeoSys Medical GmbH, Berlin, Germany)
+The CONTRAfluran^TM^ canister (ZeoSys Medical GmbH, Luckenwalde, Germany)
 is the only system currently approved in Europe for pharmaceutical reuse of recaptured sevoflurane.
 
 Published evidence on the capture efficiency of CONTRAfluran for sevoflurane is limited.

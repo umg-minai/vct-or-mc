@@ -3,7 +3,7 @@
 
 **Background**:
 Volatile anaesthetics contribute to the environmental footprint of operating rooms.
-CONTRAfluran^TM^ (ZeoSys Medical GmbH, Berlin, Germany)
+CONTRAfluran^TM^ (ZeoSys Medical GmbH, Luckenwalde, Germany)
 passively captures sevoflurane at the anaesthesia machine exhaust port
 for thermal desorption and pharmaceutical reuse.
 The relative amount of sevoflurane that can be recaptured remains unclear.

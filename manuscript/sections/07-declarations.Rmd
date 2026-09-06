@@ -82,7 +82,7 @@ are available at https://github.com/umg-minai/vct-or-mc [@vctormcdata].
 
 ## Role of the manufacturer
 
-ZeoSys Medical GmbH manufactures the CONTRAfluran canisters
+ZeoSys Medical GmbH (Luckenwalde, Germany) manufactures the CONTRAfluran^TM^ canisters
 and the SENSOfluran indicator units evaluated in this study.
 The canisters were sent to the company after study completion.
 The company weighed them, performed the thermal desorption

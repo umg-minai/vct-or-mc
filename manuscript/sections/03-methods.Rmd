@@ -40,7 +40,7 @@ The study ended
 when the last study bottle had been emptied into the vaporizer.
 Sevoflurane was the only permitted volatile anaesthetic in the study ORs.
 In each OR,
-a CONTRAfluran activated carbon canister (ZeoSys Medical GmbH, Berlin, Germany)
+a CONTRAfluran activated carbon canister (ZeoSys Medical GmbH, Luckenwalde, Germany)
 was installed passively at the exhaust port of the anaesthesia machine
 to capture sevoflurane exhaled during inhalational anaesthesia.
 It was not connected to the anaesthesia gas scavenging system.
@@ -119,7 +119,7 @@ multiplied by the OR's total bottle count.
 ## Batch assignment for thermal desorption
 
 The study protocol originally specified batches of 20 canisters for desorption.
-ZeoSys Medical GmbH advised that routine batch processing requires a minimum of 80.
+ZeoSys advised that routine batch processing requires a minimum of 80.
 Accordingly, a single batch of 80 was formed
 from the `r n_eligible` eligible canisters.
 
