@@ -91,18 +91,18 @@ Beyond this it had no role in the design or conduct of the study,
 took no part in the analysis
 and did not review or comment on the manuscript before submission.
 
-## Declaration of interests
+## Competing interests
 
-```{r declaration-of-interests, echo = FALSE, results = "asis"}
+```{r conflicts-of-interests, echo = FALSE, results = "asis"}
 cois <- vapply(authors, "[[", "competing_interest", FUN.VALUE = NA_character_)
 is_none <- cois == "none"
 
 if (all(is_none)) {
-    cat("The authors declare that they have no conflict of interest.")
+    cat("The authors declare that they have no competing interests.")
 } else {
     nms_coi <- .initials(.drop_author_title(names(cois)))
     cat(paste(nms_coi[!is_none], cois[!is_none], collapse = "; "),
-        " The remaining authors declare that they have no conflict of interest.",
+        " The remaining authors declare that they have no competing interests.",
         sep = "")
 }
 ```

@@ -66,7 +66,7 @@ author:
         email: r.hacker@herz-jesu-krankenhaus.de
         institute: [FULDA]
         correspondence: false
-        competing_interest: none
+        competing_interest: states that he received a speaking fee from Baxter Deutschland GmbH in 2022.
         role:
             - investigation
             - writing -- review and editing
