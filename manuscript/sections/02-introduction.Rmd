@@ -1,13 +1,13 @@
 # Introduction
 
 The anthropogenic climate crisis is a significant threat to global health [@vanDaalen2022].
-The health-care sector is responsible for an estimated 5–10% of greenhouse gas emissions [@Hu2021].
+The healthcare sector is responsible for an estimated 5–10% of greenhouse gas emissions [@Hu2021].
 Fluorinated volatile anaesthetics such as sevoflurane and desflurane are a relevant source of these emissions [@Andersen2012; @Hu2021].
-Furthermore, as per- and polyfluoroalkyl substances, they form persistent degradation products
+Furthermore, as per- and polyfluoroalkyl substances (PFAS), they form persistent degradation products
 that accumulate in aquatic ecosystems,
 representing an environmental hazard beyond their global warming potential [@Kalmar2025b].
 
-Activated carbon canisters fitted passively at the exhaust port of the anaesthesia machine
+Activated charcoal canisters fitted passively at the exhaust port of the anaesthesia machine
 can adsorb exhaled volatile anaesthetics and reduce their atmospheric release [@Wenzel2024;@Gibb2024b].
 The CONTRAfluran^TM^ canister (ZeoSys Medical GmbH, Luckenwalde, Germany)
 is the only system currently approved in Europe for pharmaceutical reuse of recaptured sevoflurane.
@@ -15,10 +15,11 @@ is the only system currently approved in Europe for pharmaceutical reuse of reca
 Published evidence on the capture efficiency of CONTRAfluran for sevoflurane is limited.
 Mulier et al. reported a canister weight gain of 45% during laparoscopic surgery
 but did not quantify the capture efficiency of sevoflurane [@Mulier2024a].
-Our preceding single-centre study found a 34% capture efficiency with CONTRAfluran
-across two operating rooms under routine conditions [@Gibb2025].
+Our preceding single-centre study found a capture efficiency of 34%,
+with markedly different values in its two operating rooms
+(21.4% and 47.8%) [@Gibb2025].
 
-However, single-centre studies are susceptible to site-specific bias
+Single-centre studies are susceptible to site-specific bias
 and the capture efficiency achievable on a larger scale therefore remains unknown.
 
 Multicentre data could

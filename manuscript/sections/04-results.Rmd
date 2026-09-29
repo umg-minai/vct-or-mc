@@ -9,12 +9,14 @@ a total of `r n_agcs["initial"]` canisters were deployed
 of which
 `r n_agcs["final"]` were selected for desorption
 (Figure\ \@ref(fig:agc-flowchart)).
-These canisters were in place during `r n_cases["final"]` anaesthesia cases,
+These canisters were used during `r n_cases["final"]` anaesthesia cases,
 of which `r n_cases_inhalational` used inhalational anaesthesia
 (Table\ \@ref(tab:table-one)).
 The remaining `r n_cases["final"] - n_cases_inhalational` cases were performed
-under TIVA with the canister still connected.
-Entries were missing for the start time in `r sum(is.na(final_crf$start))` cases,
+as TIVA with the canister still connected.
+The median fresh gas flow during inhalational anaesthesia was
+`r round(med_flow_inhalational, 1)` l.min⁻¹.
+CRF entries were missing for the start time in `r sum(is.na(final_crf$start))` cases,
 the end time in `r sum(is.na(final_crf$end))`,
 the fresh gas flow in `r sum(is.na(final_crf$flow))`
 and the airway device in `r sum(is.na(final_crf$airway))`.
@@ -24,7 +26,7 @@ could not be assigned to one of the `r length(clustering_columns) - 1L` subgroup
 Desorption of all analysed canisters was performed on
 `r sub("^0", "", format(zeosys_desorption_date, "%d %B %Y"))`.
 ZeoSys recovered
-`r zeosys_sevo_weight_kg` kg (`r zeosys_sevo_volume_l` L)
+`r zeosys_sevo_weight_kg` kg (`r zeosys_sevo_volume_l` l)
 of sevoflurane and reported
 that sevoflurane accounted for
 `r round(zeosys_yield * 100, 1)`%
@@ -39,7 +41,7 @@ Relative to this subset, the recovered `r zeosys_sevo_weight_kg` kg
 corresponded to a capture efficiency of `r round(recovery_pct_final, 1)`%.
 Pre-desorption weights were taken `r zeosys_days_weight1_to_desorption` and `r zeosys_days_weight2_to_desorption` days before desorption.
 During this storage period,
-the `r sum(!is.na(final_wdiff))` canisters weighed on both occasions
+`r sum(!is.na(final_wdiff))` canisters weighed on both occasions
 lost a median of `r round(abs(zeosys_med_wdiff_g), 1)` g
 (`r round(zeosys_wdiff_pct_of_gain, 1)`% of the median weight gain).
 This corresponds to a total storage loss of `r round(zeosys_total_wloss_g, 0)` g.
@@ -101,7 +103,7 @@ med_iqr <- function(x, d = 1, min_n = 5L) {
     if (!length(x)) return("—")
     if (length(x) < min_n)
         return(formatC(median(x), digits = d, format = "f"))
-    sprintf("%s [%s–%s]",
+    sprintf("%s (%s–%s)",
             formatC(median(x),         digits = d, format = "f"),
             formatC(quantile(x, 0.25), digits = d, format = "f"),
             formatC(quantile(x, 0.75), digits = d, format = "f"))
@@ -159,15 +161,17 @@ knitr::kable(
     caption   = paste0(
         "Characteristics of the ", n_agcs["final"], " analysed canisters, ",
         "overall and by centre. ",
-        "Continuous variables: Median [Q1–Q3]; water trap: n (%). ",
+        "Values are median (IQR) or number (proportion). ",
         "Interquartile ranges are given for centres with at least five canisters. ",
         "Fresh gas flow is the duration-weighted median across each canister’s cases. ",
-        "Percentages are medians across canisters and therefore do not sum to 100%. "
+        "Percentages are medians across canisters and therefore do not sum to 100%. ",
+        "Estimated recaptured sevoflurane is the recovered mass distributed ",
+        "in proportion to each canister's weight gain."
     )
 )
 ```
 
-```{r weight-gain-stripplot-by-centre, echo = FALSE, dev = ifelse_is_docx("tiff", "png"), fig.width = 7, fig.height = 4.5, fig.cap = paste0('Weight gain (in vivo mass transfer, ΔW₀) by participating centre for all ', n_agcs['final'], ' analysed canisters, centres ordered by their median weight gain. Each point represents one canister; diamonds denote canisters equipped with a water trap, circles those without. Short vertical lines mark each centre’s median weight gain. The dashed vertical line marks the overall median weight gain.')}
+```{r weight-gain-stripplot-by-centre, echo = FALSE, dev = ifelse_is_docx("tiff", "png"), fig.width = 7, fig.height = 4.5, fig.cap = paste0('Weight gain (in vivo mass transfer, ΔW₀) by participating centre for all ', n_agcs['final'], ' analysed canisters, centres ranked by their median weight gain. Each point represents one canister; diamonds denote canisters equipped with a water trap, circles those without. Short vertical lines mark each centre’s median weight gain. The dashed vertical line marks the overall median weight gain.')}
 wg_data_strip <- agcs[is.na(agcs$exclusion.reason), ]
 
 ctr_lvls <- sort(unique(wg_data_strip$center))

@@ -297,6 +297,9 @@ n_cases <- c(
     final   = nrow(final_crf)
 )
 n_cases_inhalational <- sum(final_crf$inhalational.anaesthesia == 1, na.rm = TRUE)
+med_flow_inhalational <- median(
+    final_crf$flow[final_crf$inhalational.anaesthesia == 1], na.rm = TRUE
+)
 
 study_period <- c(min(crf$start, na.rm = TRUE), max(crf$end, na.rm = TRUE))
 ```

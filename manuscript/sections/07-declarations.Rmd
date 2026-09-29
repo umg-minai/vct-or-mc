@@ -49,26 +49,6 @@ Responsibility for the final manuscript lies entirely with the authors.
 GAI tools are not listed as authors and do not bear responsibility for the final outcomes.
 Declaration submitted by: Sebastian Gibb
 
-```{r study-group, include = FALSE}
-front_matter <- rmarkdown::yaml_front_matter(
-    find_git_root_file("manuscript", "manuscript.Rmd")
-)
-author_names <- vapply(front_matter$author, function(a) names(a)[1L],
-                       NA_character_)
-affiliation  <- sub("\\.$", "", unlist(front_matter$institute))
-```
-
-## VCT-OR-MC Study Group
-
-**Writing group** (authors, listed above):
-`r paste0(author_names, collapse = ", ")`.
-
-**Collaborators**:
-Stephan Knigge (`r affiliation[["KAINS"]]`),
-Terence Krauß (`r affiliation[["MHH"]]`),
-Christian Lisson (`r affiliation[["SALEM"]]`),
-Nadin Möller (`r affiliation[["KAINS"]]`).
-
 ## Acknowledgements
 
 We thank Saskia Mohrhagen for digitising most of the scanned case report forms.
@@ -82,7 +62,7 @@ are available at https://github.com/umg-minai/vct-or-mc [@vctormcdata].
 ## Role of the manufacturer
 
 ZeoSys Medical GmbH (Luckenwalde, Germany) manufactures the CONTRAfluran^TM^ canisters
-and the SENSOfluran indicator units evaluated in this study.
+and the SENSOfluran^TM^ indicator units evaluated in this study.
 The canisters were sent to the company after study completion.
 The company weighed them, performed the thermal desorption
 and reported the recovered mass of sevoflurane.

@@ -13,12 +13,12 @@ Therefore, informed consent and a data protection declaration were not required.
 
 ## Definitions
 
-Following the taxonomy introduced by Gandhi et al. [@Gandhi2024],
+Following the taxonomy introduced by Gandhi et al.,
 *capture efficiency* refers to the entire recapture process
 and is defined as the ratio of the total mass of sevoflurane
 recovered from the canisters to the total mass administered.
 *In vivo mass transfer* describes the increase in canister mass
-relative to the mass of volatile anaesthetic used during clinical cases.
+relative to the mass of volatile anaesthetic used during clinical cases [@Gandhi2024].
 
 ## Setting
 
@@ -31,7 +31,7 @@ encompassing `r n_ors["initial"]` operating rooms (ORs).
 
 The duration of the study was determined by the usage of
 `r n_bottles_per_or` bottles of sevoflurane
-(`r sevo_bottle_ml` mL, `r sevo_g_per_bottle` g each)
+(`r sevo_bottle_ml` ml, `r sevo_g_per_bottle` g each)
 for each participating OR.
 Before the first anaesthesia,
 the vaporizer was filled to the maximum from a non-study bottle to standardise
@@ -40,12 +40,12 @@ The study ended
 when the last study bottle had been emptied into the vaporizer.
 Sevoflurane was the only permitted volatile anaesthetic in the study ORs.
 In each OR,
-a CONTRAfluran activated carbon canister (ZeoSys Medical GmbH, Luckenwalde, Germany)
-was installed passively at the exhaust port of the anaesthesia machine
-to capture sevoflurane exhaled during inhalational anaesthesia.
+a CONTRAfluran activated charcoal canister (ZeoSys Medical GmbH, Luckenwalde, Germany)
+was installed at the exhaust port of the anaesthesia machine
+to passively capture sevoflurane exhaled during inhalational anaesthesia.
 It was not connected to the anaesthesia gas scavenging system.
-Canisters were replaced when the red LED on the SENSOfluran unit indicated
-saturation.
+Canisters were replaced when the red LED on the SENSOfluran unit
+(ZeoSys Medical GmbH, Luckenwalde, Germany) indicated saturation.
 At the end of the study the canister in use was disconnected
 regardless of its saturation level.
 All anaesthesia cases were managed at the discretion of the attending
@@ -57,50 +57,51 @@ For each anaesthesia case, the CRF recorded
 start and end times,
 whether inhalational anaesthesia was used,
 airway device (laryngeal mask or tracheal tube),
-surgery type (laparoscopic or non-laparoscopic),
+type of surgery (laparoscopic or non-laparoscopic),
 fresh gas flow 15 minutes after induction,
-and the canister and sevoflurane bottle in use.
-Pure regional anaesthesia cases without airway management and without connection
+and the running number of canister and sevoflurane bottle in use.
+Regional anaesthesia cases without airway management and without connection
 to the anaesthesia machine were excluded.
-Cases with missing entries were retained.
-Each variable was computed from the cases with a valid entry,
-so a case without a recorded airway device or surgery type
-contributes to the canister's case count but to none of the subgroup variables.
-No patient data were collected.
+Cases with missing information on variables were retained in the overall case count
+for the respective canister but were excluded from the corresponding subgroup analyses.
 After study completion, the CRFs were returned to the coordinating study
 centre as scanned copies via e-mail for central data entry.
 
 ## Outcome
 
-The primary outcome was the proportion of administered sevoflurane recaptured by the CONTRAfluran canisters.
-It was defined as the ratio of the mass of sevoflurane recovered by ZeoSys
-to the total mass of sevoflurane administered across all study ORs.
-The sevoflurane used was estimated from the number of
-`r sevo_bottle_ml` mL bottles consumed per OR.
+The primary outcome was the capture efficiency of the CONTRAfluran canisters
+defined as the ratio of the mass of sevoflurane recovered by ZeoSys
+to the mass of sevoflurane attributable to the analysed canisters.
+Sevoflurane use was estimated from the `r sevo_bottle_ml` ml bottles used per OR
+and allocated to canisters as described below.
 
 ## Weight measurement and consumption estimation
 
 Weight gain per canister represents the *in vivo* mass transfer.
 It was calculated as the difference between
 the median unsaturated weight of the corresponding canister type and
-the pre-desorption weight recorded at ZeoSys.
+the pre-desorption weight recorded at the ZeoSys manufacturing facility in
+Luckenwalde, Germany.
 
-Some canisters were weighed twice at ZeoSys before desorption
+Some canisters were weighed twice at ZeoSys prior to desorption
 (`r zeosys_storage_days` days apart).
 The difference between the two weighings was used to estimate weight loss during storage
 (Online Supplementary File S1, Figure\ \@ref(fig:weight-loss-storage-plot)).
 Because not all canisters were available for the first weighing,
 weight gain was calculated from the second, more complete weighing.
 
-Participating centres obtained their CONTRAfluran canisters independently from ZeoSys.
-During the study period, ZeoSys changed the canister design.
-In comparison to the older ones (batch number starting with CH), the recent
-canisters (batch number with CN) had a different lid with a 30 mm female instead of a 20
-mm male connector to avoid connection errors with the airway system.
-To determine the unsaturated weight we used the median unsaturated weight of
+The CONTRAfluran canisters were obtained from ZeoSys
+by each participating centre individually.
+During the study period the canister design was modified.
+In comparison to the previous generation with a batch number starting with CH, the recent
+canisters with a batch number starting with CN had a different lid with a 30 mm female instead of a 20
+mm male connector to avoid incorrect connection to the airway system.
+To determine the unsaturated weight,
+the median unsaturated weight of
 `r baseline_weights$n[baseline_weights$type == "CH"]` CH-canisters from our previous
-study [@Gibb2025] and weighed another
-`r baseline_weights$n[baseline_weights$type == "CN"]` CN-canisters.
+study [@Gibb2025] was used,
+and another
+`r baseline_weights$n[baseline_weights$type == "CN"]` CN-canisters were weighed.
 The median unsaturated weight was
 `r round(baseline_weights$median[baseline_weights$type == "CH"], 1)` g
 (IQR `r round(baseline_weights$iqr[baseline_weights$type == "CH"], 1)` g)
@@ -109,37 +110,41 @@ for CH-type canisters and
 (IQR `r round(baseline_weights$iqr[baseline_weights$type == "CN"], 1)` g)
 for CN-type canisters.
 
-The number of bottles attributable to each canister within an OR was estimated
-by proportional allocation.
-The allocation weight was the product of median fresh gas flow and total anaesthesia duration.
-Each canister's estimated bottle share equalled its allocation weight
-divided by the OR's total allocation weight,
-multiplied by the OR's total bottle count.
+As sevoflurane use was recorded per OR
+but not per canister,
+the `r n_bottles_per_or` bottles of each OR were divided among its canisters
+in proportion to the fresh gas that had passed through each canister,
+approximated as median fresh gas flow multiplied by total anaesthesia duration
+of that canister.
 
 ## Batch assignment for thermal desorption
 
 The study protocol originally specified batches of 20 canisters for desorption.
-ZeoSys advised that routine batch processing requires a minimum of 80.
+ZeoSys advised that routine batch processing required a minimum of 80 canisters.
 Accordingly, a single batch of 80 was formed
 from the `r n_eligible` eligible canisters.
 
 For each combination of airway device (laryngeal mask vs. tracheal tube),
 surgery type (laparoscopic vs. non-laparoscopic),
-and anaesthetic technique (inhalational anaesthesia vs. TIVA),
+and anaesthetic technique (inhalational anaesthesia vs. total intravenous
+anaesthesia, TIVA),
 three variables were derived:
 number of cases, cumulative anaesthesia duration,
 and the median of the recorded fresh gas flows,
-yielding `r length(clustering_columns) - 1L` variables in total.
+yielding `r length(clustering_columns) - 1L` variables.
 Where a canister had no cases in a given combination,
 all three variables were set to zero,
 including the median fresh gas flow.
-Water trap use was included as an additional binary variable,
-giving `r length(clustering_columns)` variables overall.
+Water trap use between the anaesthesia machine and the canister
+was added as a binary variable,
+giving `r length(clustering_columns)` variables.
+The assignment was based solely on the variables described above,
+not on weight or desorption data.
 
 All `r length(clustering_columns)` variables were scaled to zero mean and unit variance.
-Canisters were then grouped by fixed-size nearest-neighbour clustering.
-The batch comprised the canister with the smallest sum of Euclidean distances
-to all others and its 79 nearest neighbours.
+The batch was selected by fixed-size nearest-neighbour clustering.
+It comprised the canister with the smallest sum of Euclidean distances
+to all others and its `r n_agcs["final"] - 1L` nearest neighbours.
 The protocol had specified Ward's minimum variance method for this grouping,
 which cannot be constrained to a fixed group size.
 Applied to the same distances,
@@ -147,10 +152,16 @@ Ward's method yielded a higher within-cluster sum of squares
 than the selection used here.
 The batch size and the clustering method both deviated from the study protocol.
 
-Only case-related variables recorded during the study
-and no weight or desorption data entered this assignment.
-The remaining `r n_excl_outlier` canisters were excluded.
+The remaining `r n_excl_outlier` canisters
+lay farther from the central canister than any canister in the batch
+and were excluded.
+
+## Statistical analysis
 
 All data processing and statistical analyses were performed using R version
 `r paste0(sessionInfo()$R.version[c("major", "minor")], collapse = ".")`
 [@R-base].
+The data generated and analysed in this study
+and the code that produced the results reported here
+are available at https://github.com/umg-minai/vct-or-mc [@vctormcdata].
+

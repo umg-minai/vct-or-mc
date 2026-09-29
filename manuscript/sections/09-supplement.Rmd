@@ -1,5 +1,48 @@
 # Online Supplementary Material
 
+```{r study-group, include = FALSE}
+front_matter <- rmarkdown::yaml_front_matter(
+    find_git_root_file("manuscript", "manuscript.Rmd")
+)
+affiliation  <- sub("\\.$", "", unlist(front_matter$institute))
+
+## one line "Name, Institute[; Institute]" per person
+.name_institute <- function(x) {
+    x <- unlist(x, recursive = FALSE)
+    vapply(names(x), function(n)
+        paste0(n, ", ", paste0(affiliation[unlist(x[[n]]$institute)],
+                               collapse = "; ")),
+        NA_character_, USE.NAMES = FALSE)
+}
+.line_block <- function(x)cat(paste0("- ", x, "."), sep = "\n")
+
+writing_group <- .name_institute(front_matter$author)
+
+members <- names(unlist(front_matter$study_group$members, recursive = FALSE))
+collaborators <- .name_institute(front_matter$study_group$members)[order(
+    sub("^.*\\s", "", members),
+    members
+)]
+```
+
+## `r front_matter$study_group$name`
+
+
+
+**Writing group** (authors):
+
+```{r study-group-writing-group, echo = FALSE, results = "asis"}
+.line_block(writing_group)
+```
+
+
+
+**Collaborators**:
+
+```{r study-group-collaborators, echo = FALSE, results = "asis"}
+.line_block(collaborators)
+```
+
 ## Overview participating centres
 
 

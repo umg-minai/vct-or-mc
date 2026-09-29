@@ -1,9 +1,9 @@
-# Conclusion
 
-In this prospective, multicentre observational study across
-`r n_center["final"]` hospitals in Germany and Austria,
-passive CONTRAfluran canisters recaptured `r round(recovery_pct_final, 1)`%
-of the sevoflurane attributable to the `r n_agcs["final"]` analysed canisters
+In conclusion,
+CONTRAfluran canisters recaptured about `r round(recovery_pct_final, 0)`% of the sevoflurane used
 under routine clinical conditions.
-This estimate is lower than the 34% reported in our previous single-centre study,
-but lies within the range observed between its two operating rooms [@Gibb2025].
+This is roughly half of what is theoretically possible at minimal fresh gas flows.
+Reducing sevoflurane use remains the priority.
+CONTRAfluran and other vapour capture technologies
+can only recover part of the volatile anaesthetic
+that leaves the exhaust port of the anaesthesia machine.

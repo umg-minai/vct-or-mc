@@ -4,15 +4,15 @@ title: >
 shorttitle: "CONTRAfluran capture efficiency: multicentre study"
 institute:
     - KAINS: Department of Anesthesiology and Intensive Care Medicine, University Hospital Greifswald, Greifswald, Germany.
-    - ESSLINGEN: Anästhesiologie und operative Intensivmedizin, Klinikum Esslingen, Esslingen, Germany.
-    - FELDKIRCH: Abteilung für Anästhesie und Intensivbehandlung, LKH Feldkirch, Feldkirch, Austria.
-    - RWTH: Department of Anesthesiology, Medical Faculty RWTH Aachen, Aachen, Germany.
-    - FULDA: "Abteilung für Anästhesie, Intensiv- und Schmerztherapie, Herz-Jesu-Krankenhaus Fulda, Fulda, Germany."
-    - MAINZ: Anästhesie, DRK Schmerz-Zentrum Mainz, Mainz, Germany.
+    - ESSLINGEN: Department of Anesthesiology and Operative Intensive Care Medicine, Hospital Esslingen, Esslingen, Germany.
+    - FELDKIRCH: Department of Anesthesia and Intensive Care Medicine, Landeskrankenhaus Feldkirch, A-6800 Feldkirch, Austria.
+    - RWTH: Department of Anesthesiology, University Hospital RWTH Aachen, Aachen, Germany.
+    - FULDA: Department of Anesthesiology, Intensive Care Medicine and Pain Medicine, Herz-Jesu-Krankenhaus Fulda, Fulda, Germany.
+    - MAINZ: Department Operative Anesthesiology, German Pain Center Mainz, Mainz, Germany.
     - MHH: Department of Anesthesiology and Intensive Care Medicine, Hannover Medical School, Hannover, Germany.
-    - VECHTA: "Fachabteilung für Anästhesie, operative Intensivmedizin und Rettungsmedizin, St. Marienhospital Vechta, Vechta, Germany."
-    - VILLACH: Abteilung für Anästhesie und Intensivmedizin, LKH Villach, Villach, Austria.
-    - SALEM: Department of Anesthesiology and Intensive Care Medicine, Hospital Salem, Heidelberg, Germany.
+    - VECHTA: Department of Anesthesiology and Operative Intensive Care Medicine, St. Marienhospital Vechta, Vechta, Germany.
+    - VILLACH: Department of Anesthesia and Intensive Care Medicine, Landeskrankenhaus Villach, A-9500 Villach, Austria.
+    - SALEM: Department of Anesthesiology and Intensive Care Medicine, Salem Hospital, Heidelberg University Hospital, Heidelberg, Germany.
 author:
     # Contributorship roles (e.g. CRediT, https://credit.niso.org/)
     - 'Sebastian Gibb':
@@ -46,15 +46,7 @@ author:
         role:
             - investigation
             - writing -- review and editing
-    - 'Reinhard Germann':
-        email: reinhard.germann@lkhf.at
-        institute: [FELDKIRCH]
-        correspondence: false
-        competing_interest: none
-        role:
-            - investigation
-            - writing -- review and editing
-    - 'Linda Grüßer':
+    - 'Linda Grüßer, MPH':
         email: lgruesser@ukaachen.de
         institute: [RWTH]
         correspondence: false
@@ -71,8 +63,16 @@ author:
             - investigation
             - writing -- review and editing
     - 'Eva Hofmann':
-        email: aveeva.hofmann@googlemail.com
+        email: eva.hofmann@deutsches-schmerz-zentrum.de
         institute: [MAINZ]
+        correspondence: false
+        competing_interest: none
+        role:
+            - investigation
+            - writing -- review and editing
+    - 'Lucas Kuster':
+        email: reinhard.germann@lkhf.at
+        institute: [FELDKIRCH]
         correspondence: false
         competing_interest: none
         role:
@@ -116,7 +116,34 @@ author:
             - project administration
             - resources
             - writing -- review and editing
-study_group: "VCT-OR-MC Study Group"
+study_group:
+    name: "VCT-OR-MC Study Group"
+    # collaborators who are not authors; listed per centre in 07-declarations
+    members:
+        - 'Maike Böttchers':
+            institute: [VECHTA]
+        - 'Eike Carstens':
+            institute: [MHH]
+        - 'Reinhard Germann':
+            institute: [FELDKIRCH]
+        - 'Christian Höhnemann':
+            institute: [VECHTA]
+        - 'Stephan Knigge':
+            institute: [KAINS]
+        - 'Terence Krauß':
+            institute: [MHH]
+        - 'Maike Lammers':
+            institute: [VECHTA]
+        - 'Christian Lisson':
+            institute: [SALEM]
+        - 'Nadin Möller':
+            institute: [KAINS]
+        - 'Sam Osmani':
+            institute: [RWTH]
+        - 'Alexander Stern':
+            institute: [FELDKIRCH]
+        - 'Ralph Timaru-Kast':
+            institute: [MAINZ]
 ethics_committee:
     reference_number: BB 022/24
     approval_date: 5 March 2024

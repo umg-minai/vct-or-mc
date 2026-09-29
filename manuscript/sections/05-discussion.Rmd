@@ -5,28 +5,59 @@ In this prospective, multicentre observational study,
 `r round(recovery_pct_final, 1)`% of the sevoflurane attributable to
 these canisters in `r n_ors["final"]` ORs in two European countries.
 
-These findings are lower than the 34% capture efficiency
+This capture efficiency is lower than the 34%
 reported in our previous single-centre study for CONTRAfluran and sevoflurane [@Gibb2025].
 However, that estimate pooled data from two operating rooms that differed markedly
 (21.4% and 47.8%)
 and our multicentre estimate falls within that range.
 
+Other clinical studies reported 25% to 45%
+using different endpoints.
+Hinterberg et al. used one CONTRAfluran canister per patient
+and desorbed 80 unsaturated canisters in a single batch.
+They recovered 25% of the administered desflurane [@Hinterberg2022].
+Mulier et al. weighed CONTRAfluran canisters before and after each case
+during minimal-flow sevoflurane anaesthesia
+and found 45% *in vivo* mass transfer [@Mulier2024a].
+This measure does not distinguish water from sevoflurane
+and does not include losses during storage and desorption,
+which are part of our estimate.
+
+Even under ideal conditions a canister cannot capture all of the administered sevoflurane.
+Part of the delivered sevoflurane is taken up by the patient,
+exhaled over the following days
+and never reaches the canister.
+Simulations of 6 h of anaesthesia with the GasMan software [@Philip2015]
+showed that only 50% of the delivered sevoflurane reached the canister
+at a fresh gas flow of 0.3 l.min⁻¹
+and 61% at 0.5 l.min⁻¹ [@Gibb2024b].
+The median fresh gas flow of our cohort was
+`r round(med_flow_inhalational, 1)` l.min⁻¹
+during inhalational anaesthesia.
+Our estimate of `r round(recovery_pct_final, 1)`% lies well below both
+theoretical limits.
+Possible reasons are breathing system leaks,
+desorption from the canister during TIVA and while flushing the breathing circuit
+with high fresh gas flows between cases [@Kalmar2024c],
+water competing with sevoflurane for adsorption [@Abiko2010]
+and loss during storage [@Gibb2025].
+
 Of the `r n_eligible` eligible canisters we selected `r n_agcs["final"]` for the desorption process by
 nearest-neighbour clustering to obtain a homogeneous batch and avoid the
 selection of extreme cases.
 Among the `r n_excl_outlier` excluded canisters, two
-were the only canisters used in their ORs
+were the only canisters used in the respective ORs
 and therefore received all `r n_bottles_per_or` sevoflurane bottles,
 yet their weight gain was no higher than that of canisters
 exposed to a fraction of that amount,
 and the SENSOfluran unit never indicated saturation.
-Post hoc observations in these two ORs may explain why their weight gain
-remained low despite the full bottle allocation.
-In one OR, a large proportion of procedures used the Da Vinci surgical robot,
+This may be explained by the post hoc observations in these two ORs
+as in one OR, a large proportion of procedures used the da Vinci^TM^ robotic
+surgical system (Intuitive Surgical Inc., Sunnyvale, CA, USA),
 which may have limited sevoflurane exposure due to high gas exchange in the
 capnoperitoneum.
-In the other, extended TIVA phases may have allowed
-previously adsorbed sevoflurane to desorb from the activated carbon
+In the other OR, extended TIVA phases may have allowed
+previously adsorbed sevoflurane to desorb from the activated charcoal
 [@Kalmar2024c; @Wenzel2024].
 These are two different mechanisms:
 sevoflurane administered may never reach the canister and
@@ -40,36 +71,44 @@ Automatic bypass systems that disconnect the canister during TIVA phases
 could reduce desorption losses and should be evaluated.
 Including these canisters would have lowered the reported capture efficiency.
 
-The installation of a water trap was centre-specific.
-The effect of the water trap can therefore not be separated
+Approximately `r round((1 - zeosys_yield) * 100, 0)`% of the weight gain of our canisters
+was water rather than sevoflurane.
+An increasing water content progressively reduces the adsorption capacity
+of coconut shell activated charcoal for organic solvent vapours [@Abiko2010].
+A water trap between the anaesthesia machine and the canister
+may therefore improve capture.
+In our study, however, its installation was centre-specific.
+Its effect can therefore not be separated
 from differences in anaesthetic management
 or from other unmeasured centre-level factors.
 The same applies to the anaesthesia machines,
 which were likewise centre-specific.
-Approximately `r round((1 - zeosys_yield) * 100, 0)`% of the weight gain of our canisters
-was water rather than sevoflurane.
-An increasing water content progressively reduces the adsorption capacity
-of coconut shell activated carbon for organic solvent vapours [@Abiko2010].
 Investigating the effect of a water trap requires a design
 in which its use varies within centres.
 
-`r sum(!is.na(final_wdiff))` of the `r n_agcs["final"]` canisters
-were weighed twice at ZeoSys before desorption.
+Of the `r n_agcs["final"]` canisters,
+`r sum(!is.na(final_wdiff))` were weighed twice at ZeoSys before desorption.
 During these `r zeosys_storage_days` days they lost
-`r round(zeosys_total_wloss_g, 0)` g of weight.
+`r round(zeosys_total_wloss_g, 0)` g of weight in total.
 This corresponds to almost two thirds of a sevoflurane bottle
 if the lost mass was entirely sevoflurane.
 The additional desorption during transport and storage
 before the first ZeoSys weighing was not quantified.
 The first weighing took place
-`r zeosys_days_studyend_to_weight1` days after the last study OR finished
-compared with the `r zeosys_storage_days` days between the two weighings.
+`r zeosys_days_studyend_to_weight1` days after the last study OR finished,
+much longer than the `r zeosys_storage_days` days between the two weighings.
 The true loss is therefore even higher.
 This spontaneous desorption during storage was described in our previous study [@Gibb2025].
 It highlights the need for short storage times and fast processing.
 
-## Limitations
+A low capture efficiency does not mean that the canisters failed.
+Minimal fresh gas flows lower both sevoflurane use and capture efficiency.
+Higher flows would raise the capture efficiency but waste sevoflurane [@Gibb2024b].
+Reducing fresh gas flows therefore remains most important.
+Canisters can then capture the excess sevoflurane
+that still leaves the breathing circuit at the exhaust port [@Gibb2024b; @Mulier2024a].
 
+This study has several limitations.
 The single desorption batch precludes between-batch comparisons of desorption yield
 and limits the primary outcome to a single-point estimate
 without an empirical measure of batch-to-batch variability.
@@ -82,9 +121,9 @@ The vaporizer was filled from a non-study bottle before the first case
 and that filling was administered without being counted.
 The study ended when the vaporizer was filled from the last study bottle.
 A comparable mass remained in the vaporizer and was counted but not administered.
-The refill volume of the installed Draeger Vapor 2000 and 3000 is 260 mL
-and close to the 250 mL of a single bottle.
-The two quantities cancel if the canister was disconnected at that moment.
+The refill volume of the installed Draeger Vapor 2000 and 3000 vaporizers
+(Draegerwerk AG & Co. KGaA, Luebeck, Germany) is 260 ml
+and close to the 250 ml of a single bottle.
 The vaporizer was full at the start
 so the mass remaining at the end can never exceed it.
 Sevoflurane consumption is therefore never overestimated
@@ -119,8 +158,8 @@ to the reported capture efficiency cannot be quantified.
 Finally, participation was voluntary,
 and the centres that joined may not represent the wider anaesthesiology community.
 Institutions committed to environmental sustainability tend to use minimal-flow anaesthesia
-(median `r round(median(agcs$med.flow[is.na(agcs$exclusion.reason)], na.rm = TRUE), 1)` l.min⁻¹ in our cohort),
-which is associated with a lower capture efficiency.
+(median `r round(med_flow_inhalational, 1)` l.min⁻¹ during inhalational anaesthesia in our cohort),
+which is associated with a lower capture efficiency [@Gibb2024b].
 The study covered two countries,
 but Germany and Austria share similar healthcare systems,
-anaesthesia training, and clinical practice
+anaesthesia training, and clinical practice.
