@@ -27,7 +27,6 @@ knitr::write_bib(
 ## plot style constants (viridis palette)
 col_primary   <- grDevices::hcl.colors(100, "Viridis")[15] # dark purple
 col_secondary <- grDevices::hcl.colors(100, "Viridis")[70] # green
-col_light     <- adjustcolor(col_primary, alpha.f = 0.25)
 col_ref       <- "grey50"
 col_band      <- function(col = col_primary) adjustcolor(col, alpha.f = 0.15)
 pt_alpha      <- 0.7
@@ -73,7 +72,7 @@ crf <- do.call(
     lapply(
         list.files(
             find_git_root_file("raw-data", "crfs"),
-            pattern = "*\\.csv",
+            pattern = "\\.csv$",
             full.names = TRUE
             ),
         function(x)read.csv(
@@ -158,7 +157,7 @@ agc_summary <- function(x) {
         sum_dur,
         med.flow = matrixStats::weightedMedian(x$flow, dur_min, na.rm = TRUE),
         med_flow,
-        pct.tube =mean(x$airway == "T", na.rm = TRUE),
+        pct.tube = mean(x$airway == "T", na.rm = TRUE),
         pct.lap = mean(x$laparoscopic, na.rm = TRUE),
         water.trap = x$water.trap[1L]
     )
@@ -255,20 +254,6 @@ stopifnot(all(
     agcs$cluster[
         !is.na(agcs$exclusion.reason) & agcs$exclusion.reason == "outlier"] > 1L
 ))
-
-ors <- as.data.frame(
-    do.call(rbind, lapply(split(crf, crf$or), function(or)
-        c(
-          center.id = or$center.id[[1L]],
-          or.id = or$or.id[[1L]],
-          n.agcs = length(unique(or$agc.id)),
-          unlist(agc_summary(or))
-        )
-    ))
-)
-or_agcs <- as.matrix(table(agcs$or, agcs$excluded))
-colnames(or_agcs) <- paste("n.agcs", c("included", "excluded"), sep = ".")
-ors <- cbind(ors, or_agcs)
 ```
 
 

@@ -147,10 +147,7 @@ wg_data_ctr <- agcs[is.na(agcs$exclusion.reason), ]
 
 ctr_lvls <- sort(unique(wg_data_ctr$center))
 n_ctr    <- length(ctr_lvls)
-ctr_pal  <- setNames(
-    grDevices::hcl.colors(n_ctr, palette = "Viridis"),
-    ctr_lvls
-)
+ctr_pal  <- grDevices::hcl.colors(n_ctr, palette = "Viridis")
 
 wg_data_ctr$center <- factor(wg_data_ctr$center, levels = ctr_lvls)
 ctr_order <- rev(order(tapply(wg_data_ctr$weight.gain, wg_data_ctr$center, median)))
@@ -332,7 +329,7 @@ polygon(
 lines(x_seq, pred[, "fit"], col = col_primary, lwd = 2)
 ```
 
-Weight loss during storage was modelled by linear regression of the absolute weight difference (W1 − W2)
+Weight loss during storage was modelled by linear regression of the weight difference (W1 − W2)
 on canister weight gain.
 The estimated weight loss per gram of weight gain was
 `r round(wl_cf["weight.gain"], 3)` g

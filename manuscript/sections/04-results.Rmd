@@ -176,10 +176,7 @@ wg_data_strip <- agcs[is.na(agcs$exclusion.reason), ]
 
 ctr_lvls <- sort(unique(wg_data_strip$center))
 n_ctr    <- length(ctr_lvls)
-ctr_pal  <- setNames(
-    grDevices::hcl.colors(n_ctr, palette = "Viridis"),
-    ctr_lvls
-)
+ctr_pal  <- grDevices::hcl.colors(n_ctr, palette = "Viridis")
 
 wg_data_strip$center <- factor(wg_data_strip$center, levels = ctr_lvls)
 
