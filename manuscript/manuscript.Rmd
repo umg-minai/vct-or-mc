@@ -1,7 +1,7 @@
 ---
 title: >
     Capture efficiency of CONTRAfluran absorbers for sevoflurane in a real-world prospective multicentre observational study
-shorttitle: "CONTRAfluran capture efficiency: multicentre study"
+shorttitle: "Sevoflurane capture by CONTRAfluran: a multicentre observational study"
 keywords:
     - inhalational anaesthesia
     - sevoflurane
