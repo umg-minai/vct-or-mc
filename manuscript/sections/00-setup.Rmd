@@ -12,7 +12,7 @@ knitr::opts_chunk$set(
     ## journals ask for >= 300 dpi; LZW keeps the uncompressed tiffs small
     dpi = if (is_docx_output()) 300 else 72,
     dev = if (is_docx_output()) "tiff" else "png",
-    dev.args = if (is_docx_output()) list(compression = "lzw")
+    dev.args = if (is_docx_output()) list(compression = "lzw", bg = "white")
 )
 ```
 
