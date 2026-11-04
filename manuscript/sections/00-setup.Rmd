@@ -42,6 +42,12 @@ ifelse_is_docx <- function(docx, others) {
         others
 }
 
+fmt_num <- function(x, d = 1L) formatC(x, digits = d, format = "f")
+fmt_range <- function(x, d = 1L) paste(fmt_num(x, d), collapse = "–")
+## journal style: spell out numbers < 10
+fmt_count <- function(x)
+    if (x < 10L) xfun::numbers_to_words(x) else as.character(x)
+
 .cli_text <- function(...)cli::cli_format_method(cli::cli_text(...))
 
 .boxjitter <- function(lst, cols, ylab, ...) {
@@ -282,8 +288,9 @@ n_cases <- c(
     final   = nrow(final_crf)
 )
 n_cases_inhalational <- sum(final_crf$inhalational.anaesthesia == 1, na.rm = TRUE)
-med_flow_inhalational <- median(
-    final_crf$flow[final_crf$inhalational.anaesthesia == 1], na.rm = TRUE
+flow_inhalational <- quantile(
+    final_crf$flow[final_crf$inhalational.anaesthesia == 1],
+    probs = c(0.25, 0.5, 0.75), na.rm = TRUE, names = FALSE
 )
 
 study_period <- c(min(crf$start, na.rm = TRUE), max(crf$end, na.rm = TRUE))

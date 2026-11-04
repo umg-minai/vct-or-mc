@@ -54,12 +54,12 @@ docs/%.html: docs/%.Rmd $(CRF) $(SETTING)
 docs: $(HTMLS) docs/manuscript.html
 
 docs/manuscript.html: manuscript
-	sed 's#</h4>#</h4> \
-<div style="background-color: \#ffc107; padding: 10px; text-align: center;"> \
+	sed 's#<div id="title-page"#<div style="background-color: \#ffc107; padding: 10px; text-align: center;"> \
 <strong>This study is work-in-progress!</strong><br /> \
 Please find details at <a href="https://github.com/umg-minai/vct-or-mc">https://github.com/umg-minai/vct-or-mc</a>.<br /> \
 Manuscript date: $(shell date +"%Y-%m-%d %H:%M"); Version: <a href="https://github.com/umg-minai/vct-or-mc/commit/$(GITHEADL)">$(GITHEAD)</a> \
-</div>#' $(OUTPUTDIR)/$(MANUSCRIPT).html > docs/manuscript.html
+</div> \
+<div id="title-page"#' $(OUTPUTDIR)/$(MANUSCRIPT).html > docs/manuscript.html
 
 .PHONEY: validate
 validate: validate-crf

@@ -1,18 +1,24 @@
 ---
 title: >
-    Capture efficiency of CONTRAfluran absorbers for sevoflurane in a real-world multicentre observational study
+    Capture efficiency of CONTRAfluran absorbers for sevoflurane in a real-world prospective multicentre observational study
 shorttitle: "CONTRAfluran capture efficiency: multicentre study"
+keywords:
+    - inhalational anaesthesia
+    - sevoflurane
+    - vapour capture technology
+    - capture efficiency
 institute:
-    - KAINS: Department of Anesthesiology and Intensive Care Medicine, University Hospital Greifswald, Greifswald, Germany.
+    - KAINS: Department of Anesthesiology and Intensive Care Medicine, University Medicine Greifswald, Greifswald, Germany.
     - ESSLINGEN: Department of Anesthesiology and Operative Intensive Care Medicine, Hospital Esslingen, Esslingen, Germany.
-    - FELDKIRCH: Department of Anesthesia and Intensive Care Medicine, Landeskrankenhaus Feldkirch, A-6800 Feldkirch, Austria.
-    - RWTH: Department of Anesthesiology, University Hospital RWTH Aachen, Aachen, Germany.
+    - RWTH: Department of Anesthesiology, Medical Faculty, RWTH Aachen University, Aachen, Germany.
+    - FRECHEN: Department of Anesthesiology, Emergency Medicine, Intensive Care and Pain Medicine, Sankt Katharinen Hospital Frechen, Frechen, Germany.
     - FULDA: Department of Anesthesiology, Intensive Care Medicine and Pain Medicine, Herz-Jesu-Krankenhaus Fulda, Fulda, Germany.
-    - MAINZ: Department Operative Anesthesiology, German Pain Center Mainz, Mainz, Germany.
+    - MAINZ: Department of Operative Anesthesiology, German Pain Center Mainz, Mainz, Germany.
+    - FELDKIRCH: Department of Anesthesia and Intensive Care Medicine, Landeskrankenhaus Feldkirch, Feldkirch, Austria.
     - MHH: Department of Anesthesiology and Intensive Care Medicine, Hannover Medical School, Hannover, Germany.
     - VECHTA: Department of Anesthesiology and Operative Intensive Care Medicine, St. Marienhospital Vechta, Vechta, Germany.
-    - VILLACH: Department of Anesthesia and Intensive Care Medicine, Landeskrankenhaus Villach, A-9500 Villach, Austria.
-    - SALEM: Department of Anesthesiology and Intensive Care Medicine, Salem Hospital, Heidelberg University Hospital, Heidelberg, Germany.
+    - VILLACH: Department of Anesthesia and Intensive Care Medicine, Landeskrankenhaus Villach, Villach, Austria.
+    - SALEM: Department of Anesthesiology, Medical Faculty Heidelberg, Heidelberg University, Heidelberg, Germany.
 author:
     # Contributorship roles (e.g. CRediT, https://credit.niso.org/)
     - 'Sebastian Gibb':
@@ -46,11 +52,11 @@ author:
         role:
             - investigation
             - writing -- review and editing
-    - 'Linda Grüßer, MPH':
+    - 'Linda Grüßer':
         email: lgruesser@ukaachen.de
         institute: [RWTH]
         correspondence: false
-        competing_interest: none
+        competing_interest: reports payment for a lecture from Baxter Germany GmbH in 2022.
         role:
             - investigation
             - writing -- review and editing
@@ -58,7 +64,7 @@ author:
         email: r.hacker@herz-jesu-krankenhaus.de
         institute: [FULDA]
         correspondence: false
-        competing_interest: states that he received a speaking fee from Baxter Deutschland GmbH in 2022.
+        competing_interest: states that he received a speaking fee from Baxter Germany GmbH in 2022.
         role:
             - investigation
             - writing -- review and editing
@@ -126,20 +132,30 @@ study_group:
             institute: [MHH]
         - 'Reinhard Germann':
             institute: [FELDKIRCH]
+        - 'Friederike Held':
+            institute: [FULDA]
         - 'Christian Höhnemann':
             institute: [VECHTA]
         - 'Stephan Knigge':
             institute: [KAINS]
         - 'Terence Krauß':
             institute: [MHH]
+        - 'Fritz Lagger':
+            institute: [VILLACH]
         - 'Maike Lammers':
             institute: [VECHTA]
         - 'Christian Lisson':
             institute: [SALEM]
+        - 'Volkmar Miklosch':
+            institute: [RWTH]
         - 'Nadin Möller':
             institute: [KAINS]
         - 'Sam Osmani':
             institute: [RWTH]
+        - 'Sasa Sopka':
+            institute:
+                - [RWTH]
+                - [FRECHEN]
         - 'Alexander Stern':
             institute: [FELDKIRCH]
         - 'Ralph Timaru-Kast':

@@ -14,12 +14,13 @@ real-world capture efficiency of the CONTRAfluran system.
 
 **Methods**:
 In this prospective observational study,
-each participating operating room used `r n_bottles_per_or` bottles of sevoflurane
-with a CONTRAfluran canister connected to the exhaust port of the anaesthesia
-machine.
-Case characteristics were recorded for every anaesthesia case
-and used to select a single batch of `r n_agcs["final"]` canisters
-for processing by ZeoSys by nearest-neighbour clustering.
+`r n_bottles_per_or` consecutive bottles of sevoflurane
+were used in each participating operating room,
+with a CONTRAfluran canister at the anaesthesia machine exhaust port.
+Case characteristics were recorded for every anaesthesia case,
+and used for nearest-neighbour selection of the
+batch of `r n_agcs["final"]` canisters
+required for desorption by ZeoSys.
 Capture efficiency was defined as the mass of sevoflurane recovered
 divided by the mass of sevoflurane attributable to these canisters.
 
@@ -30,23 +31,22 @@ to `r format(lubridate::floor_date(study_period[2L], "month"), "%B %Y")`,
 in `r n_ors["initial"]` operating rooms across `r n_center["initial"]` hospitals
 in Germany and Austria.
 The `r n_agcs["final"]` analysed canisters were in place during
-`r n_cases["final"]` anaesthesia cases, of which
-`r n_cases_inhalational` used inhalational anaesthesia.
-The median fresh gas flow during inhalational anaesthesia was
-`r round(med_flow_inhalational, 1)` l.min⁻¹.
+`r n_cases["final"]` anaesthesia cases, including
+`r n_cases_inhalational` with inhalational anaesthesia.
+Median fresh gas flow during inhalational anaesthesia was
+`r fmt_num(flow_inhalational[2L])` l.min⁻¹
+(interquartile range `r fmt_range(flow_inhalational[c(1L, 3L)])` l.min⁻¹).
 ZeoSys recovered `r round(zeosys_sevo_weight_kg, 1)` kg of sevoflurane,
 corresponding to a capture efficiency of `r round(recovery_pct_final, 1)`%.
-Sevoflurane accounted for `r round(zeosys_yield * 100, 0)`% of the canisters' weight gain.
+The recovered sevoflurane accounted for `r round(zeosys_yield * 100, 0)`% of the canisters' weight gain.
 
 **Discussion**:
 The capture efficiency of `r round(recovery_pct_final, 1)`%
 is lower than the 34% of our previous single-centre study
 but within the range observed between its two operating rooms.
-Under routine clinical conditions CONTRAfluran canisters recaptured
-roughly half of the sevoflurane that is theoretically available at minimal fresh gas flows.
-Reducing sevoflurane use therefore remains the priority.
+Under routine clinical conditions, canisters recovered approximately half
+of the estimated theoretical maximum at minimal fresh gas flows.
+Reducing sevoflurane use through minimal fresh gas flows
+therefore remains the priority.
 CONTRAfluran and other vapour capture technologies
 can only recover part of what still leaves the breathing circuit.
-
-**Keywords**:
-inhalational anaesthesia; sevoflurane; vapour capture technology; capture efficiency

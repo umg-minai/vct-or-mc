@@ -18,21 +18,21 @@ and desorbed 80 unsaturated canisters in a single batch.
 They recovered 25% of the administered desflurane [@Hinterberg2022].
 Mulier et al. weighed CONTRAfluran canisters before and after each case
 during minimal-flow sevoflurane anaesthesia
-and found 45% *in vivo* mass transfer [@Mulier2024a].
+and estimated 45% *in vivo* mass transfer [@Mulier2024a].
 This measure does not distinguish water from sevoflurane
 and does not include losses during storage and desorption,
-which are part of our estimate.
+which are reflected in our capture efficiency.
 
 Even under ideal conditions a canister cannot capture all of the administered sevoflurane.
 Part of the delivered sevoflurane is taken up by the patient,
 exhaled over the following days
-and never reaches the canister.
+and never reaches the canister [@Dunz2026].
 Simulations of 6 h of anaesthesia with the GasMan software [@Philip2015]
 showed that only 50% of the delivered sevoflurane reached the canister
 at a fresh gas flow of 0.3 l.min⁻¹
 and 61% at 0.5 l.min⁻¹ [@Gibb2024b].
 The median fresh gas flow of our cohort was
-`r round(med_flow_inhalational, 1)` l.min⁻¹
+`r fmt_num(flow_inhalational[2L])` l.min⁻¹
 during inhalational anaesthesia.
 Our estimate of `r round(recovery_pct_final, 1)`% lies well below both
 theoretical limits.
@@ -45,7 +45,7 @@ and loss during storage [@Gibb2025].
 Of the `r n_eligible` eligible canisters we selected `r n_agcs["final"]` for the desorption process by
 nearest-neighbour clustering to obtain a homogeneous batch and avoid the
 selection of extreme cases.
-Among the `r n_excl_outlier` excluded canisters, two
+Among the `r fmt_count(n_excl_outlier)` excluded canisters, two
 were the only canisters used in the respective ORs
 and therefore received all `r n_bottles_per_or` sevoflurane bottles,
 yet their weight gain was no higher than that of canisters
@@ -108,6 +108,14 @@ Reducing fresh gas flows therefore remains most important.
 Canisters can then capture the excess sevoflurane
 that still leaves the breathing circuit at the exhaust port [@Gibb2024b; @Mulier2024a].
 
+A comprehensive life cycle assessment,
+including the desorption and reprocessing of captured sevoflurane,
+is needed to evaluate the environmental impact of vapour capture systems in
+general.
+Looking further ahead, integration into anaesthesia machines could allow
+canisters to be automatically bypassed when no volatile anaesthetics are
+present in the exhaust gas.
+
 This study has several limitations.
 The single desorption batch precludes between-batch comparisons of desorption yield
 and limits the primary outcome to a single-point estimate
@@ -158,7 +166,7 @@ to the reported capture efficiency cannot be quantified.
 Finally, participation was voluntary,
 and the centres that joined may not represent the wider anaesthesiology community.
 Institutions committed to environmental sustainability tend to use minimal-flow anaesthesia
-(median `r round(med_flow_inhalational, 1)` l.min⁻¹ during inhalational anaesthesia in our cohort),
+(median `r fmt_num(flow_inhalational[2L])` l.min⁻¹ during inhalational anaesthesia in our cohort),
 which is associated with a lower capture efficiency [@Gibb2024b].
 The study covered two countries,
 but Germany and Austria share similar healthcare systems,

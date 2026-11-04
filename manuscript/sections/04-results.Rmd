@@ -15,7 +15,8 @@ of which `r n_cases_inhalational` used inhalational anaesthesia
 The remaining `r n_cases["final"] - n_cases_inhalational` cases were performed
 as TIVA with the canister still connected.
 The median fresh gas flow during inhalational anaesthesia was
-`r round(med_flow_inhalational, 1)` l.min⁻¹.
+`r fmt_num(flow_inhalational[2L])` l.min⁻¹
+(IQR `r fmt_range(flow_inhalational[c(1L, 3L)])` l.min⁻¹).
 CRF entries were missing for the start time in `r sum(is.na(final_crf$start))` cases,
 the end time in `r sum(is.na(final_crf$end))`,
 the fresh gas flow in `r sum(is.na(final_crf$flow))`
@@ -102,11 +103,10 @@ med_iqr <- function(x, d = 1, min_n = 5L) {
     x <- x[!is.na(x)]
     if (!length(x)) return("—")
     if (length(x) < min_n)
-        return(formatC(median(x), digits = d, format = "f"))
-    sprintf("%s (%s–%s)",
-            formatC(median(x),         digits = d, format = "f"),
-            formatC(quantile(x, 0.25), digits = d, format = "f"),
-            formatC(quantile(x, 0.75), digits = d, format = "f"))
+        return(fmt_num(median(x), d))
+    sprintf("%s (%s)",
+            fmt_num(median(x), d),
+            fmt_range(quantile(x, c(0.25, 0.75)), d))
 }
 n_pct <- function(x) {
     n   <- sum(x == 1L, na.rm = TRUE)
@@ -163,7 +163,7 @@ knitr::kable(
         "overall and by centre. ",
         "Values are median (IQR) or number (proportion). ",
         "Interquartile ranges are given for centres with at least five canisters. ",
-        "Fresh gas flow is the duration-weighted median across each canister’s cases. ",
+        "Fresh gas flow represents the duration-weighted median of the values recorded across each canister’s cases. ",
         "Percentages are medians across canisters and therefore do not sum to 100%. ",
         "Estimated recaptured sevoflurane is the recovered mass distributed ",
         "in proportion to each canister's weight gain."

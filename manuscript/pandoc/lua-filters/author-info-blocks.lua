@@ -21,9 +21,6 @@ local stringify = utils.stringify
 
 local default_marks
 local default_marks = {
-  corresponding_author = FORMAT == 'latex'
-    and {pandoc.RawInline('latex', '*')}
-    or {pandoc.Str '✉'},
   equal_contributor = FORMAT == 'latex'
     and {pandoc.RawInline('latex', '$\\dagger{}$')}
     or {pandoc.Str '*'},
@@ -49,29 +46,22 @@ local function is_corresponding_author(author)
   return author.correspondence and author.email
 end
 
---- Create inlines for a single author (includes all author notes)
-local function author_inline_generator (get_mark)
-  return function (author)
-    local author_marks = List:new{}
-    if author.equal_contributor then
-      author_marks[#author_marks + 1] = get_mark 'equal_contributor'
-    end
-    local idx_str
-    for _, idx in ipairs(author.institute) do
-      if type(idx) ~= 'table' then
-        idx_str = tostring(idx)
-      else
-        idx_str = stringify(idx)
-      end
-      author_marks[#author_marks + 1] = {pandoc.Str(idx_str)}
-    end
-    if is_corresponding_author(author) then
-      author_marks[#author_marks + 1] = get_mark 'corresponding_author'
-    end
-    local res = List.clone(author.name)
-    res[#res + 1] = pandoc.Superscript(intercalate(author_marks, {pandoc.Str ','}))
-    return res
+--- Create the superscript with all notes (affiliations etc.) of an author
+local function author_marks_superscript (author, get_mark)
+  local author_marks = List:new{}
+  if author.equal_contributor then
+    author_marks[#author_marks + 1] = get_mark 'equal_contributor'
   end
+  local idx_str
+  for _, idx in ipairs(author.institute) do
+    if type(idx) ~= 'table' then
+      idx_str = tostring(idx)
+    else
+      idx_str = stringify(idx)
+    end
+    author_marks[#author_marks + 1] = {pandoc.Str(idx_str)}
+  end
+  return pandoc.Superscript(intercalate(author_marks, {pandoc.Str ','}))
 end
 
 local function is_equal_contributor (author)
@@ -106,33 +96,27 @@ local function create_affiliations_blocks(affiliations)
   return {pandoc.Para(intercalate(affil_lines, {pandoc.LineBreak()}))}
 end
 
---- Generate a block element containing the correspondence information
-local function create_correspondence_blocks(authors, mark)
-  local corresponding_authors = List:new{}
+--- Generate the address block of the corresponding author(s):
+--- name, affiliation(s) and email, one item per line.
+local function create_correspondence_blocks(authors, institutes)
+  local blocks = List:new{}
   for _, author in ipairs(authors) do
     if is_corresponding_author(author) then
-      local mailto = 'mailto:' .. pandoc.utils.stringify(author.email)
-      local author_with_mail = List:new(
-        author.name .. List:new{pandoc.Space(),  pandoc.Str '<'} ..
-        author.email .. List:new{pandoc.Str '>'}
-      )
-      local link = pandoc.Link(author_with_mail, mailto)
-      table.insert(corresponding_authors, {link})
+      local lines = List:new{List.clone(author.name)}
+      for _, idx in ipairs(author.institute) do
+        local i = tonumber(stringify(idx))
+        lines:insert(List.clone(institutes[i].name))
+      end
+      local email = stringify(author.email)
+      lines:insert(List:new{pandoc.Str 'Email:', pandoc.Space(),
+                            pandoc.Link(email, 'mailto:' .. email)})
+      blocks:insert(pandoc.Para(intercalate(lines, {pandoc.LineBreak()})))
     end
   end
-  if #corresponding_authors == 0 then
+  if #blocks == 0 then
     return nil
   end
-  local correspondence = List:new{
-    pandoc.Superscript(mark'corresponding_author'),
-    pandoc.Space(),
-    pandoc.Str'Correspondence:',
-    pandoc.Space()
-  }
-  local sep = List:new{pandoc.Str',',  pandoc.Space()}
-  return {
-    pandoc.Para(correspondence .. intercalate(corresponding_authors, sep))
-  }
+  return blocks
 end
 
 --- Return the study group name; `study_group` is either the name itself
@@ -142,18 +126,6 @@ local function study_group_name(study_group)
     return study_group.name
   end
   return study_group
-end
-
---- Append "for the <study group>" (marked) to a list of author inlines.
-local function append_study_group(authors_inlines, study_group, mark)
-  if not study_group then
-    return authors_inlines
-  end
-  local result = List:new(authors_inlines)
-  result:extend(List:new{pandoc.Str ',', pandoc.Space(), pandoc.Str 'for the', pandoc.Space()})
-  result:extend(study_group)
-  result:extend{pandoc.Superscript(mark 'study_group')}
-  return result
 end
 
 --- Generate a block element noting where the study group members are listed.
@@ -172,48 +144,148 @@ local function create_study_group_block(study_group, mark)
   return {pandoc.Para(note)}
 end
 
---- Generate a list of inlines containing all authors.
-local function create_authors_inlines(authors, mark)
-  local inlines_generator = author_inline_generator(mark)
-  local inlines = List:new(authors):map(inlines_generator)
-  local and_str = List:new{pandoc.Space(), pandoc.Str'and', pandoc.Space()}
-
-  local last_author = inlines[#inlines]
-  inlines[#inlines] = nil
-  local result = intercalate(inlines, {pandoc.Str ',', pandoc.Space()})
-  if #authors > 1 then
-    result:extend(List:new{pandoc.Str ","} .. and_str)
+--- Generate a list of inlines containing all authors (and the study group),
+--- formatted as "A,1 B2 and C3": the comma precedes the superscript and
+--- there is no comma before "and".
+local function create_authors_inlines(authors, mark, study_group)
+  local items = List:new(authors):map(function (author)
+    return {name = author.name, marks = author_marks_superscript(author, mark)}
+  end)
+  if study_group then
+    items:insert{
+      name = List:new{pandoc.Str 'the', pandoc.Space()} .. study_group,
+      marks = pandoc.Superscript(mark 'study_group')
+    }
   end
-  result:extend(last_author)
+
+  local result = List:new{}
+  for i, item in ipairs(items) do
+    result:extend(item.name)
+    if i < #items - 1 then
+      result:extend{pandoc.Str ',', item.marks, pandoc.Space()}
+    elseif i == #items - 1 then
+      result:extend{item.marks, pandoc.Space(), pandoc.Str 'and', pandoc.Space()}
+    else
+      result:insert(item.marks)
+    end
+  end
   return result
+end
+
+--- Level-1 sections that do not belong to the main text
+--- (journals count words excluding summary, declarations, references and
+--- supplementary material).
+local non_main_sections = {
+  ['summary'] = true,
+  ['declarations'] = true,
+  ['references'] = true,
+  ['online supplementary material'] = true,
+}
+
+--- Count words, tables and figures of the main text. Tables and figures are
+--- identified by their bookdown labels "(#tab:...)" and "(#fig:...)";
+--- table and figure blocks (incl. captions) are not counted as words.
+local function count_main_text(blocks)
+  local counts = {words = 0, tables = 0, figures = 0}
+  local in_main = false
+  local count_labels = {
+    Str = function (el)
+      if el.text:match '^%(#tab:' then counts.tables = counts.tables + 1 end
+      if el.text:match '^%(#fig:' then counts.figures = counts.figures + 1 end
+    end
+  }
+  local count_words = {
+    Str = function (el)
+      -- we don't count a word if it's entirely punctuation:
+      if el.text:match '%P' then counts.words = counts.words + 1 end
+    end
+  }
+  for _, blk in ipairs(blocks) do
+    if blk.t == 'Header' and blk.level == 1 then
+      in_main = not non_main_sections[stringify(blk.content):lower()]
+    end
+    if in_main then
+      pandoc.walk_block(blk, count_labels)
+      local is_float = blk.t == 'Table' or blk.t == 'Figure' or
+        (blk.t == 'Para' and #blk.content == 1 and blk.content[1].t == 'Image')
+      if not is_float then
+        pandoc.walk_block(blk, count_words)
+      end
+    end
+  end
+  return counts
+end
+
+--- Return metadata as inlines; folded YAML scalars (`>`) arrive as blocks.
+local function meta_inlines(value)
+  if value[1] and (value[1].t == 'Para' or value[1].t == 'Plain') then
+    return utils.blocks_to_inlines(value)
+  end
+  return List.clone(value)
+end
+
+--- Create a paragraph "<label>: <inlines>" with a bold label.
+local function labelled_para(label, inlines)
+  return pandoc.Para(
+    List:new{pandoc.Strong{pandoc.Str(label .. ':')}, pandoc.Space()} .. inlines
+  )
+end
+
+--- Generate the title page (layout as in our earlier submissions):
+--- labelled fields for title, short title, authors with affiliations,
+--- corresponding author, counts of the main text and keywords.
+local function create_title_page(doc, mark)
+  local meta = doc.meta
+  local study_group = study_group_name(meta.study_group)
+  local counts = count_main_text(doc.blocks)
+  local blocks = List:new{
+    pandoc.Header(1, 'Title page', pandoc.Attr('title-page', {'unnumbered'}))
+  }
+
+  blocks:insert(labelled_para('Title', meta_inlines(meta.title)))
+  if meta.shorttitle then
+    blocks:insert(labelled_para('Short title', meta_inlines(meta.shorttitle)))
+  end
+  blocks:insert(labelled_para(
+    'Authors', create_authors_inlines(meta.author, mark, study_group)
+  ))
+  local affiliations = List:new{}
+  affiliations:extend(create_equal_contributors_block(meta.author, mark) or {})
+  affiliations:extend(create_affiliations_blocks(meta.institute) or {})
+  affiliations:extend(create_study_group_block(study_group, mark) or {})
+  blocks:insert(pandoc.BlockQuote(affiliations))
+
+  local correspondence = create_correspondence_blocks(meta.author, meta.institute)
+  if correspondence then
+    blocks:insert(pandoc.Para{pandoc.Strong{pandoc.Str 'Address of corresponding author:'}})
+    blocks:insert(pandoc.BlockQuote(correspondence))
+  end
+
+  blocks:insert(labelled_para('Article Word Count', {pandoc.Str(tostring(counts.words))}))
+  blocks:insert(labelled_para('Tables', {pandoc.Str(tostring(counts.tables))}))
+  blocks:insert(labelled_para('Figures', {pandoc.Str(tostring(counts.figures))}))
+  if meta.keywords then
+    local kw = List:new(meta.keywords):map(stringify)
+    blocks:insert(labelled_para('Keywords', {pandoc.Str(table.concat(kw, '; '))}))
+  end
+  return blocks
 end
 
 return {
   {
     Pandoc = function (doc)
       local meta = doc.meta
-      local body = List:new{}
-
       local mark = function (mark_name) return default_marks[mark_name] end
 
-      body:extend(create_equal_contributors_block(doc.meta.author, mark) or {})
-      body:extend(create_affiliations_blocks(doc.meta.institute) or {})
-      body:extend(create_correspondence_blocks(doc.meta.author, mark) or {})
-      body:extend(create_study_group_block(study_group_name(doc.meta.study_group), mark) or {})
+      local body = create_title_page(doc, mark)
       body:extend(doc.blocks)
 
-      -- Overwrite authors with formatted values. We use a single, formatted
-      -- string for most formats. LaTeX output, however, looks nicer if we
-      -- provide a authors as a list.
-      meta.author = FORMAT:match 'latex'
-        and pandoc.MetaList(doc.meta.author):map(author_inline_generator(mark))
-        or pandoc.MetaInlines(append_study_group(
-             create_authors_inlines(doc.meta.author, mark),
-             study_group_name(doc.meta.study_group),
-             mark
-           ))
+      -- The title page replaces the title block of the output template.
+      meta.pagetitle = stringify(meta.title)
+      meta['title-meta'] = stringify(meta.title)
+      meta.title = nil
+      meta.author = nil
       meta.study_group = nil
-      -- Institute info is now baked into the affiliations block.
       meta.institute = nil
 
       return pandoc.Pandoc(body, meta)

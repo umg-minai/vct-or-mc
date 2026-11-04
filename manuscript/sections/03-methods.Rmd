@@ -29,10 +29,9 @@ to
 across `r n_center["initial"]` hospitals in Germany and Austria,
 encompassing `r n_ors["initial"]` operating rooms (ORs).
 
-The duration of the study was determined by the usage of
+The duration of the study in each participating OR was determined by the consecutive usage of
 `r n_bottles_per_or` bottles of sevoflurane
-(`r sevo_bottle_ml` ml, `r sevo_g_per_bottle` g each)
-for each participating OR.
+(`r sevo_bottle_ml` ml, `r sevo_g_per_bottle` g each).
 Before the first anaesthesia,
 the vaporizer was filled to the maximum from a non-study bottle to standardise
 the initial conditions.
@@ -42,8 +41,8 @@ Sevoflurane was the only permitted volatile anaesthetic in the study ORs.
 In each OR,
 a CONTRAfluran activated charcoal canister (ZeoSys Medical GmbH, Luckenwalde, Germany)
 was installed at the exhaust port of the anaesthesia machine
-to passively capture sevoflurane exhaled during inhalational anaesthesia.
-It was not connected to the anaesthesia gas scavenging system.
+to passively capture sevoflurane during inhalational anaesthesia.
+The canister was not connected to the anaesthesia gas scavenging system.
 Canisters were replaced when the red LED on the SENSOfluran unit
 (ZeoSys Medical GmbH, Luckenwalde, Germany) indicated saturation.
 At the end of the study the canister in use was disconnected
@@ -57,12 +56,12 @@ For each anaesthesia case, the CRF recorded
 start and end times,
 whether inhalational anaesthesia was used,
 airway device (laryngeal mask or tracheal tube),
-type of surgery (laparoscopic or non-laparoscopic),
+type of surgical approach (laparoscopic or non-laparoscopic),
 fresh gas flow 15 minutes after induction,
-and the running number of canister and sevoflurane bottle in use.
+and the sequential numbers of canister and sevoflurane bottle in use.
 Regional anaesthesia cases without airway management and without connection
 to the anaesthesia machine were excluded.
-Cases with missing information on variables were retained in the overall case count
+Cases with missing information on these informations were retained in the overall case count
 for the respective canister but were excluded from the corresponding subgroup analyses.
 After study completion, the CRFs were returned to the coordinating study
 centre as scanned copies via e-mail for central data entry.
@@ -111,24 +110,27 @@ for CH-type canisters and
 for CN-type canisters.
 
 As sevoflurane use was recorded per OR
-but not per canister,
-the `r n_bottles_per_or` bottles of each OR were divided among its canisters
-in proportion to the fresh gas that had passed through each canister,
-approximated as median fresh gas flow multiplied by total anaesthesia duration
-of that canister.
+and not per canister,
+the total amount of sevoflurane used in each OR (`r n_bottles_per_or` bottles)
+was allocated proportionally across its canisters based on the median
+fresh gas flow recorded 15 minutes after induction across all cases using that
+canister multiplied by the total anaesthesia duration of that canister.
 
 ## Batch assignment for thermal desorption
 
-The study protocol originally specified batches of 20 canisters for desorption.
-ZeoSys advised that routine batch processing required a minimum of 80 canisters.
-Accordingly, a single batch of 80 was formed
-from the `r n_eligible` eligible canisters.
+The study protocol originally specified desorption in batches of 20 canisters.
+At the time of desorption, routine processing at ZeoSys required
+a batch size of 80 canisters.
+Accordingly, 80 of the `r n_eligible` eligible canisters were selected
+for desorption in a single batch.
 
-For each combination of airway device (laryngeal mask vs. tracheal tube),
-surgery type (laparoscopic vs. non-laparoscopic),
+Cases were classified by airway device (laryngeal mask vs. tracheal tube),
+surgical approach (laparoscopic vs. non-laparoscopic),
 and anaesthetic technique (inhalational anaesthesia vs. total intravenous
-anaesthesia, TIVA),
-three variables were derived:
+anaesthesia, TIVA).
+As no laparoscopic case was performed with a laryngeal mask,
+six combinations remained.
+For each combination, three variables were derived:
 number of cases, cumulative anaesthesia duration,
 and the median of the recorded fresh gas flows,
 yielding `r length(clustering_columns) - 1L` variables.
@@ -142,19 +144,22 @@ The assignment was based solely on the variables described above,
 not on weight or desorption data.
 
 All `r length(clustering_columns)` variables were scaled to zero mean and unit variance.
-The batch was selected by fixed-size nearest-neighbour clustering.
-It comprised the canister with the smallest sum of Euclidean distances
-to all others and its `r n_agcs["final"] - 1L` nearest neighbours.
-The protocol had specified Ward's minimum variance method for this grouping,
+A batch of 80 canisters was selected using fixed-size nearest-neighbour clustering.
+The canister with the smallest sum of Euclidean distances to all other canisters was identified,
+and its `r n_agcs["final"] - 1L` nearest neighbours were selected.
+
+The study protocol originally specified Ward’s minimum variance method.
+The requirement to select exactly 80 of the `r n_eligible` eligible canisters,
+excluding the remaining `r fmt_count(n_excl_outlier)`,
+necessitated a fixed-size clustering approach,
+as Ward’s method does not allow direct specification of cluster size.
+
+The protocol had originally specified Ward's minimum variance method for this grouping,
 which cannot be constrained to a fixed group size.
 Applied to the same distances,
 Ward's method yielded a higher within-cluster sum of squares
 than the selection used here.
 The batch size and the clustering method both deviated from the study protocol.
-
-The remaining `r n_excl_outlier` canisters
-lay farther from the central canister than any canister in the batch
-and were excluded.
 
 ## Statistical analysis
 
@@ -164,4 +169,3 @@ All data processing and statistical analyses were performed using R version
 The data generated and analysed in this study
 and the code that produced the results reported here
 are available at https://github.com/umg-minai/vct-or-mc [@vctormcdata].
-

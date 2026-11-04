@@ -7,14 +7,14 @@ Furthermore, as per- and polyfluoroalkyl substances (PFAS), they form persistent
 that accumulate in aquatic ecosystems,
 representing an environmental hazard beyond their global warming potential [@Kalmar2025b].
 
-Activated charcoal canisters fitted passively at the exhaust port of the anaesthesia machine
-can adsorb exhaled volatile anaesthetics and reduce their atmospheric release [@Wenzel2024;@Gibb2024b].
+Activated charcoal canisters fitted at the exhaust port of the anaesthesia machine
+can passively adsorb volatile anaesthetics and reduce their atmospheric release [@Wenzel2024;@Gibb2024b].
 The CONTRAfluran^TM^ canister (ZeoSys Medical GmbH, Luckenwalde, Germany)
 is the only system currently approved in Europe for pharmaceutical reuse of recaptured sevoflurane.
 
 Published evidence on the capture efficiency of CONTRAfluran for sevoflurane is limited.
-Mulier et al. reported a canister weight gain of 45% during laparoscopic surgery
-but did not quantify the capture efficiency of sevoflurane [@Mulier2024a].
+Mulier et al. reported a sevoflurane retention efficiency of 45% during laparoscopic surgery based
+on canister weight gain, without quantifying the amount recovered after desorption [@Mulier2024a].
 Our preceding single-centre study found a capture efficiency of 34%,
 with markedly different values in its two operating rooms
 (21.4% and 47.8%) [@Gibb2025].
