@@ -9,6 +9,7 @@
     "r-dofuture"
     "r-future-apply"
     "r-lubridate"
+    "r-matrixstats"
     "r-minair"
     "r-nestedcv-bates"
     "r-progressr"
