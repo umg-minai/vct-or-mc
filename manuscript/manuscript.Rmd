@@ -77,7 +77,7 @@ author:
             - investigation
             - writing -- review and editing
     - 'Lucas Kuster':
-        email: reinhard.germann@lkhf.at
+        email: lucas.kuster@lkhf.at
         institute: [FELDKIRCH]
         correspondence: false
         competing_interest: none
