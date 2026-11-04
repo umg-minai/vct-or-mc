@@ -85,7 +85,7 @@ Luckenwalde, Germany.
 Some canisters were weighed twice at ZeoSys prior to desorption
 (`r zeosys_storage_days` days apart).
 The difference between the two weighings was used to estimate weight loss during storage
-(Online Supplementary File S1, Figure\ \@ref(fig:weight-loss-storage-plot)).
+(Online Supplementary Figure\ \@ref(fig:weight-loss-storage-plot)).
 Because not all canisters were available for the first weighing,
 weight gain was calculated from the second, more complete weighing.
 

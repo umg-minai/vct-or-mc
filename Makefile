@@ -14,6 +14,7 @@ RMD=$(wildcard $(SECTIONDIR)/*.Rmd)
 DOCSRMD=$(wildcard docs/*.Rmd)
 HTMLS=$(DOCSRMD:%.Rmd=%.html)
 BIB=manuscript/bibliography/bibliography.bib
+LUAFILTERS=$(wildcard manuscript/pandoc/lua-filters/*.lua)
 DISTDIR:=distribute
 OUTPUTDIR:=manuscript/output
 
@@ -31,11 +32,11 @@ manuscript: $(OUTPUTDIR)/$(MANUSCRIPT).html
 $(OUTPUTDIR):
 	@mkdir -p $(OUTPUTDIR)
 
-$(OUTPUTDIR)/$(MANUSCRIPT).html: manuscript/$(MANUSCRIPT).Rmd $(RMD) $(BIB) $(DATA) guix/manifest.scm | $(OUTPUTDIR)
+$(OUTPUTDIR)/$(MANUSCRIPT).html: manuscript/$(MANUSCRIPT).Rmd $(RMD) $(BIB) $(LUAFILTERS) $(DATA) guix/manifest.scm | $(OUTPUTDIR)
 	${GUIXTM} -- \
 		Rscript -e "rmarkdown::render('$<', output_dir = '$(OUTPUTDIR)')"
 
-$(OUTPUTDIR)/$(MANUSCRIPT).docx: manuscript/$(MANUSCRIPT).Rmd $(RMD) $(BIB) $(DATA) guix/manifest.scm | $(OUTPUTDIR)
+$(OUTPUTDIR)/$(MANUSCRIPT).docx: manuscript/$(MANUSCRIPT).Rmd $(RMD) $(BIB) $(LUAFILTERS) $(DATA) guix/manifest.scm | $(OUTPUTDIR)
 	${GUIXTM} -- \
 		Rscript -e "rmarkdown::render('$<', output_format = 'bookdown::word_document2', output_dir = '$(OUTPUTDIR)')"
 
