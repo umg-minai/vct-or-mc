@@ -7,9 +7,7 @@ is_docx_output <- function()
     isTRUE(knitr::opts_knit$get("rmarkdown.pandoc.to") == "docx")
 
 knitr::opts_chunk$set(
-    cache.path = find_git_root_file(
-        "manuscript", "cache", knitr::opts_knit$get('rmarkdown.pandoc.to'), "/"
-    ),
+    cache = FALSE,
     warning = !is_docx_output()
 )
 ```
